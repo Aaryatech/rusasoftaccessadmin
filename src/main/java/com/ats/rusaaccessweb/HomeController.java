@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -149,6 +150,9 @@ public class HomeController {
 					  
 					session.setAttribute("newModuleList", newModuleList);
 					mav = "redirect:/showRoleList" ;
+					 
+					session.setAttribute("sessionModuleId", 0);
+					session.setAttribute("sessionSubModuleId", 0);
 				}
 
 			}
@@ -177,6 +181,15 @@ public class HomeController {
 		session.setAttribute("sessionModuleId", modId);
 		session.setAttribute("sessionSubModuleId", subModId);
 		session.removeAttribute("exportExcelList");
+	}
+	
+	 
+	@RequestMapping(value = "/sessionTimeOut", method = RequestMethod.GET)
+	public String sessionTimeOut(HttpSession session) {
+		System.out.println("User Logout");
+
+		session.invalidate();
+		return "redirect:/";
 	}
 	
 }
