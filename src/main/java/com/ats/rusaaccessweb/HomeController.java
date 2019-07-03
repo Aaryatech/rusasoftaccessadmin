@@ -34,6 +34,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -162,6 +163,20 @@ public class HomeController {
 		 
 		return mav;
 
+	}
+	
+	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
+	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
+		int subModId = Integer.parseInt(request.getParameter("subModId"));
+		int modId = Integer.parseInt(request.getParameter("modId"));
+		/*
+		 * // System.out.println("subModId " + subModId); // System.out.println("modId " +
+		 * modId);
+		 */
+		HttpSession session = request.getSession();
+		session.setAttribute("sessionModuleId", modId);
+		session.setAttribute("sessionSubModuleId", subModId);
+		session.removeAttribute("exportExcelList");
 	}
 	
 }
