@@ -81,7 +81,7 @@ public class AccessMasterController {
 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-					GetInstituteList[] instArray = restTemplate.getForObject(Constants.url + "getAllInstitutes",
+					GetInstituteList[] instArray = Constants.getRestTemplate().getForObject(Constants.url + "getAllInstitutes",
 							GetInstituteList[].class);
 					List<GetInstituteList> instList = new ArrayList<>(Arrays.asList(instArray));
 
@@ -246,9 +246,9 @@ public class AccessMasterController {
 						instIdList = instIdList.substring(0, instIdList.length() - 1);
 
 						map.add("instIdList", instIdList);
-						map.add("aprUserId", userObj.getUserId());
+						//map.add("aprUserId", userObj.getUserId());
 					} else {
-						map.add("aprUserId", userObj.getUserId());
+						//map.add("aprUserId", userObj.getUserId());
 
 						System.err.println("Single Record delete ");
 						map.add("instIdList", instId);
@@ -268,4 +268,38 @@ public class AccessMasterController {
 			return redirect;
 
 		}
+		
+		@RequestMapping(value = "/deleteInst/{instId}", method = RequestMethod.GET)
+		public String deleteInstitutes(@PathVariable("instId") int instId, HttpServletRequest request) {
+
+			String a = null;
+			try {
+				HttpSession session = request.getSession();
+				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+				Info view = AccessControll.checkAccess("showPendingInstitute", "showPendingInstitute", "0", "0", "0", "1",
+						newModuleList);
+
+				if (view.isError() == true) {
+
+					a = "redirect:/accessDenied";
+
+				} else {
+
+					Info inf = new Info();
+					////System.out.println("Id:" + instId);
+
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("instId", instId);
+					Info inst = Constants.getRestTemplate().postForObject(Constants.url + "/deleteInstituteById", map, Info.class);
+
+					a = "redirect:/showPendingInstitute";
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return a;
+
+		}
+
 }
