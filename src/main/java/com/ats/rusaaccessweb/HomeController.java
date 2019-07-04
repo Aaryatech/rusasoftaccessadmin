@@ -130,6 +130,8 @@ public class HomeController {
 
 				if (userObj.getIsError() == false) {
 
+					session.setAttribute("userInfo", userObj);
+					
 					map = new LinkedMultiValueMap<String, Object>();
 					map.add("roleId", userObj.getRoleId()); 
 
@@ -169,14 +171,12 @@ public class HomeController {
 
 	}
 	
+	
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
 	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
 		int subModId = Integer.parseInt(request.getParameter("subModId"));
 		int modId = Integer.parseInt(request.getParameter("modId"));
-		/*
-		 * // System.out.println("subModId " + subModId); // System.out.println("modId " +
-		 * modId);
-		 */
+		 
 		HttpSession session = request.getSession();
 		session.setAttribute("sessionModuleId", modId);
 		session.setAttribute("sessionSubModuleId", subModId);
