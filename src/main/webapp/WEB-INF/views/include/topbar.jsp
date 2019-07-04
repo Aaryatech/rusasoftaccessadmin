@@ -17,7 +17,7 @@
             </ul>
         </div>
         
-		<div class='pull-left'>
+		<%-- <div class='pull-left'>
 			<ul class="info-menu right-links list-inline list-unstyled">
 				<li class="profile"><a href="#" data-toggle="dropdown"
 					class="toggle"> <span>Academic Year <span id="topYear">${sessionScope.acYearValue}</span> <i
@@ -34,7 +34,7 @@
 					</ul></li>
 
 			 </ul>
-		</div>
+		</div> --%>
 		
 		
 		

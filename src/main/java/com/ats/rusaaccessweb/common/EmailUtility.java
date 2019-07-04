@@ -42,11 +42,11 @@ public class EmailUtility {
 		final String username = senderEmail;//"atsinfosoft@gmail.com";
 		final String password =senderPassword;//"atsinfosoft@123";
 
-		System.out.println("username: " + username);
+		/*System.out.println("username: " + username);
 		System.out.println("password: " + password);
 		System.out.println("recipientEmail: " + recipientEmail);
 		System.out.println("mailsubject: " + mailsubject);
-		System.out.println("text: " + text); 
+		System.out.println("text: " + text); */
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");

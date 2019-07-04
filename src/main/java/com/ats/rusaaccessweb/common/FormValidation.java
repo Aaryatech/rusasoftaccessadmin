@@ -36,6 +36,17 @@ public class FormValidation {
 						return true;
 					}
 				}
+				
+				if (type.equals("date")) {
+
+					 String[] splt = str.split("-");
+					 
+					if (Integer.parseInt(splt[0])<=31 && Integer.parseInt(splt[1])<=12 &&  splt[2].length()==4) {
+						return false;
+					} else {
+						return true;
+					}
+				}
 
 				return false;
 			}

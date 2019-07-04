@@ -100,7 +100,8 @@
 								<div class="col-md-12">
 									<form class="form-horizontal"
 										action="${pageContext.request.contextPath}/submitSendMail"
-										method="post" name="form_sample_2" id="form_sample_2" enctype="multipart/form-data">
+										method="post" name="form_sample_2" id="form_sample_2"
+										enctype="multipart/form-data">
 
 
 										<div class="form-group">
@@ -109,14 +110,14 @@
 											</label>
 											<div class="col-sm-10">
 												<select id="instituteId" name="instituteId" class=""
-													multiple placeholder="Select Institute" required="required">
+													multiple placeholder="Select Institute">
 													<c:forEach items="${instList}" var="instList">
 
 														<option value="${instList.instituteId}">${instList.instituteName}</option>
 
 													</c:forEach>
-													 
-												</select> <span class="error_form text-danger" id="dept_id_field"
+
+												</select> <span class="error_form text-danger" id="error_instituteId"
 													style="display: none;">Please Select Institute</span>
 											</div>
 										</div>
@@ -128,7 +129,9 @@
 											<div class="col-sm-10">
 
 												<input class="form-control" name="subject" id="subject"
-													placeholder="Subject" type="text" required>
+													placeholder="Subject" type="text" onchange="trim(this)">
+												<span class="error_form text-danger" id="error_subject"
+													style="display: none;">Enter Subject</span>
 
 											</div>
 
@@ -166,7 +169,7 @@
 
 										<div class="form-group">
 											<div class="col-sm-offset-2 col-sm-10">
-												<button type="submit" class="btn btn-primary">Send
+												<button type="submit" class="btn btn-primary" id="submtbtn">Send
 													Mail</button>
 
 											</div>
@@ -200,21 +203,6 @@
 
 
 	<script type="text/javascript">
-		var wasSubmitted = false;
-		function checkBeforeSubmit() {
-			if (!wasSubmitted) {
-				var x = confirm("Do you really want to submit the form?");
-				if (x == true) {
-					wasSubmitted = true;
-
-					document.getElementById("sub2").disabled = true;
-
-					return wasSubmitted;
-				}
-			}
-			return false;
-		}
-
 		$("#instituteId").select2({
 			allowClear : true
 		}).on(
@@ -225,122 +213,72 @@
 							.perfectScrollbar();
 				});
 	</script>
-
 	<script>
-		function checkSubmodule(moduleId) {
-
-			$
-					.getJSON(
-							'${getSubmoduleList}',
-							{
-								moduleId : moduleId,
-								ajax : 'true',
-
-							},
-							function(data) {
-
-								if (document
-										.getElementById("header" + moduleId).checked == true) {
-
-									for (var i = 0; i < data.length; i++) {
-
-										document.getElementById(data[i]
-												+ "view" + moduleId).checked = true;
-										document.getElementById(data[i] + "add"
-												+ moduleId).checked = true;
-										document.getElementById(data[i]
-												+ "edit" + moduleId).checked = true;
-										document.getElementById(data[i]
-												+ "delete" + moduleId).checked = true;
-										document.getElementById(data[i]
-												+ "view" + moduleId).value = 1;
-										document.getElementById(data[i] + "add"
-												+ moduleId).value = 1;
-										document.getElementById(data[i]
-												+ "edit" + moduleId).value = 1;
-										document.getElementById(data[i]
-												+ "delete" + moduleId).value = 1;
-									}
-
-								} else {
-									for (var i = 0; i < data.length; i++) {
-
-										document.getElementById(data[i]
-												+ "view" + moduleId).checked = false;
-										document.getElementById(data[i] + "add"
-												+ moduleId).checked = false;
-										document.getElementById(data[i]
-												+ "edit" + moduleId).checked = false;
-										document.getElementById(data[i]
-												+ "delete" + moduleId).checked = false;
-										document.getElementById(data[i]
-												+ "view" + moduleId).value = 0;
-										document.getElementById(data[i] + "add"
-												+ moduleId).value = 0;
-										document.getElementById(data[i]
-												+ "edit" + moduleId).value = 0;
-										document.getElementById(data[i]
-												+ "delete" + moduleId).value = 0;
-									}
-								}
-
-							});
-
+		function trim(el) {
+			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
+			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
+			replace(/\n +/, "\n"); // Removes spaces after newlines\
+			checkSame()
+			return;
 		}
 
-		function changeValue(type, subModuleId, moduleId) {
+		function numbersOnlyNotZero(id_number) {
 
-			if (type == 1) {
-				if (document.getElementById(subModuleId + "view" + moduleId).checked == true) {
+			var mob = /^[1-9][0-9]+$/;
 
-					document.getElementById(subModuleId + "view" + moduleId).value = 1;
+			if (mob.test($.trim(id_number)) == false) {
 
-				} else {
-
-					document.getElementById(subModuleId + "view" + moduleId).value = 0;
-				}
-
-			} else if (type == 2) {
-				if (document.getElementById(subModuleId + "add" + moduleId).checked == true) {
-
-					document.getElementById(subModuleId + "add" + moduleId).value = 1;
-				} else {
-					document.getElementById(subModuleId + "add" + moduleId).value = 0;
-				}
-			} else if (type == 3) {
-				if (document.getElementById(subModuleId + "edit" + moduleId).checked == true) {
-
-					document.getElementById(subModuleId + "edit" + moduleId).value = 1;
-
-				} else {
-
-					document.getElementById(subModuleId + "edit" + moduleId).value = 0;
-
-				}
-
-			} else if (type == 4) {
-
-				if (document.getElementById(subModuleId + "delete" + moduleId).checked == true) {
-
-					document.getElementById(subModuleId + "delete" + moduleId).value = 1;
-
-				} else {
-
-					document.getElementById(subModuleId + "delete" + moduleId).value = 0;
-
-				}
+				//alert("Please enter a valid email address .");
+				return false;
 
 			}
-
+			return true;
 		}
+
+		$(document)
+				.ready(
+						function($) {
+
+							$("#form_sample_2")
+									.submit(
+											function(e) {
+												var isError = false;
+												var errMsg = "";
+												$("#error_instituteId").hide();
+												$("#error_subject").hide();
+
+												if ($("#instituteId").val() == ""
+														|| $("#instituteId")
+																.val() == null) {
+
+													isError = true;
+													$("#error_instituteId")
+															.show();
+												}
+
+												if (!$("#subject").val()) {
+
+													isError = true;
+
+													$("#error_subject").show()
+													//return false;
+												}
+
+												if (!isError) {
+
+													var x = true;
+													if (x == true) {
+
+														document
+																.getElementById("submtbtn").disabled = true;
+														return true;
+													}
+													//end ajax send this to php page
+												}
+												return false;
+											});
+						});
+		//
 	</script>
-
-
-
-
-
-
-
-
 </body>
 </html>

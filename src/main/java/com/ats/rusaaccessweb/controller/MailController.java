@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.common.EmailUtility;
+import com.ats.rusaaccessweb.common.FormValidation;
 import com.ats.rusaaccessweb.model.GetInstituteList;
 import com.ats.rusaaccessweb.model.Info;
 import com.ats.rusaaccessweb.model.ModuleJson;
@@ -104,17 +105,40 @@ public class MailController {
 					}
 					
 				}
-				System.out.println("emails" + emails.substring(2, emails.length())); 
+				//System.out.println("emails" + emails.substring(2, emails.length())); 
 				emails = emails.substring(2, emails.length());
-				/*System.out.println("subject" + subject); 
-				System.out.println("message" + message);*/
+				
+				if(emails.split(",").length>0 && FormValidation.Validaton(subject, "")==false) {
+					
+					Info send = EmailUtility.sendEmail("akshaykasar72@gmail.com", "mh151772@123", emails, subject,message,files);
+					
+				}
 				 
-				Info send = EmailUtility.sendEmail("akshaykasar72@gmail.com", "mh151772@123", emails, subject,message,files);
 				
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	@RequestMapping(value = "/checkDate", method = RequestMethod.GET)
+	public String checkDate(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String ret = new String();
+
+		try {
+ 
+			String date = request.getParameter("date");
+			
+				ret = "mail/mailcontent";
+				Boolean booln = FormValidation.Validaton(date, "date");
+				
+				System.out.println(booln);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return ret;
 	}
