@@ -84,26 +84,64 @@
 						<div class="content-body">
 
 							<form id="reportForm">
+								<div class="row" style="padding-bottom: 0px;">
+
+									<div class="form-group">
+										<label class="control-label col-sm-1" for="status">Academic
+											Year <span class="text-danger"></span>
+										</label>
+										<div class="col-sm-2">
+											<select id="ac_year" name="ac_year"
+												placeholder="Select Institute" class="form-control">
+
+												<c:forEach items="${acaYearList}" var="acYear">
+													<option value="${acYear.yearId}">${acYear.academicYear}</option>
+												</c:forEach>
+												<option value="-5">Last Five Years</option>
+											</select> <span class="error_form text-danger" id="prog_type_field"
+												style="display: none;">Please select program type</span>
+										</div>
 
 
 
+										<label class="control-label col-sm-2" for="instituteId">
+											Select Institute <span class="text-danger">*</span> :
+										</label>
+										<div class="col-sm-6">
+											<select id="instituteId" name="instituteId" class="" multiple>
+												<c:forEach items="${instList}" var="instList">
 
+													<option value="${instList.instituteId}">${instList.instituteName}</option>
+
+												</c:forEach>
+
+											</select> <span class="error_form text-danger" id="error_instituteId"
+												style="display: none;">Please Select Institute</span>
+										</div>
+									</div>
+
+
+								</div>
+
+
+								<br>
 
 								<div class="panel-group primary" id="accordion-2" role="tablist"
 									aria-multiselectable="true">
 
 									<!-- Criteria 1 -->
-									
-									
 
+
+
+ 
 									<div class="panel-body">
-										<div class="col-lg-10">1] Institutewise Various
-											Accreditation Status Report</div>
+										<div class="col-lg-10">1]Placement of UG & PG Students
+											Reports</div>
 										<div class="col-lg-2">
-											<a href="#" onclick="getProgReport(0,'showVariousAccreReport')"><i
+											<a href="#" onclick="getProgReport(0,'showUgPgStudReport')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#" onclick="getProgReport(1,'showVariousAccreReport')"><i
+												href="#" onclick="getProgReport(1,'showUgPgStudReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
@@ -111,68 +149,24 @@
 
 
 									<div class="panel-body">
-										<div class="col-lg-10">2] Institutewise NAAC
-											Accreditation Status Report</div>
-										<div class="col-lg-2">
-											<a href="#" onclick="getProgReport(0,'showNaacAccreReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#" onclick="getProgReport(1,'showNaacAccreReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">3] Institutewise NBA
-											Accreditation Status Report</div>
+										<div class="col-lg-10">2]Details Regarding Anti-ragging
+											Squd And Sexual Harashment</div>
 										<div class="col-lg-2">
 											<a href="#"
-												onclick="getProgReport(0,'showNbaAccreReport')"><i
+												onclick="getProgReport(0,'showAntiRagHarashmentReport')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 												href="#"
-												onclick="getProgReport(1,'showNbaAccreReport')"><i
+												onclick="getProgReport(1,'showAntiRagHarashmentReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
 									</div>
-									<div class="panel-body">
-										<div class="col-lg-10">4] Institutewise NIRF
-											Accreditation Status Report</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'showNirfAccreReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'showNirfAccreReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-									<div class="panel-body">
-										<div class="col-lg-10">5] Institutewise THE
-											Accreditation Status Report</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'showTheAccreReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'showTheAccreReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-									
-									 
-									
-									 
-
-									<input type="hidden" id="p" name="p" value="0">
 
 
+
+									<input type="hidden" id="p" name="p" value="0"> <input
+										type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
 
 
 								</div>
@@ -189,12 +183,28 @@
 	<!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+
+	<script type="text/javascript">
+		$("#instituteId").select2({
+			allowClear : true
+		}).on(
+				'select2-open',
+				function() {
+					// Adding Custom Scrollbar
+					$(this).data('select2').results.addClass('overflow-hidden')
+							.perfectScrollbar();
+				});
+	</script>
 	<script type="text/javascript">
 		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
 		function getProgReport(prm, mapping) {
 			if (prm == 1) {
 				document.getElementById("p").value = "1";
 			}
+
+			var el = document.getElementById('ac_year');
+			var text = el.options[el.selectedIndex].innerHTML;
+			document.getElementById("temp_ac_year").value = text;
 
 			var form = document.getElementById("reportForm");
 
@@ -206,7 +216,6 @@
 			form.submit();
 			document.getElementById("p").value = "0";
 		}
- 
 	</script>
 
 	<script type="text/javascript">

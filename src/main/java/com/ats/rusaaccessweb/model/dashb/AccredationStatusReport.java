@@ -2,14 +2,14 @@ package com.ats.rusaaccessweb.model.dashb;
  
 public class AccredationStatusReport {
 
-	 
+	  
 	private int instituteId;
 
 	private String instituteName;
 
-	private String quality_fromdt;
+	private String qualityFromdt;
 
-	private String quality_todt;
+	private String qualityTodt;
 
 	private String aisheCode;
 
@@ -31,21 +31,7 @@ public class AccredationStatusReport {
 		this.instituteName = instituteName;
 	}
 
-	public String getQuality_fromdt() {
-		return quality_fromdt;
-	}
-
-	public void setQuality_fromdt(String quality_fromdt) {
-		this.quality_fromdt = quality_fromdt;
-	}
-
-	public String getQuality_todt() {
-		return quality_todt;
-	}
-
-	public void setQuality_todt(String quality_todt) {
-		this.quality_todt = quality_todt;
-	}
+	 
 
 	public String getAisheCode() {
 		return aisheCode;
@@ -63,15 +49,30 @@ public class AccredationStatusReport {
 		this.qualityInitiativeName = qualityInitiativeName;
 	}
 
+  	public String getQualityFromdt() {
+		return qualityFromdt;
+	}
+
+	public void setQualityFromdt(String qualityFromdt) {
+		this.qualityFromdt = qualityFromdt;
+	}
+
+  	public String getQualityTodt() {
+		return qualityTodt;
+	}
+
+	public void setQualityTodt(String qualityTodt) {
+		this.qualityTodt = qualityTodt;
+	}
+
 	@Override
 	public String toString() {
 		return "AccredationStatusReport [instituteId=" + instituteId + ", instituteName=" + instituteName
-				+ ", quality_fromdt=" + quality_fromdt + ", quality_todt=" + quality_todt + ", aisheCode=" + aisheCode
-				+ ", qualityInitiativeName=" + qualityInitiativeName + ", getInstituteId()=" + getInstituteId()
-				+ ", getInstituteName()=" + getInstituteName() + ", getQuality_fromdt()=" + getQuality_fromdt()
-				+ ", getQuality_todt()=" + getQuality_todt() + ", getAisheCode()=" + getAisheCode()
-				+ ", getQualityInitiativeName()=" + getQualityInitiativeName() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", qualityFromdt=" + qualityFromdt + ", qualityTodt=" + qualityTodt + ", aisheCode=" + aisheCode
+				+ ", qualityInitiativeName=" + qualityInitiativeName + "]";
 	}
+ 
+	
+	
 
 }
