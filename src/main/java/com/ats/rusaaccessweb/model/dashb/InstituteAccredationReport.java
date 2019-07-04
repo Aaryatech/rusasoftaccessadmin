@@ -3,18 +3,18 @@ package com.ats.rusaaccessweb.model.dashb;
  
 public class InstituteAccredationReport {
 	
- 	private int instituteId;
+private int instituteId;
 	
 	private String instituteName;
 	
-	private int NBA;
+	private String  NBA;
 	
-	private int  NAAC;
+	private String  NAAC;
 	
-	private int  NIRF;
+	private String  NIRF;
 	
 
-	private int THE;
+	private String THE;
 
 
 	public int getInstituteId() {
@@ -37,42 +37,42 @@ public class InstituteAccredationReport {
 	}
 
 
-	public int getNBA() {
+	public String getNBA() {
 		return NBA;
 	}
 
 
-	public void setNBA(int nBA) {
+	public void setNBA(String nBA) {
 		NBA = nBA;
 	}
 
 
-	public int getNAAC() {
+	public String getNAAC() {
 		return NAAC;
 	}
 
 
-	public void setNAAC(int nAAC) {
+	public void setNAAC(String nAAC) {
 		NAAC = nAAC;
 	}
 
 
-	public int getNIRF() {
+	public String getNIRF() {
 		return NIRF;
 	}
 
 
-	public void setNIRF(int nIRF) {
+	public void setNIRF(String nIRF) {
 		NIRF = nIRF;
 	}
 
 
-	public int getTHE() {
+	public String getTHE() {
 		return THE;
 	}
 
 
-	public void setTHE(int tHE) {
+	public void setTHE(String tHE) {
 		THE = tHE;
 	}
 
@@ -82,8 +82,8 @@ public class InstituteAccredationReport {
 		return "InstituteAccredationReport [instituteId=" + instituteId + ", instituteName=" + instituteName + ", NBA="
 				+ NBA + ", NAAC=" + NAAC + ", NIRF=" + NIRF + ", THE=" + THE + "]";
 	}
-	
-	
+
+ 
 	
 	
 	

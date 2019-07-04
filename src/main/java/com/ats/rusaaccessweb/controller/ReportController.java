@@ -1,12 +1,14 @@
 package com.ats.rusaaccessweb.controller;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+//orig imports
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,8 +19,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+ 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -28,12 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+//
 
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.common.ExceUtil;
 import com.ats.rusaaccessweb.common.ExportToExcel;
 import com.ats.rusaaccessweb.model.dashb.InstituteAccredationReport;
-import com.ats.rusasoft.util.ItextPageEvent;
+ import com.ats.rusasoft.util.ItextPageEvent;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -41,11 +44,12 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
- 
+
 @Controller
 @Scope("session")
 public class ReportController {
@@ -81,296 +85,266 @@ public class ReportController {
 	
 	@RequestMapping(value = "/showVariousAccreReport", method = RequestMethod.POST)
 	public void showVariousAccreReport(HttpServletRequest request, HttpServletResponse response) {
-
-		String reportName = " Institutewise Various Accreditation Status Report";
-
-		 
-		try {
-			// String ac_year = request.getParameter("ac_year");
-			 
 		 
 
-			HttpSession session = request.getSession();
- 			InstituteAccredationReport[] resArray =  Constants.getRestTemplate().getForObject(Constants.url + "getInstituteAccreReport",  
-					InstituteAccredationReport[].class);
-			List<InstituteAccredationReport> progList = new ArrayList<>(Arrays.asList(resArray));
+			String reportName = "Institutewise Various Accreditation Status Report";
 
-			 
-
-			Document document = new Document(PageSize.A4);
-			// 50, 45, 50, 60
-			document.setMargins(Constants.marginLeft, Constants.marginRight, Constants.marginTop,
-					Constants.marginBottom);
-			document.setMarginMirroring(false);
-
-			String FILE_PATH = Constants.REPORT_SAVE;
-			File file = new File(FILE_PATH);
-
-			PdfWriter writer = null;
-
-			FileOutputStream out = new FileOutputStream(FILE_PATH);
+		 
 			try {
-				writer = PdfWriter.getInstance(document, out);
-			} catch (DocumentException e) {
+ 
+				InstituteAccredationReport[] resArray = Constants.getRestTemplate().getForObject(Constants.url + "getInstituteAccreReport", 
+						InstituteAccredationReport[].class);
+				List<InstituteAccredationReport> progList = new ArrayList<>(Arrays.asList(resArray));
+ 
+				Document document = new Document(PageSize.A4);
+				document.setMargins(50, 45, 50, 60);
+				document.setMarginMirroring(false);
+ 
+				String FILE_PATH = Constants.REPORT_SAVE;
+				File file = new File(FILE_PATH);
 
-				e.printStackTrace();
-			}
+				PdfWriter writer = null;
 
-			String header = "";
-			String title = "                 ";
+				FileOutputStream out = new FileOutputStream(FILE_PATH);
+				try {
+					writer = PdfWriter.getInstance(document, out);
+				} catch (DocumentException e) {
 
-			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
-			String headingName = null;
-			 
-			ItextPageEvent event = new ItextPageEvent(header, title, "", headingName);
-
-			writer.setPageEvent(event);
-
-			PdfPTable table = new PdfPTable(6);
-
-			table.setHeaderRows(1);
-
-			try {
-				table.setWidthPercentage(100);
-			 table.setWidths(new float[] { 2.4f, 3.2f, 3.2f, 3.2f, 3.2f, 3.2f });
-				table.setTotalWidth(document.getPageSize().getWidth() - 80);
-				Font headFontData = Constants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
-															// BaseColor.BLACK);
-				Font tableHeaderFont = Constants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
-																	// BaseColor.BLACK);
-				tableHeaderFont.setColor(Constants.tableHeaderFontBaseColor);
-
-				PdfPCell hcell = new PdfPCell();
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Institute Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("NAAC", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("NBA", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("NIRF", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("THE", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(Constants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				int index = 0;
-
-				for (int i = 0; i < progList.size(); i++) {
-					// System.err.println("I " + i);
-					InstituteAccredationReport prog = progList.get(i);
-
-					index++;
-					PdfPCell cell;
-					cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getInstituteName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-					// cell.setPaddingLeft(10);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getNAAC(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getNBA(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getNIRF(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getTHE(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-					table.addCell(cell);
-
+					e.printStackTrace();
 				}
 
-				document.open();
-				Font reportNameFont = Constants.reportNameFont;// new Font(FontFamily.TIMES_ROMAN, 14.0f,
-																// Font.UNDERLINE, BaseColor.BLACK);
+				String header = "";
+				String title = "                 ";
 
-				Paragraph name = new Paragraph(reportName, reportNameFont);
-				name.setAlignment(Element.ALIGN_CENTER);
-				document.add(name);
-				document.add(new Paragraph("\n"));
-			 
-				// document.add(new Paragraph("Institute " +
-				// progList.get(0).getInstituteName()));
-				/*
-				 * Paragraph company = new Paragraph("Customer Wise Report\n", f);
-				 * company.setAlignment(Element.ALIGN_CENTER); document.add(company);
-				 * document.add(new Paragraph(" "));
-				 */
+				DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+				String repDate = DF2.format(new Date());
 
-				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-				document.add(new Paragraph("\n"));
-				document.add(table);
+				 
+				ItextPageEvent event = new ItextPageEvent(header, title, "",""  );
 
-				int totalPages = writer.getPageNumber();
+				writer.setPageEvent(event);
+				// writer.add(new Paragraph("Curricular Aspects"));
 
-				// System.out.println("Page no " + totalPages);
+				PdfPTable table = new PdfPTable(6);
 
-				document.close();
-				int p = Integer.parseInt(request.getParameter("p"));
-				System.err.println("p " + p);
+				table.setHeaderRows(1);
 
-				if (p == 1) {
+				try {
+					table.setWidthPercentage(100);
+					table.setWidths(new float[] { 2.4f, 5.0f, 2.4f, 2.4f, 2.4f, 2.4f });
+					Font headFontData = Constants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+																// BaseColor.BLACK);
+					Font tableHeaderFont = Constants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
+																		// BaseColor.BLACK);
+					tableHeaderFont.setColor(Constants.tableHeaderFontBaseColor);
 
-					if (file != null) {
+					PdfPCell hcell = new PdfPCell();
+					hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 
-						String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+					hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
+					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
-						if (mimeType == null) {
+					table.addCell(hcell);
 
-							mimeType = "application/pdf";
+					hcell = new PdfPCell(new Phrase("Institute Name", tableHeaderFont));
+					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
-						}
+					table.addCell(hcell);
 
-						response.setContentType(mimeType);
+					hcell = new PdfPCell(new Phrase("NAAC", tableHeaderFont));
+					hcell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
-						response.addHeader("content-disposition",
-								String.format("inline; filename=\"%s\"", file.getName()));
+					table.addCell(hcell);
 
-						response.setContentLength((int) file.length());
+					hcell = new PdfPCell(new Phrase("NBA", tableHeaderFont));
+					hcell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
-						InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+					table.addCell(hcell);
 
-						try {
-							FileCopyUtils.copy(inputStream, response.getOutputStream());
-						} catch (IOException e) {
-							// System.out.println("Excep in Opening a Pdf File");
-							e.printStackTrace();
-						}
-					}
-				} else {
+					hcell = new PdfPCell(new Phrase("NIRF", tableHeaderFont));
+					hcell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
-					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+					table.addCell(hcell);
 
-					ExportToExcel expoExcel = new ExportToExcel();
-					List<String> rowData = new ArrayList<String>();
+					hcell = new PdfPCell(new Phrase("THE", tableHeaderFont));
+					hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
-					rowData.add("Sr. No");
-					rowData.add("Institute Name");
-					rowData.add("NAAC");
-					rowData.add("NBA");
-					rowData.add("NIRF");
-					rowData.add("THE");
+					table.addCell(hcell);
 
-					expoExcel.setRowData(rowData);
-					exportToExcelList.add(expoExcel);
-
-					int cnt = 1;
+					int index = 0;
 					for (int i = 0; i < progList.size(); i++) {
-						expoExcel = new ExportToExcel();
-						rowData = new ArrayList<String>();
-						cnt = cnt + i;
+						// System.err.println("I " + i);
+						InstituteAccredationReport prog = progList.get(i);
 
-						rowData.add("" + (i + 1));
+						index++;
+						PdfPCell cell;
+						cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-						rowData.add("" + progList.get(i).getInstituteName());
-						rowData.add("" + progList.get(i).getNAAC());
-						rowData.add("" + progList.get(i).getNBA());
-						rowData.add("" + progList.get(i).getNIRF());
-						rowData.add("" + progList.get(i).getTHE());
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + prog.getInstituteName(), headFontData));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + prog.getNAAC(), headFontData));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + prog.getNBA(), headFontData));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + prog.getNIRF(), headFontData));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+						table.addCell(cell);
+
+						cell = new PdfPCell(new Phrase("" + prog.getTHE(), headFontData));
+						cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+						table.addCell(cell);
+
+					}
+
+					document.open();
+					Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
+
+					Paragraph name = new Paragraph(reportName, hf);
+					name.setAlignment(Element.ALIGN_LEFT);
+					document.add(name);
+					document.add(new Paragraph("\n"));
+					 
+					DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+					 
+					document.add(table);
+
+					int totalPages = writer.getPageNumber();
+
+					// System.out.println("Page no " + totalPages);
+
+					document.close();
+					int p = Integer.parseInt(request.getParameter("p"));
+					System.err.println("p " + p);
+
+					if (p == 1) {
+
+						if (file != null) {
+
+							String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+							if (mimeType == null) {
+
+								mimeType = "application/pdf";
+
+							}
+
+							response.setContentType(mimeType);
+
+							response.addHeader("content-disposition",
+									String.format("inline; filename=\"%s\"", file.getName()));
+
+							response.setContentLength((int) file.length());
+
+							InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+							try {
+								FileCopyUtils.copy(inputStream, response.getOutputStream());
+							} catch (IOException e) {
+								// System.out.println("Excep in Opening a Pdf File");
+								e.printStackTrace();
+							}
+						}
+					} else {
+
+						List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+						ExportToExcel expoExcel = new ExportToExcel();
+						List<String> rowData = new ArrayList<String>();
+
+						rowData.add("Sr. No");
+						rowData.add("Institute Name");
+						rowData.add("NAAC");
+						rowData.add("NBA");
+						rowData.add("NIRF");
+						rowData.add("THE");
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
+						int cnt = 1;
+						for (int i = 0; i < progList.size(); i++) {
+							expoExcel = new ExportToExcel();
+							rowData = new ArrayList<String>();
+							cnt = cnt + i;
 
-					}
+							rowData.add("" + (i + 1));
 
-					XSSFWorkbook wb = null;
-					try {
+							rowData.add("" + progList.get(i).getInstituteName());
+							rowData.add("" + progList.get(i).getNAAC());
+							rowData.add("" + progList.get(i).getNBA());
+							rowData.add("" + progList.get(i).getNIRF());
+							rowData.add("" + progList.get(i).getTHE());
 
-						// System.out.println("Excel List :" + exportToExcelList.toString());
-						String rep = null;
+							expoExcel.setRowData(rowData);
+							exportToExcelList.add(expoExcel);
+
+						}
+
+						XSSFWorkbook wb = null;
 						try {
-							rep = progList.get(0).getInstituteName();
-						} catch (Exception e) {
+ 
 
-							rep = "-";
+							wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+									"  ", "", 'F');
 
+							ExceUtil.autoSizeColumns(wb, 3);
+							response.setContentType("application/vnd.ms-excel");
+							String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+							response.setHeader("Content-disposition",
+									"attachment; filename=" + reportName + "-" + date + ".xlsx");
+							wb.write(response.getOutputStream());
+
+						} catch (IOException ioe) {
+							throw new RuntimeException("Error writing spreadsheet to output stream");
+						} finally {
+							if (wb != null) {
+								wb.close();
+							}
 						}
-						System.err.println("rep  " + rep);
-						// String excelName = (String) session.getAttribute("excelName");
-						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
-								"", " ", 'F');
-						ExceUtil.autoSizeColumns(wb, 3);
-						response.setContentType("application/vnd.ms-excel");
-						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
-						wb.write(response.getOutputStream());
 
-					} catch (IOException ioe) {
-						throw new RuntimeException("Error writing spreadsheet to output stream");
-					} finally {
-						if (wb != null) {
-							wb.close();
-						}
 					}
+
+				} catch (DocumentException ex) {
+
+					// System.out.println("Pdf Generation Error: " + ex.getMessage());
+
+					ex.printStackTrace();
 
 				}
 
-			} catch (DocumentException ex) {
+			} catch (Exception e) {
 
-				// System.out.println("Pdf Generation Error: " + ex.getMessage());
-
-				ex.printStackTrace();
+				System.err.println("Exce in showProgReport " + e.getMessage());
+				e.printStackTrace();
 
 			}
 
-		} catch (Exception e) {
-
-			System.err.println("Exce in showProgReport " + e.getMessage());
-			e.printStackTrace();
-
 		}
-
-	}
-	
-	
-	
 	
 	
 	
