@@ -112,10 +112,10 @@
 										<div class="col-lg-10">2] Institutewise NAAC
 											Accreditation Status Report</div>
 										<div class="col-lg-2">
-											<a href="#" onclick="getProgReport(0,'showProgReport')"><i
+											<a href="#" onclick="getProgReport(0,'showNaacAccreReport')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#" onclick="getProgReport(1,'showProgReport')"><i
+												href="#" onclick="getProgReport(1,'showNaacAccreReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
@@ -159,6 +159,35 @@
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 												href="#"
 												onclick="getProgReport(1,'showFBReceivedFrmStakeHolder')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
+									<div class="panel-body">
+										<div class="col-lg-10">6]Placement of UG & PG Students Reports</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'showUgPgStudReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'showUgPgStudReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
+									
+									<div class="panel-body">
+										<div class="col-lg-10">6]Details Regarding Anti-ragging Squd And Sexual Harashment</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'showUgPgStudReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'showUgPgStudReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
