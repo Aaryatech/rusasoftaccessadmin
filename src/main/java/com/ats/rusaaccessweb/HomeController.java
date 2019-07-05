@@ -41,7 +41,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.model.LoginResponse;
-import com.ats.rusaaccessweb.model.ModuleJson; 
+import com.ats.rusaaccessweb.model.ModuleJson;
+import com.ats.rusaaccessweb.model.dashb.GetCountsForDash;
+import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse; 
  
  
 
@@ -151,7 +153,7 @@ public class HomeController {
 					}
 					  
 					session.setAttribute("newModuleList", newModuleList);
-					mav = "redirect:/showRoleList" ;
+					mav = "redirect:/sendMail" ;
 					 
 					session.setAttribute("sessionModuleId", 0);
 					session.setAttribute("sessionSubModuleId", 0);
@@ -170,6 +172,50 @@ public class HomeController {
 		return mav;
 
 	}
+	
+	/*@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView();
+		try {
+
+			model = new ModelAndView("welcome");
+			model.addObject("title", "DASHBOARD");
+			 
+			 GetCountsForDash dashBoardCounts = Constants.getRestTemplate().getForObject(Constants.url + "/getInstituteCount", GetCountsForDash.class);
+			model.addObject("dashBoardCounts", dashBoardCounts); 
+			
+		} catch (Exception e) {
+
+			System.err.println("exception In showCMSForm at home Contr" + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return model;
+
+	}*/
+	
+	
+	@RequestMapping(value = "/getDashboardGraph", method = RequestMethod.GET)
+	public @ResponseBody QualityIniGraphResponse getDashboardGraph(HttpServletRequest request, HttpServletResponse response) {
+		
+		
+		QualityIniGraphResponse qualityIniGraphResponse = new QualityIniGraphResponse();
+		
+		
+		try {
+			 
+			qualityIniGraphResponse = Constants.getRestTemplate().getForObject(Constants.url + "/getAllQualIniGraph1", QualityIniGraphResponse.class);
+				 
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return qualityIniGraphResponse;
+	} 
 	
 	
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
