@@ -206,6 +206,21 @@
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
 									</div>
+									
+										<div class="panel-body">
+										<div class="col-lg-10">6] Curricular, Co-Curricular and Extra Curricular Activities</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'coExCurricularAct')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'coExCurricularAct')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
 
 
 									<input type="hidden" id="p" name="p" value="0"> <input
