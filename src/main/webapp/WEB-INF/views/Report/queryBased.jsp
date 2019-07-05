@@ -162,6 +162,36 @@
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
 									</div>
+									
+									
+									<div class="panel-body">
+										<div class="col-lg-10">3]Value Added Course List</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'showValueAddedCourseReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'showValueAddedCourseReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
+									
+									<div class="panel-body">
+										<div class="col-lg-10">4]District Wise Institute Details</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'showValueAddedCourseReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'showValueAddedCourseReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
 
 
 
