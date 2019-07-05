@@ -418,13 +418,13 @@ public class ReportController {
 			writer.setPageEvent(event);
 			// writer.add(new Paragraph("Curricular Aspects"));
 
-			PdfPTable table = new PdfPTable(6);
+			PdfPTable table = new PdfPTable(7);
 
 			table.setHeaderRows(1);
 
 			try {
 				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 1.3f, 5.9f, 1.3f, 1.3f, 1.3f, 1.3f });
+				table.setWidths(new float[] { 1.3f,3.0f, 5.9f, 1.3f, 1.3f, 1.3f, 1.3f });
 				Font headFontData = Constants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 															// BaseColor.BLACK);
 				Font tableHeaderFont = Constants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
@@ -489,12 +489,20 @@ public class ReportController {
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 					table.addCell(cell);
+					
+					cell = new PdfPCell(new Phrase("" + prog.getDistrictName(), headFontData));
+					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + prog.getInstituteName(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 					table.addCell(cell);
+					
+				
 
 					cell = new PdfPCell(new Phrase("" + prog.getNAAC(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -578,6 +586,7 @@ public class ReportController {
 					List<String> rowData = new ArrayList<String>();
 
 					rowData.add("Sr. No");
+					rowData.add("District Name");
 					rowData.add("Institute Name");
 					rowData.add("NAAC");
 					rowData.add("NBA");
@@ -593,8 +602,9 @@ public class ReportController {
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
-
+						rowData.add("" + progList.get(i).getDistrictName());
 						rowData.add("" + progList.get(i).getInstituteName());
+						
 						rowData.add("" + progList.get(i).getNAAC());
 						rowData.add("" + progList.get(i).getNBA());
 						rowData.add("" + progList.get(i).getNIRF());
@@ -608,7 +618,7 @@ public class ReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'G');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
