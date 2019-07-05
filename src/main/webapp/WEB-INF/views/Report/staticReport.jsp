@@ -180,19 +180,7 @@
 										</div>
 									</div>
 									
-									<div class="panel-body">
-										<div class="col-lg-10">7] Competitive Exam(No. of Student appeared for Conpetitive Exam at various levels)</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'getCompitetiveExmReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'getCompitetiveExmReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
+								
 									
 									 
 									
