@@ -246,9 +246,9 @@ public class AccessMasterController {
 						instIdList = instIdList.substring(0, instIdList.length() - 1);
 
 						map.add("instIdList", instIdList);
-						//map.add("aprUserId", userObj.getUserId());
+						map.add("aprUserId", userObj.getUserId());
 					} else {
-						//map.add("aprUserId", userObj.getUserId());
+						map.add("aprUserId", userObj.getUserId());
 
 						System.err.println("Single Record delete ");
 						map.add("instIdList", instId);
