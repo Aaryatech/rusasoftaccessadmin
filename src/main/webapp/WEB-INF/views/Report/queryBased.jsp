@@ -221,79 +221,67 @@
 										</div>
 									</div>
 									
-									 <div class="panel-body">
-										<div class="col-lg-10">7] Male Female Ratio</div>
+									<div class="panel-body">
+										<div class="col-lg-10">7] Students Participated in Sports (National/International)</div>
 										<div class="col-lg-2">
 											<a href="#"
-												onclick="getProgReport(0,'getMaleFemaleRatioReport')"><i
+												onclick="getProgReport(0,'showStudentParticipatedReport')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 												href="#"
-												onclick="getProgReport(1,'getMaleFemaleRatioReport')"><i
+												onclick="getProgReport(1,'showStudentParticipatedReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
 									</div>
-
+									
+									
 									<div class="panel-body">
-										<div class="col-lg-10">8] Grant received for research</div>
+										<div class="col-lg-10">8] Students Participated in NSS And NCC</div>
 										<div class="col-lg-2">
 											<a href="#"
-												onclick="getProgReport(0,'getGrntRecvResrchReprt')"><i
+												onclick="getProgReport(0,'showStudentParticipatedNssNccReport')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 												href="#"
-												onclick="getProgReport(1,'getGrntRecvResrchReprt')"><i
+												onclick="getProgReport(1,'showStudentParticipatedNssNccReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
-										</div>
-										
-											<!-- <div class="panel-body">
-										<div class="col-lg-10">9] Grant received for research</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-										</div> -->
-										
-									<div class="panel-body">
-										<div class="col-lg-10">9] Subject wise research</div>
-											<div class="col-lg-2">
-												<a href="#"
-													onclick="getProgReport(0,'getSubjctRsrchReport')"><i
-													class="fa fa-file-excel-o" style="color: green;"
-													aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-													href="#"
-													onclick="getProgReport(1,'getSubjctRsrchReport')"><i
-													class="fa fa-file-pdf-o" style="color: red;"
-													aria-hidden="true"></i>&nbsp;PDF</a>
-											</div>
 									</div>
 									
 									<div class="panel-body">
-										<div class="col-lg-10">11] Teacher participate in research</div>
+										<div class="col-lg-10">8]  Functional MoU (State/National/International)</div>
 										<div class="col-lg-2">
 											<a href="#"
-												onclick="getProgReport(0,'getFacultyRsrchReport')"><i
+												onclick="getProgReport(0,'showFunctionalMouReport')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 												href="#"
-												onclick="getProgReport(1,'getFacultyRsrchReport')"><i
+												onclick="getProgReport(1,'showFunctionalMouReport')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
-										</div> 
+									</div>
+									
+									<div class="panel-body">
+										<div class="col-lg-10">9] Male Female Ratio</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'showMaleFemaleRatioReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'showMaleFemaleRatioReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
 
 									<input type="hidden" id="p" name="p" value="0"> <input
 										type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
-									
+
 
 								</div>
 							</form>
