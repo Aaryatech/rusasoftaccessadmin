@@ -79,7 +79,7 @@
 										<div class="col-md-3">
 											<div class="dash_one">
 												<h2 class="desig_nm">Total Faculties</h2>
-												<span class="count_num">${dashBoardCounts.count1}0</span>
+												<span class="count">${dashBoardCounts.count1}</span>
 												<!--<a href="#" class="dash_button">Button</a>-->
 												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
  -->
