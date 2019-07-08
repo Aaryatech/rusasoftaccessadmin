@@ -219,7 +219,7 @@ public class AccessMasterController {
 			try {
 				HttpSession session = request.getSession();
 
-				LoginResponse userObj = (LoginResponse) session.getAttribute("userObj");
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 
