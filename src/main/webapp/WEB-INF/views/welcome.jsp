@@ -78,8 +78,8 @@
 
 										<div class="col-md-3">
 											<div class="dash_one">
-												<h2 class="desig_nm">Total Faculties</h2>
-												<span class="count">${dashBoardCounts.count1}</span>
+												<h2 class="desig_nm">Total Institute Registered</h2>
+												<span class="count_num">${dashBoardCounts.count1}</span>
 												<!--<a href="#" class="dash_button">Button</a>-->
 												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
  -->
@@ -304,16 +304,17 @@
 
 						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
 
-						dataTable.addColumn('number', 'NAAC Accredited');
 						dataTable.addColumn('number', 'Registred Institutes');
+						dataTable.addColumn('number', 'NAAC Accredited');
+						
 
 						$.each(data.naacRes, function(key, dt) {
 
 							dataTable
 									.addRows([
 
-									[ dt.academicYear, dt.count2,
-											dt.count1 ]
+									[ dt.academicYear, dt.count1,
+											dt.count2 ]
 
 									]);
 
@@ -334,7 +335,7 @@
 								},
 								format : '0',
 							},
-							colors : [ 'red', 'blue','green' ],
+							colors : [ 'blue', 'green','orange' ],
 							theme : 'material'
 						};
 						var chart = new google.visualization.ColumnChart(
@@ -347,18 +348,19 @@
 						dataTable = new google.visualization.DataTable();
 
 						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
-
-						dataTable.addColumn('number', 'NBA Accrediated');
-						dataTable.addColumn('number', 'NBA Applicable');
 						dataTable.addColumn('number', 'Registred Institute');
+						dataTable.addColumn('number', 'NBA Applicable');
+						dataTable.addColumn('number', 'NBA Accrediated');
+						
+						
 
 						$.each(data.nbaRes, function(key, dt) {
 
 							dataTable
 									.addRows([
 
-										[ dt.academicYear, dt.count2,
-											dt.count3 ,dt.count1 ]
+										[ dt.academicYear, dt.count1,
+											dt.count2 ,dt.count3 ]
 
 									]);
 
@@ -374,16 +376,16 @@
 						dataTable = new google.visualization.DataTable();
 
 						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
-
-						dataTable.addColumn('number', 'NIRF Accrediated'); 
 						dataTable.addColumn('number', 'Registred Institute');
+						dataTable.addColumn('number', 'NIRF Accrediated'); 
+						
 
 						$.each(data.nirfcRes, function(key, dt) {
 
 							dataTable
 									.addRows([
 
-										[ dt.academicYear, dt.count2 ,dt.count1 ]
+										[ dt.academicYear, dt.count1 ,dt.count2 ]
 
 									]);
 
@@ -399,16 +401,16 @@
 						dataTable = new google.visualization.DataTable();
 
 						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
-
-						dataTable.addColumn('number', 'THE Accrediated'); 
 						dataTable.addColumn('number', 'Registred Institute');
+						dataTable.addColumn('number', 'THE Accrediated'); 
+						
 
 						$.each(data.theRes, function(key, dt) {
 
 							dataTable
 									.addRows([
 
-										[ dt.academicYear, dt.count2 ,dt.count1 ]
+										[ dt.academicYear, dt.count1 ,dt.count2 ]
 
 									]);
 
@@ -424,16 +426,16 @@
 						dataTable = new google.visualization.DataTable();
 
 						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
-
-						dataTable.addColumn('number', 'Autonomous Accrediated'); 
 						dataTable.addColumn('number', 'Registred Institute');
+						dataTable.addColumn('number', 'Autonomous Accrediated'); 
+						
 
 						$.each(data.autonomousRes, function(key, dt) {
 
 							dataTable
 									.addRows([
 
-										[ dt.academicYear, dt.count2 ,dt.count1 ]
+										[ dt.academicYear, dt.count1 ,dt.count2 ]
 
 									]);
 
