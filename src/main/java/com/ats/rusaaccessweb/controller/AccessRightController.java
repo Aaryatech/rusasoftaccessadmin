@@ -540,8 +540,8 @@ public class AccessRightController {
 			if (info.isError() == false) {
 				
 				model.addObject("title", "Assign Role"); 
-				accessRightModuleList = Constants.getRestTemplate()
-						.getForObject(Constants.url + "getAllModuleAndSubModule", AccessRightModuleList.class);
+				/*accessRightModuleList = Constants.getRestTemplate()
+						.getForObject(Constants.url + "getAllModuleAndSubModule", AccessRightModuleList.class);*/
 
 				UserList[] user = Constants.getRestTemplate().getForObject(Constants.url + "/getAllUserList",
 						UserList[].class);
