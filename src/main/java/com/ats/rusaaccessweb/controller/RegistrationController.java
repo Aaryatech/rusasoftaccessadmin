@@ -81,7 +81,7 @@ public class RegistrationController {
 
 		try {
 			Info checkUserNameExist = new Info();
-			
+
 			HttpSession session = request.getSession();
 
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
@@ -123,28 +123,27 @@ public class RegistrationController {
 				editUser.setJoiningDate(DateConvertor.convertToYMD(joiningDate));
 				editUser.setExVar1(dateTimeInGMT.format(date));
 
-				if (isEdit == 0 && error==false) {
+				if (isEdit == 0 && error == false) {
 
 					String userName = request.getParameter("userName");
 					String userPass = request.getParameter("userPass");
 					String reuserPass = request.getParameter("reuserPass");
 
-					if (FormValidation.Validaton(userName, "") == true
-							|| FormValidation.Validaton(userPass, "") == true || !userPass.equals(reuserPass)) {
+					if (FormValidation.Validaton(userName, "") == true || !userPass.equals(reuserPass)) {
 
 						error = true;
 					}
 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("username", userName);
-					 checkUserNameExist = Constants.getRestTemplate().postForObject(Constants.url + "/checkUserNameExist", map,
-							Info.class);
-					
+					checkUserNameExist = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
+
 					editUser.setUserName(userName.trim().replaceAll("[ ]{2,}", " "));
 					editUser.setPass(userPass);
 				}
 
-				if (error == false && checkUserNameExist.isError()==false) {
+				if (error == false && checkUserNameExist.isError() == false) {
 
 					editUser.setExInt1(userObj.getUserId());
 					UserLogin res = Constants.getRestTemplate().postForObject(Constants.url + "/rusaUserRegistration",
@@ -252,6 +251,14 @@ public class RegistrationController {
 
 				mav = "redirect:/getRusaUserList";
 
+				if (res.isError() == true) {
+					session.setAttribute("successMsg", "Failed To Delete User Information !");
+					session.setAttribute("errorMsg", "true");
+				} else {
+					session.setAttribute("successMsg", "User Infomation Deleted successfully!");
+					session.setAttribute("errorMsg", "false");
+				}
+
 			} else {
 
 				mav = "redirect:/accessDenied";
@@ -311,26 +318,18 @@ public class RegistrationController {
 		}
 		return mav;
 	}
-	
-	
-	@RequestMapping(value = "/checkUserNameAvailable", method = RequestMethod.GET)
-	public @ResponseBody Info checkUserNameAvailable(HttpServletRequest request, HttpServletResponse response ) {
 
-		 
+	@RequestMapping(value = "/checkUserNameAvailable", method = RequestMethod.GET)
+	public @ResponseBody Info checkUserNameAvailable(HttpServletRequest request, HttpServletResponse response) {
 
 		Info info = new Info();
-		
-		try {
- 
 
-			 
-			 
-				String userName =  request.getParameter("userName") ;
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("username", userName);
-				info = Constants.getRestTemplate().postForObject(Constants.url + "/checkUserNameExist", map,
-						Info.class);
- 
+		try {
+
+			String userName = request.getParameter("userName");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("username", userName);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
 
 		} catch (Exception e) {
 
@@ -338,10 +337,198 @@ public class RegistrationController {
 			// e.getMessage());
 
 			e.printStackTrace();
-		 
 
 		}
 		return info;
+	}
+
+	@RequestMapping(value = "/changeCredential", method = RequestMethod.GET)
+	public String changeCredential(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = new String();
+
+		try {
+
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+
+			Info viewAccess = AccessControll.checkAccess("changeCredential", "changeCredential", "1", "0", "0", "0",
+					newModuleList);
+
+			if (viewAccess.isError() == false) {
+
+				model.addAttribute("title", "Change Login Credential");
+				mav = "master/changeCredential";
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("userId", userObj.getUserId());
+				UserLogin userInfo = Constants.getRestTemplate().postForObject(Constants.url + "/rusaUserbyId", map,
+						UserLogin.class);
+
+				model.addAttribute("userInfo", userInfo);
+
+			} else {
+
+				mav = "redirect:/accessDenied";
+			}
+
+		} catch (Exception e) {
+
+			// System.err.println("exception In editJournal at Iqac Contr" +
+			// e.getMessage());
+
+			e.printStackTrace();
+			mav = "redirect:/accessDenied";
+
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/checkpassword", method = RequestMethod.GET)
+	public @ResponseBody Info checkpassword(HttpServletRequest request, HttpServletResponse response) {
+
+		Info info = new Info();
+
+		try {
+
+			String currentPass = request.getParameter("currentPass");
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			if (currentPass.equals(userObj.getPass())) {
+				info.setError(false);
+			} else {
+				info.setError(true);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = "/checkUserNameAvailableChangepass", method = RequestMethod.GET)
+	public @ResponseBody Info checkUserNameAvailableChangepass(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		Info info = new Info();
+
+		try {
+
+			String userName = request.getParameter("userName");
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			if (userName.equals(userObj.getUserName())) {
+				info.setError(false);
+			} else {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("username", userName);
+				info = Constants.getRestTemplate().postForObject(Constants.url + "/checkUserNameExist", map,
+						Info.class);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	@RequestMapping(value = "/submitChangepass", method = RequestMethod.POST)
+	public String submitChangepass(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = new String();
+
+		try {
+			Info checkUserNameExist = new Info();
+
+			HttpSession session = request.getSession();
+
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			Info viewAccess = AccessControll.checkAccess("submitChangepass", "changeCredential", "1", "0", "0", "0",
+					newModuleList);
+
+			if (viewAccess.isError() == false) {
+
+				Date date = new Date();
+				SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				Boolean error = false;
+
+				String currentPass = request.getParameter("currentPass");
+
+				if (currentPass.equals(userObj.getPass())) {
+
+					String userName = request.getParameter("userName");
+					String userPass = request.getParameter("userPass");
+					String reuserPass = request.getParameter("reuserPass");
+
+					if (FormValidation.Validaton(userName, "") == true || !userPass.equals(reuserPass)) {
+
+						error = true;
+					}
+
+					if (userName.equals(userObj.getUserName())) {
+
+						checkUserNameExist.setError(false);
+
+					} else {
+
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+						map.add("username", userName);
+						checkUserNameExist = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
+
+					}
+
+					if (error == false && checkUserNameExist.isError() == false) {
+
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+						map.add("userId", userObj.getUserId());
+						map.add("userName", userName);
+						map.add("userPass", userPass);
+
+						Info res = Constants.getRestTemplate().postForObject(Constants.url + "/updatePassword", map,
+								Info.class);
+
+						if (res.isError() == true) {
+							session.setAttribute("successMsg", "Failed to update password !");
+							session.setAttribute("errorMsg", "true");
+						} else {
+							session.setAttribute("successMsg", "password changed successfully!");
+							session.setAttribute("errorMsg", "false");
+						}
+
+					} else {
+						session.setAttribute("successMsg", "Invalid Data");
+						session.setAttribute("errorMsg", "true");
+					}
+
+				}
+
+				mav = "redirect:/changeCredential";
+
+			} else {
+
+				mav = "redirect:/accessDenied";
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			HttpSession session = request.getSession();
+			session.setAttribute("successMsg", "Failed to update password !");
+			session.setAttribute("errorMsg", "true");
+
+		}
+		return mav;
 	}
 
 }
