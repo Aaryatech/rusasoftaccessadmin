@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <body>
 	<c:url var="setSubModId" value="/setSubModId" />
 	<div class="page-sidebar pagescroll">
@@ -26,7 +26,8 @@
 					</h3>
 					<!-- <p class="profile-title">Address</p> -->
 				</div>
-			</div> --%><br>
+			</div> --%>
+			<br>
 			<!-- USER INFO - END -->
 			<ul class='wraplist'>
 				<li class='menusection'></li>
@@ -83,7 +84,7 @@
 					</ul>
 					</li>
 				</c:forEach>
-				 
+
 				<%-- <li class=""><a href="javascript:;"> <i
 						class="fa fa-columns"></i> <span class="title">User
 							Registration</span> <span class="arrow "></span>
@@ -484,7 +485,7 @@
 
 
 				<li><a href="${pageContext.request.contextPath}/logout"> <i
-						class="fa fa-lock"></i> <span class="title">Logout</span>
+						class="fa fa-sign-out" aria-hidden="true" style="color: red;"></i> <span class="title">Logout</span>
 				</a></li>
 			</ul>
 			<div class="menustats"></div>

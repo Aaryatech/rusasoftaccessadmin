@@ -114,7 +114,7 @@
 											<div class="tab-pane fade in active" id="home">
 
 												<div>
-													 
+
 
 													<div class="col-xs-12">
 
@@ -125,7 +125,7 @@
 																<thead>
 																	<tr>
 																		<th width="10%">Sr No</th>
-																		<th> Role</th>
+																		<th>Role</th>
 																		<th width="10%">Action</th>
 																	</tr>
 
@@ -136,14 +136,23 @@
 																	<c:forEach items="${createdRoleList}"
 																		var="createdRoleList" varStatus="count">
 																		<tr>
-																			<td style="text-align: center; "><c:out value="${count.index+1}" /></td>
+																			<td style="text-align: center;"><c:out
+																					value="${count.index+1}" /></td>
 																			<td><c:out value="${createdRoleList.roleName}" /></td>
-																			<td style="text-align: center; "><a title="Edit" rel="tooltip"
-																				data-color-class="detail"
+																			<td style="text-align: center;"><a title="Edit"
+																				rel="tooltip" data-color-class="detail"
 																				data-animate=" animated fadeIn "
 																				href="${pageContext.request.contextPath}/editAccessRole/${createdRoleList.roleId}"
 																				data-toggle="tooltip" data-original-title="Edit"><span
-																					class="glyphicon glyphicon-edit"></span></a></td>
+																					class="glyphicon glyphicon-edit"></span></a> 
+																				<%-- <a
+																				href="/rusaaccessweb/deleteRole/${createdRoleList.roleId}"
+																				rel="tooltip" data-color-class="danger"
+																				onclick="return confirm('do you want to delete this record');"
+																				title="Delete" data-animate=" animated fadeIn "
+																				data-toggle="tooltip"
+																				data-original-title="Delete  record"><span
+																					class="glyphicon glyphicon-remove"></span></a> --%></td>
 																		</tr>
 
 
@@ -196,97 +205,113 @@
 
 
 	<script>
-			function checkSubmodule(moduleId) {
-				
-				 
-				$.getJSON('${getSubmoduleList}', {
-					moduleId : moduleId,
-					ajax : 'true',
+		function checkSubmodule(moduleId) {
 
-				}, function(data) { 
-					 
-					
-					if(document.getElementById("header"+moduleId).checked == true){
-						
-						for(var i=0 ; i<data.length; i++){
-							 
-							document.getElementById(data[i]+"view"+moduleId).checked=true;
-							 document.getElementById(data[i]+"add"+moduleId).checked=true;
-							 document.getElementById(data[i]+"edit"+moduleId).checked=true;
-							 document.getElementById(data[i]+"delete"+moduleId).checked=true;
-							 document.getElementById(data[i]+"view"+moduleId).value=1;
-							 document.getElementById(data[i]+"add"+moduleId).value=1;
-							 document.getElementById(data[i]+"edit"+moduleId).value=1;
-							 document.getElementById(data[i]+"delete"+moduleId).value=1;
-						}
-						 
-					 }else{
-						 for(var i=0 ; i<data.length; i++){
-								
-								document.getElementById(data[i]+"view"+moduleId).checked=false;
-								 document.getElementById(data[i]+"add"+moduleId).checked=false;
-								 document.getElementById(data[i]+"edit"+moduleId).checked=false;
-								 document.getElementById(data[i]+"delete"+moduleId).checked=false;
-								 document.getElementById(data[i]+"view"+moduleId).value=0;
-								 document.getElementById(data[i]+"add"+moduleId).value=0;
-								 document.getElementById(data[i]+"edit"+moduleId).value=0;
-								 document.getElementById(data[i]+"delete"+moduleId).value=0;
-							}
-					 }
-				
-				});
- 
-				 
+			$
+					.getJSON(
+							'${getSubmoduleList}',
+							{
+								moduleId : moduleId,
+								ajax : 'true',
+
+							},
+							function(data) {
+
+								if (document
+										.getElementById("header" + moduleId).checked == true) {
+
+									for (var i = 0; i < data.length; i++) {
+
+										document.getElementById(data[i]
+												+ "view" + moduleId).checked = true;
+										document.getElementById(data[i] + "add"
+												+ moduleId).checked = true;
+										document.getElementById(data[i]
+												+ "edit" + moduleId).checked = true;
+										document.getElementById(data[i]
+												+ "delete" + moduleId).checked = true;
+										document.getElementById(data[i]
+												+ "view" + moduleId).value = 1;
+										document.getElementById(data[i] + "add"
+												+ moduleId).value = 1;
+										document.getElementById(data[i]
+												+ "edit" + moduleId).value = 1;
+										document.getElementById(data[i]
+												+ "delete" + moduleId).value = 1;
+									}
+
+								} else {
+									for (var i = 0; i < data.length; i++) {
+
+										document.getElementById(data[i]
+												+ "view" + moduleId).checked = false;
+										document.getElementById(data[i] + "add"
+												+ moduleId).checked = false;
+										document.getElementById(data[i]
+												+ "edit" + moduleId).checked = false;
+										document.getElementById(data[i]
+												+ "delete" + moduleId).checked = false;
+										document.getElementById(data[i]
+												+ "view" + moduleId).value = 0;
+										document.getElementById(data[i] + "add"
+												+ moduleId).value = 0;
+										document.getElementById(data[i]
+												+ "edit" + moduleId).value = 0;
+										document.getElementById(data[i]
+												+ "delete" + moduleId).value = 0;
+									}
+								}
+
+							});
+
+		}
+
+		function changeValue(type, subModuleId, moduleId) {
+
+			if (type == 1) {
+				if (document.getElementById(subModuleId + "view" + moduleId).checked == true) {
+
+					document.getElementById(subModuleId + "view" + moduleId).value = 1;
+
+				} else {
+
+					document.getElementById(subModuleId + "view" + moduleId).value = 0;
+				}
+
+			} else if (type == 2) {
+				if (document.getElementById(subModuleId + "add" + moduleId).checked == true) {
+
+					document.getElementById(subModuleId + "add" + moduleId).value = 1;
+				} else {
+					document.getElementById(subModuleId + "add" + moduleId).value = 0;
+				}
+			} else if (type == 3) {
+				if (document.getElementById(subModuleId + "edit" + moduleId).checked == true) {
+
+					document.getElementById(subModuleId + "edit" + moduleId).value = 1;
+
+				} else {
+
+					document.getElementById(subModuleId + "edit" + moduleId).value = 0;
+
+				}
+
+			} else if (type == 4) {
+
+				if (document.getElementById(subModuleId + "delete" + moduleId).checked == true) {
+
+					document.getElementById(subModuleId + "delete" + moduleId).value = 1;
+
+				} else {
+
+					document.getElementById(subModuleId + "delete" + moduleId).value = 0;
+
+				}
+
 			}
-			
-			function changeValue(type,subModuleId,moduleId) {
-				 
-				 
-							 if(type==1){
-								 if(document.getElementById(subModuleId+"view"+moduleId).checked == true){
-									 
-									 document.getElementById(subModuleId+"view"+moduleId).value=1;
-									 
-								 }else{
-									 
-									 document.getElementById(subModuleId+"view"+moduleId).value=0;
-								 }
-								
-							 }else if(type==2){
-								 if(document.getElementById(subModuleId+"add"+moduleId).checked == true){
-									 
-								 	document.getElementById(subModuleId+"add"+moduleId).value=1;
-								 }else{
-									 document.getElementById(subModuleId+"add"+moduleId).value=0;
-								 }
-							 }else if(type==3){
-								 if(document.getElementById(subModuleId+"edit"+moduleId).checked == true){
-									 
-									 document.getElementById(subModuleId+"edit"+moduleId).value=1;
-									 
-								 }else{
-									 
-									 document.getElementById(subModuleId+"edit"+moduleId).value=0;
-									 
-								 }
-								 
-							 }else if(type==4){
-								 
-								 if(document.getElementById(subModuleId+"delete"+moduleId).checked == true){
-									 
-									 document.getElementById(subModuleId+"delete"+moduleId).value=1;
-									 
-								 }else{
-									 
-									 document.getElementById(subModuleId+"delete"+moduleId).value=0;
-									 
-								 }
-								 
-							 }
-							  
-			}
-			
-		</script>
+
+		}
+	</script>
 
 
 
