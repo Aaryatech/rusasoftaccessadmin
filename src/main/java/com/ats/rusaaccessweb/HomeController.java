@@ -40,6 +40,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.rusaaccessweb.common.Constants;
+import com.ats.rusaaccessweb.model.AdminLoginLog;
 import com.ats.rusaaccessweb.model.LoginResponse;
 import com.ats.rusaaccessweb.model.ModuleJson;
 import com.ats.rusaaccessweb.model.dashb.GetCountsForDash;
@@ -157,6 +158,22 @@ public class HomeController {
 					 
 					session.setAttribute("sessionModuleId", 0);
 					session.setAttribute("sessionSubModuleId", 0);
+					
+					InetAddress addr = InetAddress.getByName(request.getRemoteAddr());
+					String hostName = addr.getHostName();
+					String userAgent = request.getHeader("User-Agent");
+
+					Date date = new Date();
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					AdminLoginLog saveLoginLogs = new AdminLoginLog();
+					saveLoginLogs.setIpAddress(hostName);
+					saveLoginLogs.setUserAgent(userAgent);
+					saveLoginLogs.setLoginDate(sf.format(date));
+					saveLoginLogs.setUserId(userObj.getUserId());
+
+					AdminLoginLog resp = Constants.getRestTemplate().postForObject(Constants.url + "/rusaLoginLog",
+							saveLoginLogs, AdminLoginLog.class);
+					
 				}
 
 			}
