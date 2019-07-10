@@ -154,7 +154,7 @@ public class HomeController {
 					}
 					  
 					session.setAttribute("newModuleList", newModuleList);
-					mav = "redirect:/sendMail" ;
+					mav = "redirect:/dashboard" ;
 					 
 					session.setAttribute("sessionModuleId", 0);
 					session.setAttribute("sessionSubModuleId", 0);
@@ -190,7 +190,7 @@ public class HomeController {
 
 	}
 	
-	/*@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView();
@@ -212,7 +212,7 @@ public class HomeController {
 
 		return model;
 
-	}*/
+	}
 	
 	
 	@RequestMapping(value = "/getDashboardGraph", method = RequestMethod.GET)
