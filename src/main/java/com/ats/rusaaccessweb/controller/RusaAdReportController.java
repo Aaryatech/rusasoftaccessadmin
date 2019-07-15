@@ -279,7 +279,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Academic Year:" + temp_ac_year + " ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Academic Year:" + temp_ac_year + " ", "", 'E');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -448,7 +448,7 @@ public class RusaAdReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
@@ -530,7 +530,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " Academic Year:" + temp_ac_year + " ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " Academic Year:" + temp_ac_year + " ", "", 'E');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1045,7 +1045,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " Academic Year:" + temp_ac_year + " ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " Academic Year:" + temp_ac_year + " ", "", 'C');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1215,7 +1215,7 @@ public class RusaAdReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
@@ -1299,7 +1299,7 @@ public class RusaAdReportController {
 						String leaveSum1 = "Academic Year: " + temp_ac_year + ",";
 						String leaveSum2 = "Institute Name:" + instituteName + "";
 						String reportSummary =leaveSum1 + "" + leaveSum2;
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, reportSummary, "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, reportSummary, "", 'D');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1562,7 +1562,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 						String leaveSum1 = "Institute Name: " + instituteName + "";
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, leaveSum1, "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, leaveSum1, "", 'E');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");

@@ -538,7 +538,7 @@ public class ReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
 
@@ -2071,8 +2071,7 @@ public class ReportController {
 	public void showValueAddedCourseReport(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Value Added Course List";
-		List<String> instId = new ArrayList<>();
-		try {
+ 		try {
 			String instituteName=null;
 
 			String[] instituteIdList = request.getParameterValues("instituteId");
@@ -2447,7 +2446,7 @@ public class ReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
@@ -2567,7 +2566,7 @@ public class ReportController {
 	public void showMaleFemaleRatioReport(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Male Female Ratio";
-		List<String> instId = new ArrayList<>();
+		  
 		try {
 
 			 
@@ -2738,7 +2737,7 @@ public class ReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
