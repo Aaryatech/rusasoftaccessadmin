@@ -132,10 +132,22 @@
 									<!-- Criteria 1 -->
 
 
-
+<div class="panel-body">
+										<div class="col-lg-10">1] Curricular, Co-Curricular and Extra Curricular Activities</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'coExCurricularAct')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'coExCurricularAct')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
  
 									<div class="panel-body">
-										<div class="col-lg-10">1]Placement of UG & PG Students
+										<div class="col-lg-10">2] Placement of UG & PG Students
 											Reports</div>
 										<div class="col-lg-2">
 											<a href="#" onclick="getProgReport(0,'showUgPgStudReport')"><i
@@ -149,8 +161,8 @@
 
 
 									<div class="panel-body">
-										<div class="col-lg-10">2]Details Regarding Anti-ragging
-											Squd And Sexual Harashment</div>
+										<div class="col-lg-10">3] Details Regarding Anti-ragging
+											Squad And Sexual Harassment</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'showAntiRagHarashmentReport')"><i
@@ -163,9 +175,23 @@
 										</div>
 									</div>
 									
+										<div class="panel-body">
+										<div class="col-lg-10">4] Competitive Exam(No. of Student appeared for Conpetitive Exam at various levels)</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'getCompitetiveExmReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'getCompitetiveExmReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
 									
+										
 									<div class="panel-body">
-										<div class="col-lg-10">3]Value Added Course List</div>
+										<div class="col-lg-10">5] Value Added Course List</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'showValueAddedCourseReport')"><i
@@ -178,9 +204,38 @@
 										</div>
 									</div>
 									
+											
+									<div class="panel-body">
+										<div class="col-lg-10">6] Subject Wise Research</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'getSubjctRsrchReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'getSubjctRsrchReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
+										<div class="panel-body">
+										<div class="col-lg-10">7] Male Female Ratio</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'showMaleFemaleRatioReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'showMaleFemaleRatioReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
 									
 									<div class="panel-body">
-										<div class="col-lg-10">4]District Wise Institute Details</div>
+										<div class="col-lg-10">8] District Wise Institute Details</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'showDistrictwiseInstReport')"><i
@@ -194,35 +249,24 @@
 									</div>
 									
 									<div class="panel-body">
-										<div class="col-lg-10">5] Competitive Exam(No. of Student appeared for Conpetitive Exam at various levels)</div>
+										<div class="col-lg-10">9] Grants Received for Research</div>
 										<div class="col-lg-2">
 											<a href="#"
-												onclick="getProgReport(0,'getCompitetiveExmReport')"><i
+												onclick="getProgReport(0,'getGrntRecvResrchReprt')"><i
 												class="fa fa-file-excel-o" style="color: green;"
 												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 												href="#"
-												onclick="getProgReport(1,'getCompitetiveExmReport')"><i
+												onclick="getProgReport(1,'getGrntRecvResrchReprt')"><i
 												class="fa fa-file-pdf-o" style="color: red;"
 												aria-hidden="true"></i>&nbsp;PDF</a>
 										</div>
 									</div>
 									
-										<div class="panel-body">
-										<div class="col-lg-10">6] Curricular, Co-Curricular and Extra Curricular Activities</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'coExCurricularAct')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'coExCurricularAct')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
+									
+								
 									
 									<div class="panel-body">
-										<div class="col-lg-10">7] Students Participated in Sports (National/International)</div>
+										<div class="col-lg-10">10] Students Participated in Sports (National/International)</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'showStudentParticipatedReport')"><i
@@ -235,9 +279,23 @@
 										</div>
 									</div>
 									
+									<div class="panel-body">
+										<div class="col-lg-10">11] Teachers participation in Research</div>
+										<div class="col-lg-2">
+											<a href="#"
+												onclick="getProgReport(0,'getFacultyRsrchReport')"><i
+												class="fa fa-file-excel-o" style="color: green;"
+												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+												href="#"
+												onclick="getProgReport(1,'getFacultyRsrchReport')"><i
+												class="fa fa-file-pdf-o" style="color: red;"
+												aria-hidden="true"></i>&nbsp;PDF</a>
+										</div>
+									</div>
+									
 									
 									<div class="panel-body">
-										<div class="col-lg-10">8] Students Participated in NSS And NCC</div>
+										<div class="col-lg-10">12] Students Participated in NSS And NCC</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'showStudentParticipatedNssNccReport')"><i
@@ -251,7 +309,7 @@
 									</div>
 									
 									<div class="panel-body">
-										<div class="col-lg-10">8]  Functional MoU (State/National/International)</div>
+										<div class="col-lg-10">13]  Functional MoU (State/National/International)</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'showFunctionalMouReport')"><i
@@ -264,19 +322,7 @@
 										</div>
 									</div>
 									
-									<div class="panel-body">
-										<div class="col-lg-10">9] Male Female Ratio</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'showMaleFemaleRatioReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'showMaleFemaleRatioReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
+								
 									
 
 									<input type="hidden" id="p" name="p" value="0"> <input

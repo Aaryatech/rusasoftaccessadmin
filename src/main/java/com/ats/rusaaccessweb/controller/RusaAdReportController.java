@@ -74,6 +74,7 @@ public class RusaAdReportController {
 			map = new LinkedMultiValueMap<String, Object>();
 			//String yearId = "12";
 			String yearId = request.getParameter("ac_year");
+			String temp_ac_year = request.getParameter("temp_ac_year");
 			map.add("yearId", yearId);
 
 			CurricularActivityCnts[] resArray = Constants.getRestTemplate()
@@ -197,10 +198,11 @@ public class RusaAdReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-
+				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
+				document.add(new Paragraph("\n"));
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 
 				document.add(table);
@@ -277,7 +279,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Academic Year:" + temp_ac_year + " ", "", 'F');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -322,6 +324,7 @@ public class RusaAdReportController {
 			map = new LinkedMultiValueMap<String, Object>();
 			
 			String yearId = request.getParameter("ac_year");
+			String temp_ac_year = request.getParameter("temp_ac_year");
 			map.add("yearId", yearId);
 
 			CompetitiveExamReport[] resArray = Constants.getRestTemplate()
@@ -448,6 +451,8 @@ public class RusaAdReportController {
 				name.setAlignment(Element.ALIGN_LEFT);
 				document.add(name);
 				document.add(new Paragraph("\n"));
+				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
+				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -525,7 +530,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " Academic Year:" + temp_ac_year + " ", "", 'F');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -859,8 +864,10 @@ public class RusaAdReportController {
 		try {
 			map = new LinkedMultiValueMap<String, Object>();
 			String yearId = request.getParameter("ac_year");
+			String temp_ac_year = request.getParameter("temp_ac_year");
 			map.add("yearId", yearId);
 
+			
 			GrantRecivResrchReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getGrantReceivReport", map, GrantRecivResrchReport[].class);
 			List<GrantRecivResrchReport> grntRecvList = new ArrayList<>(Arrays.asList(resArray));
@@ -959,8 +966,10 @@ public class RusaAdReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
+				document.add(new Paragraph("\n"));
+				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -1036,7 +1045,7 @@ public class RusaAdReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'F');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " Academic Year:" + temp_ac_year + " ", "", 'F');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1076,12 +1085,14 @@ public class RusaAdReportController {
 
 		String reportName = "Subject wise research";
 
+		String instituteName=null;
 		try {
 			map = new LinkedMultiValueMap<String, Object>();
 			
 			String yearId = request.getParameter("ac_year");
 			int instId = Integer.parseInt(request.getParameter("instituteId"));
-			System.out.println(yearId+"---"+instId);
+			String temp_ac_year = request.getParameter("temp_ac_year");
+			//System.out.println(yearId+"---"+instId);
 			map.add("yearId", yearId);
 			map.add("instId", instId);
 
@@ -1196,7 +1207,7 @@ public class RusaAdReportController {
 
 					table.addCell(cell);
 
-					
+					instituteName=subRsrch.getInstituteName();
 
 				}
 
@@ -1206,6 +1217,10 @@ public class RusaAdReportController {
 				Paragraph name = new Paragraph(reportName, hf);
 				name.setAlignment(Element.ALIGN_LEFT);
 				document.add(name);
+				document.add(new Paragraph("\n"));
+				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
+				document.add(new Paragraph("\n"));
+				document.add(new Paragraph("Institute name :" + instituteName + ""));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -1275,13 +1290,16 @@ public class RusaAdReportController {
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
+						instituteName=subRsrchList.get(i).getInstituteName();
 
 					}
 
 					XSSFWorkbook wb = null;
 					try {
-
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'F');
+						String leaveSum1 = "Academic Year: " + temp_ac_year + ",";
+						String leaveSum2 = "Institute Name:" + instituteName + "";
+						String reportSummary =leaveSum1 + "" + leaveSum2;
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, reportSummary, "", 'F');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1320,13 +1338,13 @@ public class RusaAdReportController {
 	@RequestMapping(value = "/getFacultyRsrchReport", method = RequestMethod.POST)
 	public void getFacultyRsrchReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teacher participate in research";
-
-		try {
+		String instituteName=null;
+		String reportName = "Teacher Participate in research";
+ 		try {
 			map = new LinkedMultiValueMap<String, Object>();
 			
 			int instId = Integer.parseInt(request.getParameter("instituteId"));
-			System.out.println("---"+instId);
+			//System.out.println("---"+instId);
 			
 			map.add("instId", instId);
 
@@ -1454,7 +1472,7 @@ public class RusaAdReportController {
 
 					table.addCell(cell);
 
-					
+					instituteName=facRsrch.getInstituteName();
 
 				}
 
@@ -1464,6 +1482,8 @@ public class RusaAdReportController {
 				Paragraph name = new Paragraph(reportName, hf);
 				name.setAlignment(Element.ALIGN_LEFT);
 				document.add(name);
+				document.add(new Paragraph("\n"));
+				document.add(new Paragraph("Institute Name:" + instituteName + ""));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -1535,13 +1555,14 @@ public class RusaAdReportController {
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
+						instituteName= facRsrchList.get(i).getInstituteName();
 
 					}
 
 					XSSFWorkbook wb = null;
 					try {
-
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "  ", "", 'F');
+						String leaveSum1 = "Institute Name: " + instituteName + "";
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, leaveSum1, "", 'F');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
