@@ -1951,7 +1951,7 @@ public class ReportController {
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
 				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_LEFT);
+				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
 			
@@ -2129,7 +2129,7 @@ public class ReportController {
 
 			try {
 				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 2.3f, 5.9f, 2.3f, 2.3f });
+				table.setWidths(new float[] { 2.3f, 2.8f, 5.6f, 2.3f });
 				Font headFontData = Constants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 															// BaseColor.BLACK);
 				Font tableHeaderFont = Constants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
