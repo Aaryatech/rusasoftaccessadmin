@@ -44,7 +44,7 @@
 
 
 <!-- BEGIN BODY -->
-<body class=" " onload="hideText()">
+<body class=" ">
 	<!-- START TOPBAR -->
 	<jsp:include page="/WEB-INF/views/include/topbar.jsp"></jsp:include>
 	<!-- END TOPBAR -->
@@ -195,7 +195,7 @@
 											</label>
 											<div class="col-sm-10">
 												<input id="joiningDate" class="form-control datepicker"
-													onchange="trim(this)" placeholder="Joining Date"
+													onchange="trim(this)" data-end-date="0d" data-format="dd-mm-yyyy" placeholder="Joining Date"
 													value="${editUser.joiningDate}" style="text-align: left;"
 													name="joiningDate" type="text" autocomplete="off">
 												<span class="error_form text-danger" id="error_joiningDate"
@@ -250,7 +250,7 @@
 												</div>
 
 												<div class="form-group">
-													<label class="control-label col-sm-2" for="reuserPass">Re-Password
+													<label class="control-label col-sm-2" for="reuserPass">Re enter-Password
 														: <span class="text-danger">*</span>
 													</label>
 													<div class="col-sm-10">
@@ -259,7 +259,7 @@
 															style="text-align: left;" name="reuserPass"
 															type="password"> <span
 															class="error_form text-danger" id="error_reuserPass"
-															style="display: none;">Enter Password.</span>
+															style="display: none;">Re Enter Password.</span>
 													</div>
 												</div>
 
@@ -314,7 +314,7 @@
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
 			replace(/\n +/, "\n"); // Removes spaces after newlines\
-			checkSame()
+			//checkSame() akki
 			return;
 		}
 
@@ -507,14 +507,14 @@
 	</script>
 
 	<script type="text/javascript">
-		$(function() {
+		/* $(function() {
 
 			$('.datepicker').datepicker({
 				autoclose : true,
 				format : "dd-mm-yyyy",
 
 			});
-		});
+		}); */
 	</script>
 </body>
 </html>
