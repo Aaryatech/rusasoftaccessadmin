@@ -433,7 +433,7 @@ public class AccessRightController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/showCreateRole";
+		return "redirect:/showRoleList";
 	}
 
 	@RequestMapping(value = "/editAccessRole/{roleId}", method = RequestMethod.GET)
