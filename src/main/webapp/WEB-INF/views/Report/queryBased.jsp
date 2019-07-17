@@ -322,9 +322,6 @@
 										</div>
 									</div>
 									
-								
-									
-
 									<input type="hidden" id="p" name="p" value="0"> <input
 										type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
 

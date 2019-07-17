@@ -799,7 +799,7 @@ a:hover, a:focus {
 }
 
 .page-sidebar.pagescroll {
-    position: absolute;
+    /* position: absolute; */
 }
 
 .fixedscroll #main-menu-wrapper{

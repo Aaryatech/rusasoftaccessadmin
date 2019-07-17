@@ -100,7 +100,7 @@
 
 												</div>
 												<div class="box-body chart-responsive">
-													<div class="chart" id="graph1" style="height: 300px;"></div>
+													<div class="chart" id="graph1" style="height: 330px;"></div>
 												</div>
 
 											</div>
@@ -116,7 +116,7 @@
 												</div>
 												<div class="box-body chart-responsive">
 													<div class="chart" id="graph2"
-														style="height: 300px;"></div>
+														style="height: 330px;"></div>
 												</div>
 
 											</div>
@@ -132,7 +132,7 @@
 												</div>
 												<div class="box-body chart-responsive">
 													<div class="chart" id="graph3"
-														style="height: 300px;"></div>
+														style="height: 330px;"></div>
 												</div>
 
 											</div>
@@ -148,7 +148,7 @@
 												</div>
 												<div class="box-body chart-responsive">
 													<div class="chart" id="graph4"
-														style="height: 300px;"></div>
+														style="height: 330px;"></div>
 												</div>
 
 											</div>
@@ -164,7 +164,7 @@
 												</div>
 												<div class="box-body chart-responsive">
 													<div class="chart" id="graph5"
-														style="height: 300px;"></div>
+														style="height: 330px;"></div>
 												</div>
 
 											</div>
@@ -273,12 +273,12 @@
 	<script type="text/javascript"
 		src="https://www.gstatic.com/charts/loader.js"></script>
 	<!-- Morris.js charts -->
-	<script
+	<%-- <script
 		src="${pageContext.request.contextPath}/resources/dashb/raphael.min.js"
 		type="text/javascript"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/dashb/morris.min.js"
-		type="text/javascript"></script>
+		type="text/javascript"></script> --%>
 	<script>
 		$(function() {
 			"use strict";
@@ -427,7 +427,7 @@
 
 						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
 						dataTable.addColumn('number', 'Registred Institute');
-						dataTable.addColumn('number', 'Autonomous Accrediated'); 
+						dataTable.addColumn('number', 'Autonomous Institute'); 
 						
 
 						$.each(data.autonomousRes, function(key, dt) {
