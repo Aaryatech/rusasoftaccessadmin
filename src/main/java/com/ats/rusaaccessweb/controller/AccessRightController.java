@@ -135,7 +135,7 @@ public class AccessRightController {
 		try {
 
 			int moduleId = Integer.parseInt(request.getParameter("moduleId"));
-			System.out.println(moduleId);
+			//System.out.println(moduleId);
 			for (int i = 0; i < accessRightModuleList.getAccessRightModuleList().size(); i++) {
 
 				if (accessRightModuleList.getAccessRightModuleList().get(i).getModuleId() == moduleId) {

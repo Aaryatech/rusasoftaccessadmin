@@ -1833,7 +1833,7 @@ public class ReportController {
 	@RequestMapping(value = "/showAntiRagHarashmentReport", method = RequestMethod.POST)
 	public void showAntiRagHarashmentReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Details Regarding Anti-ragging Squd And Sexual Harashment";
+		String reportName = "Details Regarding Anti-ragging Squad And Sexual Harashment";
 
 		try {
 
