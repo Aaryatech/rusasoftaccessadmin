@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.common.DateConvertor;
 import com.ats.rusaaccessweb.common.FormValidation;
+import com.ats.rusaaccessweb.model.GetChangePrincipalDetails;
 import com.ats.rusaaccessweb.model.GetInstituteList;
 import com.ats.rusaaccessweb.model.Info;
 import com.ats.rusaaccessweb.model.LoginResponse;
@@ -35,6 +37,93 @@ import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse;
 @Scope("session")
 public class RegistrationController {
 
+	 
+	@RequestMapping(value = "/showChangePrincipalRequestList", method = RequestMethod.GET)
+	public String showChangePrincipalRequestList(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = new String();
+
+		try {
+
+			HttpSession session = request.getSession();
+
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+
+			 
+
+			Info viewAccess = AccessControll.checkAccess("showChangePrincipalRequestList", "showChangePrincipalRequestList", "1", "0", "0", "0",
+					newModuleList);
+
+			if (viewAccess.isError() == false) {
+				model.addAttribute("title", "Change Principal List");
+				mav = "master/changePrincipalList";
+
+				GetChangePrincipalDetails[] res = Constants.getRestTemplate().getForObject(Constants.url + "/getAllRequestForChangePrincipal",
+						GetChangePrincipalDetails[].class);
+				List<GetChangePrincipalDetails> list = new ArrayList<>(Arrays.asList(res));
+
+				 
+				model.addAttribute("list", list);
+				System.out.println("list is"+list.toString());
+
+			} else {
+
+				mav = "redirect:/accessDenied";
+			}
+
+
+		} catch (Exception e) {
+
+			// System.err.println("exception In editJournal at Iqac Contr" +
+			// e.getMessage());
+
+			e.printStackTrace();
+			mav = "redirect:/accessDenied";
+
+		}
+		return mav;
+	}
+
+	
+	@RequestMapping(value = "/approveChangePrincipal/{facultyId}/{instituteId}", method = RequestMethod.GET)
+	public String approveChangePrincipal(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable int facultyId,	@PathVariable int instituteId) {
+
+		String redirect = null;
+		try {
+		  
+			
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				
+				 map.add("facultyId",facultyId);
+				Info errMsg = Constants.getRestTemplate().postForObject(Constants.url + "changePrincipal", map, Info.class);
+				
+				if(errMsg.isError()==false) {
+					 
+					redirect = "redirect:/showChangePrincipalRequestList";
+					map = new LinkedMultiValueMap<String, Object>();
+					
+					 map.add("instituteId",instituteId);
+					Info errMsg1 = Constants.getRestTemplate().postForObject(Constants.url + "blockPrevPrincipal", map, Info.class);
+					
+				}
+				
+				
+				
+		 
+		} catch (Exception e) {
+
+			System.err.println(" Exception In deleteInstitutes at Master Contr " + e.getMessage());
+
+			e.printStackTrace();
+
+		}
+
+		return redirect;
+
+	}
+	
+	
 	UserLogin editUser = new UserLogin();
 
 	@RequestMapping(value = "/registerUser", method = RequestMethod.GET)
