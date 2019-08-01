@@ -44,6 +44,7 @@ import com.ats.rusaaccessweb.model.AdminLoginLog;
 import com.ats.rusaaccessweb.model.LoginResponse;
 import com.ats.rusaaccessweb.model.ModuleJson;
 import com.ats.rusaaccessweb.model.dashb.GetCountsForDash;
+import com.ats.rusaaccessweb.model.dashb.GetInstInfoCount;
 import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse; 
  
  
@@ -202,16 +203,27 @@ public class HomeController {
 			 GetCountsForDash dashBoardCounts = Constants.getRestTemplate().getForObject(Constants.url + "/getInstituteCount", GetCountsForDash.class);
 			model.addObject("dashBoardCounts", dashBoardCounts); 
 			
+
+			/****************************Mahendra 01/08/2019*********************************/
+			
+			GetCountsForDash dashRegInstCount = Constants.getRestTemplate().getForObject(Constants.url + "/getRegInstituteCount", GetCountsForDash.class);
+			model.addObject("dashRegInstCount", dashRegInstCount); 
+			
+			GetCountsForDash dashAutoInstCount = Constants.getRestTemplate().getForObject(Constants.url + "/getAutoInstituteCount", GetCountsForDash.class);
+			model.addObject("dashAutoInstCount", dashAutoInstCount); 
+			
+			GetInstInfoCount dashInstInfoCount = Constants.getRestTemplate().getForObject(Constants.url + "/getInstituteOtherInfoCount", GetInstInfoCount.class);
+			model.addObject("dashInstInfoCount", dashInstInfoCount); 
+			
 		} catch (Exception e) {
 
-			System.err.println("exception In showCMSForm at home Contr" + e.getMessage());
+			System.err.println("exception In Rusa Access Daashboard at home Contr" + e.getMessage());
 
 			e.printStackTrace();
 
 		}
 
 		return model;
-
 	}
 	
 	

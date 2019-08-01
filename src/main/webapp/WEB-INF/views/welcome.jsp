@@ -78,8 +78,68 @@
 
 										<div class="col-md-3">
 											<div class="dash_one">
-												<h2 class="desig_nm">Total Institute Registered</h2>
+												<h2 class="desig_nm">Total No. of Institutes</h2>
 												<span class="count_num">${dashBoardCounts.count1}</span>
+												<!--<a href="#" class="dash_button">Button</a>-->
+												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+											</div>
+										</div>
+										
+										<div class="col-md-3">
+											<div class="dash_one">
+												<h2 class="desig_nm">Total No. of Institutes Registered</h2>
+												<span class="count_num">${dashRegInstCount.count1}</span>
+												<!--<a href="#" class="dash_button">Button</a>-->
+												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+											</div>
+										</div>
+										
+										<div class="col-md-3">
+											<div class="dash_one">
+												<h2 class="desig_nm">Total No. of Un-Registered Institutes</h2>
+												<span class="count_num">${dashBoardCounts.count1-dashRegInstCount.count1}</span>
+												<!--<a href="#" class="dash_button">Button</a>-->
+												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+											</div>
+										</div>
+
+										<div class="col-md-3">
+											<div class="dash_one">
+												<h2 class="desig_nm">Total No. of Autonomous Institutes</h2>
+												<span class="count_num">${dashAutoInstCount.count1}</span>
+												<!--<a href="#" class="dash_button">Button</a>-->
+												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+											</div>
+										</div>
+										
+										<div class="col-md-3">
+											<div class="dash_one">
+												<h2 class="desig_nm">Total No. of Aided Colleges</h2>
+												<span class="count_num">${dashInstInfoCount.aided}</span>
+												<!--<a href="#" class="dash_button">Button</a>-->
+												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+											</div>
+										</div>
+										
+										<div class="col-md-3">
+											<div class="dash_one">
+												<h2 class="desig_nm">Total No. of Non-Aided Colleges</h2>
+												<span class="count_num">${dashInstInfoCount.unaided}</span>
+												<!--<a href="#" class="dash_button">Button</a>-->
+												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+											</div>
+										</div>
+										
+										<div class="col-md-3">
+											<div class="dash_one">
+												<h2 class="desig_nm">Total No. of Government Colleges</h2>
+												<span class="count_num">${dashInstInfoCount.govt}</span>
 												<!--<a href="#" class="dash_button">Button</a>-->
 												<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
  -->
