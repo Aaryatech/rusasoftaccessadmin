@@ -201,7 +201,8 @@ public class HomeController {
 			model.addObject("title", "DASHBOARD");
 			 
 			 GetCountsForDash dashBoardCounts = Constants.getRestTemplate().getForObject(Constants.url + "/getInstituteCount", GetCountsForDash.class);
-			model.addObject("dashBoardCounts", dashBoardCounts); 
+			//System.out.println("InstCount="+dashBoardCounts.getCount1());
+			 model.addObject("dashBoardCounts", dashBoardCounts); 
 			
 
 			/****************************Mahendra 01/08/2019*********************************/
