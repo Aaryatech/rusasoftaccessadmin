@@ -80,7 +80,7 @@
 				<li class="profile"><a href="#" data-toggle="dropdown"
 					class="toggle"> <img
 						src="${pageContext.request.contextPath}/resources/assets/images/avatar.png"
-						alt="user-image" class="img-circle img-inline"> <span>${sessionScope.userObj.staff.facultyFirstName}
+						alt="user-image" class="img-circle img-inline"> <span>${sessionScope.userInfo.userName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<i class="fa fa-angle-down"></i>
 					</span>
 				</a>
@@ -90,14 +90,14 @@
 								Profile
 						</a></li> -->
 
-				<%-- 		
-				 	<li class="last"><a href="${pageContext.request.contextPath}/changeMobNoForm/${sessionScope.userObj.getStaff().getFacultyId()}"> <i
+				
+				 <%-- 	<li class="last"><a href="${pageContext.request.contextPath}/changeMobNoForm/${sessionScope.userObj.getStaff().getFacultyId()}"> <i
 								class="fa fa-lock"></i> Change Mobile No.
 						</a></li> 
 						
 							<li class="last"><a href="${pageContext.request.contextPath}/changeEmailIdForm/${sessionScope.userObj.getStaff().getFacultyId()}"> <i
 								class="fa fa-lock"></i> Change Email
-						</a></li>  --%>
+						</a></li>   --%>
 						
 						<li class="last"><a href="${pageContext.request.contextPath}/logout"> <i
 								class="fa fa-lock"></i> Logout

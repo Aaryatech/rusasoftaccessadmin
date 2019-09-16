@@ -66,6 +66,8 @@ public class MailController {
 		}
 		return ret;
 	}
+	static String senderEmail ="techrusa1@gmail.com";// "atsinfosoft@gmail.com";
+	static String senderPassword ="@Rusamah";// "atsinfosoft@123";
 
 	@RequestMapping(value = "/submitSendMail", method = RequestMethod.POST)
 	public String submitSendMail(@RequestParam("files") List<MultipartFile> files,HttpServletRequest request, HttpServletResponse response) {
@@ -110,7 +112,7 @@ public class MailController {
 				
 				if(emails.split(",").length>0 && FormValidation.Validaton(subject, "")==false) {
 					
-					Info send = EmailUtility.sendEmail("akshaykasar72@gmail.com", "mh151772@123", emails, subject,message,files);
+					Info send = EmailUtility.sendEmail(senderEmail, senderPassword, emails, subject,message,files);
 					
 				}
 				 

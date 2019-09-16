@@ -176,7 +176,7 @@
 									</div>
 									
 										<div class="panel-body">
-										<div class="col-lg-10">4] Competitive Exam(No. of Student appeared for Conpetitive Exam at various levels)</div>
+										<div class="col-lg-10">4] Competitive Exam (No. of Student appeared for Competitive Exam at various levels)</div>
 										<div class="col-lg-2">
 											<a href="#"
 												onclick="getProgReport(0,'getCompitetiveExmReport')"><i
@@ -322,7 +322,7 @@
 										</div>
 									</div>
 									
-									<input type="hidden" id="p" name="p" value="0"> <input
+									<input type="text" id="p" name="p" value="0"> <input
 										type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
 
 

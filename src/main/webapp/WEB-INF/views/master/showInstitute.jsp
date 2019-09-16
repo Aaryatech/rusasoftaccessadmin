@@ -292,7 +292,43 @@
 													</div>
 												</div>
 
-
+<div class="form-group">
+													<label class="control-label col-sm-3" for="page_order">Institute Type <span class="text-danger">*</span>
+													</label>
+													<div class="col-sm-7">
+													<c:set var="insttype" value="-"></c:set>
+													<c:if test="${showInst.exVar1==1}">
+													<c:set var="insttype" value="Government"></c:set>
+													</c:if>
+													<c:if test="${showInst.exVar1==2}">
+													<c:set var="insttype" value="Aided"></c:set>
+													</c:if>
+													<c:if test="${showInst.exVar1==3}">
+													<c:set var="insttype" value="Non Aided"></c:set>
+													</c:if>
+														<input type="text" onchange="trim(this)" 
+															class="form-control" id="insttype1"
+															value="${insttype}" readonly name="insttype1">
+													</div>
+												</div>
+												
+												
+												<div class="form-group">
+													<label class="control-label col-sm-3" for="page_order">Autonomy <span class="text-danger">*</span>
+													</label>
+													<div class="col-sm-7">
+													<c:set var="autoType" value="No"></c:set>
+													<c:if test="${showInst.exVar2==1}">
+													<c:set var="autoType" value="Yes"></c:set>
+													</c:if>
+													<c:if test="${showInst.exVar2==0}">
+													<c:set var="autoType" value="No"></c:set>
+													</c:if>
+														<input type="text" onchange="trim(this)" 
+															class="form-control" id="autoType1"
+															value="${autoType}" readonly name="autoType1">
+													</div>
+												</div>
 												<div class="form-group">
 													<div class="col-sm-offset-3 col-sm-7">
 													

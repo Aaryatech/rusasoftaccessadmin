@@ -1833,7 +1833,7 @@ public class ReportController {
 	@RequestMapping(value = "/showAntiRagHarashmentReport", method = RequestMethod.POST)
 	public void showAntiRagHarashmentReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Details Regarding Anti-ragging Squad And Sexual Harashment";
+		String reportName = "Details Regarding Anti ragging Squad And Sexual Harassment";
 
 		try {
 
@@ -1908,7 +1908,7 @@ public class ReportController {
 
 				table.addCell(hcell);
 
-				hcell = new PdfPCell(new Phrase("Sexual Harreshment Committee", tableHeaderFont));
+				hcell = new PdfPCell(new Phrase("Sexual Harassment Committee", tableHeaderFont));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
@@ -1935,13 +1935,13 @@ public class ReportController {
 
 					cell = new PdfPCell(new Phrase("" + prog.getRaggingCommitee(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 					table.addCell(cell);
 
 					cell = new PdfPCell(new Phrase("" + prog.getSexualHarashCommitee(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 					table.addCell(cell);
 
@@ -2007,7 +2007,7 @@ public class ReportController {
 					rowData.add("Sr. No");
 					rowData.add("Institute Name");
 					rowData.add("Anti Ragging Committee");
-					rowData.add("Sexual Harreshment Committee");
+					rowData.add("Sexual Harassment Committee");
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);

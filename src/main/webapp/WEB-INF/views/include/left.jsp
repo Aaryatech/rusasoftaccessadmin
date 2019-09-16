@@ -31,9 +31,9 @@
 			<!-- USER INFO - END -->
 			<ul class='wraplist'>
 				<li class='menusection'></li>
-				<!-- <li class="open"><a href="index.html"> <i
+				<li class="open"><a href="${pageContext.request.contextPath}/dashboard"> <i
 						class="fa fa-dashboard"></i> <span class="title">Dashboard</span>
-				</a></li> -->
+				</a></li>
 
 
 

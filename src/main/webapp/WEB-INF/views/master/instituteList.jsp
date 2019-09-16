@@ -53,7 +53,7 @@
 						<header class="panel_header">
 							<h2 class="title pull-left">${title}</h2>
 							<div class="actions panel_actions pull-right">
-								<c:choose>
+								<%-- <c:choose>
 									<c:when test="${addAccess==0}">
 										<a title="Add"
 											href="${pageContext.request.contextPath}/showRegisterInstitute"><button
@@ -63,7 +63,7 @@
 
 									</c:otherwise>
 
-								</c:choose>
+								</c:choose> --%>
 
 								<!--  <a class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></a>
                     <a class="box_close fa fa-times"></a> -->
@@ -72,7 +72,7 @@
 
 						</header>
 						<form
-							action="${pageContext.request.contextPath}/deleteInstitutes/0"
+							action="${pageContext.request.contextPath}/deleteInst/0"
 							method="get" id="insListForm">
 							<div class="content-body">
 								<div class="row">
@@ -137,13 +137,13 @@
 
 
 														<td align="center"><c:if test="${editAccess==0}">
-																<a href="#"
-																	onclick="showEditInstitute(${institute.instituteId})"><span
-																	class="glyphicon glyphicon-edit" title="Edit"
+																<a href="${pageContext.request.contextPath}/viewAprInstDetail/${institute.instituteId}"
+																	><span
+																	class="glyphicon glyphicon-book" title="View"
 																	data-animate=" animated fadeIn " rel="tooltip"></span></a>
 															</c:if>&nbsp;&nbsp;&nbsp;&nbsp; <c:if test="${deleteAccess==0}">
 																<a
-																	href="${pageContext.request.contextPath}/deleteInstitutes/${institute.instituteId}"
+																	href="${pageContext.request.contextPath}/deleteInst/${institute.instituteId}"
 																	onClick="return confirm('Are you sure want to delete this record');"
 																	rel="tooltip" data-color-class="danger" title="Delete"
 																	data-animate=" animated fadeIn " data-toggle="tooltip"
@@ -227,7 +227,7 @@
 		var form=document.getElementById("insListForm");
 	    form.setAttribute("method", "post");
 
-		form.action=("showEditInstitute");
+		form.action=("viewInstitutes");
 		form.submit();
 		
 	}
