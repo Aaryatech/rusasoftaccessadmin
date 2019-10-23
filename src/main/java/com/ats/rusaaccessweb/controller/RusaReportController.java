@@ -68,7 +68,6 @@ public class RusaReportController {
 	@RequestMapping(value = "/getProgramTypeByProgram", method = RequestMethod.GET)
 	public @ResponseBody List<Program> getProgramTypeByProgram(HttpServletRequest request,
 			HttpServletResponse response) {
-// System.err.println("Mahendra");
 		List<Program> list = new ArrayList<>();
 
 		try {
@@ -84,7 +83,7 @@ public class RusaReportController {
 					.postForObject(Constants.url + "/getProgramByProgramTypeId", map,
 					Program[].class);
 			list = new ArrayList<Program>(Arrays.asList(program));
-			// System.err.println("Mahendra list " +list.toString());
+			
 
 		} catch (Exception e) {
 			// System.err.println("Exce in getProgramTypeByProgram  " + e.getMessage());
