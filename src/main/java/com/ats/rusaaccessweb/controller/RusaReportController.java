@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.rusaaccessweb.common.Constants;
+import com.ats.rusaaccessweb.model.Cast;
 import com.ats.rusaaccessweb.model.GetInstituteList;
 import com.ats.rusaaccessweb.model.Program;
 import com.ats.rusaaccessweb.model.ProgramType;
@@ -53,6 +54,13 @@ public class RusaReportController {
 			ProgramType[] progTypes = Constants.getRestTemplate().getForObject(Constants.url + "getAllProgramType", ProgramType[].class);
 			List<ProgramType> progTypeList = new ArrayList<>(Arrays.asList(progTypes));
 			model.addObject("progTypeList", progTypeList);
+			
+			Cast[] catsArray = Constants.getRestTemplate().getForObject(Constants.url + "getAllCastCategory", Cast[].class);
+			List<Cast> castList = new ArrayList<>(Arrays.asList(catsArray));
+			System.err.println("castList " + castList.toString());
+
+			model.addObject("castList", castList);
+
 
 
 		} catch (Exception e) {

@@ -84,13 +84,13 @@
 						<div class="content-body">
 
 							<form id="reportForm">
-								<div class="row" style="padding-bottom: 0px;">
+								<div class="row" style="padding-bottom: 2%;">
 
 									<div class="form-group">
 										<label class="control-label col-sm-1" for="status">Academic
 											Year <span class="text-danger"></span>
 										</label>
-										<div class="col-sm-2">
+										<div class="col-sm-3">
 											<select id="ac_year" name="ac_year"
 												placeholder="Select Institute" class="form-control">
 
@@ -105,10 +105,12 @@
 
 
 										<label class="control-label col-sm-2" for="instituteId">
-											Select Institute <span class="text-danger">*</span> :
+											 Institute <span class="text-danger">*</span> :
 										</label>
 										<div class="col-sm-6">
 											<select id="instituteId" name="instituteId" class="">
+											<option>Select Institute</option>
+											
 												<c:forEach items="${instList}" var="instList">
 
 													<option value="${instList.instituteId}">${instList.instituteName}</option>
@@ -123,7 +125,7 @@
 
 								</div>
 								
-								<div class="row" style="padding-top: 3%;">
+								<div class="row" style="padding-bottom: 2%;">
 									<div class="form-group">
 									
 										<label class="control-label col-sm-1" for="status">Program
@@ -159,6 +161,41 @@
 										</div>
 									
 									</div>								
+								</div>
+								
+								<div class="row" style="padding-bottom: 0px;">
+									<div class="form-group">
+										<label class="control-label col-sm-1" for="catId">Category
+											<span class="text-danger"></span>
+										</label>
+										<div class="col-sm-3">
+											<select id="catId" name="catId" class="form-control">
+
+												<c:forEach items="${castList}" var="castList">
+													<option value="${castList.castId}">${castList.castName}</option>
+												</c:forEach>
+
+											</select> <span class="error_form text-danger" id="error_catId"
+												style="display: none;">Please select Category</span>
+										</div>
+
+
+										<label class="control-label col-sm-1" for="catId">E-Content
+											Development Facility <span class="text-danger"></span>
+										</label>
+										<div class="col-sm-3">
+											<select id="e_contentType" name="e_contentType"
+												class="form-control">
+
+												<option value="Media Center">Media Center</option>
+												<option value="Recording Facility">Recording
+													Facility</option>
+												<option value="Lecture Capturing System">Lecture
+													Capturing System</option>
+
+											</select>
+										</div>
+									</div>
 								</div>
 
 
