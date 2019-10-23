@@ -14664,8 +14664,8 @@ public class ReportNewController {
 
 	}
 
-	@RequestMapping(value = "/showValueAddedCourseReport", method = RequestMethod.POST)
-	public void showValueAddedCourseReport(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/showValueAddedCourseReportNew", method = RequestMethod.POST)
+	public void showValueAddedCourseReportNew(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Curricular Aspects : Value Added Courses";
 
