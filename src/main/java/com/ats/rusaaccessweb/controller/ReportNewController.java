@@ -123,13 +123,13 @@ public class ReportNewController {
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("type", 1);
 
-			AcademicYear[] quolArray = rest.postForObject(Constants.url + "getAcademicYearListByTypeId", map,
+			AcademicYear[] quolArray = Constants.getRestTemplate().postForObject(Constants.url + "getAcademicYearListByTypeId", map,
 					AcademicYear[].class);
 			List<AcademicYear> acaYearList = new ArrayList<>(Arrays.asList(quolArray));
 
 			model.addObject("acaYearList", acaYearList);
 
-			ProgramType[] progTypes = rest.getForObject(Constants.url + "getAllProgramType", ProgramType[].class);
+			ProgramType[] progTypes = Constants.getRestTemplate().getForObject(Constants.url + "getAllProgramType", ProgramType[].class);
 			List<ProgramType> progTypeList = new ArrayList<>(Arrays.asList(progTypes));
 			model.addObject("progTypeList", progTypeList);
 
@@ -170,7 +170,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 
-			NoOfPrograms[] resArray = rest.postForObject(Constants.url + "getNoOfProgramsList", map,
+			NoOfPrograms[] resArray =  Constants.getRestTemplate().postForObject(Constants.url + "getNoOfProgramsList", map,
 					NoOfPrograms[].class);
 			List<NoOfPrograms> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -561,7 +561,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			FacParticipationInBodies[] resArray = rest.postForObject(Constants.url + "getFacParticipationInBodies", map,
+			FacParticipationInBodies[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getFacParticipationInBodies", map,
 					FacParticipationInBodies[].class);
 			List<FacParticipationInBodies> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -863,7 +863,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			AvgEnrollmentPrcnt[] resArray = rest.postForObject(Constants.url + "getAvgEnrollmentPrcnt", map,
+			AvgEnrollmentPrcnt[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getAvgEnrollmentPrcnt", map,
 					AvgEnrollmentPrcnt[].class);
 			List<AvgEnrollmentPrcnt> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -1165,7 +1165,7 @@ public class ReportNewController {
 
 			map.add("acYearList", "-5");
 
-			GetAvgStudYearwise[] resArray = rest.postForObject(Constants.url + "getAvgStudYearwiseLocWise", map,
+			GetAvgStudYearwise[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getAvgStudYearwiseLocWise", map,
 					GetAvgStudYearwise[].class);
 			List<GetAvgStudYearwise> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -1605,7 +1605,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			GetTeachersUsingICT[] resArray = rest.postForObject(Constants.url + "getTeachersUsingICT", map,
+			GetTeachersUsingICT[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getTeachersUsingICT", map,
 					GetTeachersUsingICT[].class);
 			List<GetTeachersUsingICT> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -1892,7 +1892,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			NoOfMentorsAssignedStudent[] resArray = rest.postForObject(Constants.url + "getNoOfMentorsAssignedStudent",
+			NoOfMentorsAssignedStudent[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getNoOfMentorsAssignedStudent",
 					map, NoOfMentorsAssignedStudent[].class);
 			List<NoOfMentorsAssignedStudent> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -2176,7 +2176,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 			map.add("programId", programId);
-			StudentPerformanceOutcome[] resArray = rest.postForObject(Constants.url + "getStudPerformancePo", map,
+			StudentPerformanceOutcome[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getStudPerformancePo", map,
 					StudentPerformanceOutcome[].class);
 			List<StudentPerformanceOutcome> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -2435,7 +2435,7 @@ public class ReportNewController {
 			map.add("catId", catId);
 			map.add("acYearList", ac_year);
 
-			AdmissionsAgainstCategory[] resArray = rest.postForObject(Constants.url + "getAdmisssionsAgainstCat", map,
+			AdmissionsAgainstCategory[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getAdmisssionsAgainstCat", map,
 					AdmissionsAgainstCategory[].class);
 			List<AdmissionsAgainstCategory> progList = new ArrayList<>(Arrays.asList(resArray));
 			System.out.println("showAvgStudYearwiseReport------"+progList);
@@ -2724,7 +2724,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acadYear", ac_year); // on 18-06-2019 Mahendra
 
-			LibAutoLMSInfo[] resArray = rest.postForObject(Constants.url + "getLibLMSInfo", map,
+			LibAutoLMSInfo[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getLibLMSInfo", map,
 					LibAutoLMSInfo[].class);
 			List<LibAutoLMSInfo> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -2995,7 +2995,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 
-			RareBookManuscriptSpec[] resArray = rest.postForObject(Constants.url + "getRareBookManuscript", map,
+			RareBookManuscriptSpec[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getRareBookManuscript", map,
 					RareBookManuscriptSpec[].class);
 			List<RareBookManuscriptSpec> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -3282,7 +3282,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			LibSpecFacilities[] resArray = rest.postForObject(Constants.url + "getLibSpecFacilities", map,
+			LibSpecFacilities[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getLibSpecFacilities", map,
 					LibSpecFacilities[].class);
 			List<LibSpecFacilities> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -3565,7 +3565,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			TeacherStudUsingLib[] resArray = rest.postForObject(Constants.url + "getTeachersStudUsingLib", map,
+			TeacherStudUsingLib[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getTeachersStudUsingLib", map,
 					TeacherStudUsingLib[].class);
 			List<TeacherStudUsingLib> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -3904,7 +3904,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			TrainProgForTeacherStaff[] resArray = rest.postForObject(Constants.url + "getTrainProgForTeachStaffDetail",
+			TrainProgForTeacherStaff[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getTrainProgForTeachStaffDetail",
 					map, TrainProgForTeacherStaff[].class);
 			List<TrainProgForTeacherStaff> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -4189,7 +4189,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 1);
 
-			EGovernenceOperation[] resArray = rest.postForObject(Constants.url + "geteGovernanceOpt", map,
+			EGovernenceOperation[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "geteGovernanceOpt", map,
 					EGovernenceOperation[].class);
 			List<EGovernenceOperation> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -4457,7 +4457,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 1);
 
-			FinancialSuppToProfMem[] resArray = rest.postForObject(Constants.url + "getFinancialSuppToProfMemDetail",
+			FinancialSuppToProfMem[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getFinancialSuppToProfMemDetail",
 					map, FinancialSuppToProfMem[].class);
 			List<FinancialSuppToProfMem> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -4753,7 +4753,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 2);
 
-			FinancialSuppToProfMem[] resArray = rest.postForObject(Constants.url + "getFinancialSuppToProfMemDetail",
+			FinancialSuppToProfMem[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getFinancialSuppToProfMemDetail",
 					map, FinancialSuppToProfMem[].class);
 			List<FinancialSuppToProfMem> progList = new ArrayList<>(Arrays.asList(resArray));
 			//System.out.println("Prg Ldtp-------"+progList);
@@ -5047,7 +5047,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			NoFacultyFinSupp[] resArray = rest.postForObject(Constants.url + "getNoFacultyFinSuppDetail", map,
+			NoFacultyFinSupp[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getNoFacultyFinSuppDetail", map,
 					NoFacultyFinSupp[].class);
 			List<NoFacultyFinSupp> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -5319,7 +5319,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 2);
 
-			TrainProgOrgnizedForTeach[] resArray = rest.postForObject(Constants.url + "getTrainProgOrgnizedForTeach",
+			TrainProgOrgnizedForTeach[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getTrainProgOrgnizedForTeach",
 					map, TrainProgOrgnizedForTeach[].class);
 			List<TrainProgOrgnizedForTeach> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -5614,7 +5614,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 1);
 
-			TrainProgOrgnizedForTeach[] resArray = rest.postForObject(Constants.url + "getTrainProgOrgnizedForTeach",
+			TrainProgOrgnizedForTeach[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getTrainProgOrgnizedForTeach",
 					map, TrainProgOrgnizedForTeach[].class);
 			List<TrainProgOrgnizedForTeach> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -5907,7 +5907,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 
-			GetMissions[] resArray = rest.postForObject(Constants.url + "getInstMissionList", map, GetMissions[].class);
+			GetMissions[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getInstMissionList", map, GetMissions[].class);
 			List<GetMissions> progList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", progList);
@@ -5916,7 +5916,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 
-			GetVisions[] resArray1 = rest.postForObject(Constants.url + "getInstVisionList", map, GetVisions[].class);
+			GetVisions[] resArray1 =Constants.getRestTemplate().postForObject(Constants.url + "getInstVisionList", map, GetVisions[].class);
 			List<GetVisions> progList1 = new ArrayList<>(Arrays.asList(resArray1));
 
 			model.addObject("list", progList);
@@ -6176,7 +6176,7 @@ public class ReportNewController {
 			map = new LinkedMultiValueMap<>();
 
 			map.add("instId", instituteId);
-			IQACQualInititive[] resArray = rest.postForObject(Constants.url + "getQualInititiveList", map,
+			IQACQualInititive[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getQualInititiveList", map,
 					IQACQualInititive[].class);
 			List<IQACQualInititive> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -6425,7 +6425,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
-			QualInitiativeAssurance[] resArray = rest.postForObject(Constants.url + "getInstQualAssurance", map,
+			QualInitiativeAssurance[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getInstQualAssurance", map,
 					QualInitiativeAssurance[].class);
 			List<QualInitiativeAssurance> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -6705,7 +6705,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
-			GenderEquityProg[] resArray = rest.postForObject(Constants.url + "getGenderEquityProgDetails", map,
+			GenderEquityProg[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getGenderEquityProgDetails", map,
 					GenderEquityProg[].class);
 			List<GenderEquityProg> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -6985,7 +6985,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
-			NoOfGenderEquityProg[] resArray = rest.postForObject(Constants.url + "getNoOfGenderEquityProg", map,
+			NoOfGenderEquityProg[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getNoOfGenderEquityProg", map,
 					NoOfGenderEquityProg[].class);
 			List<NoOfGenderEquityProg> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -7239,7 +7239,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 2);
 
-			EGovernenceOperation[] resArray = rest.postForObject(Constants.url + "geteGovernanceOpt", map,
+			EGovernenceOperation[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "geteGovernanceOpt", map,
 					EGovernenceOperation[].class);
 			List<EGovernenceOperation> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -7516,7 +7516,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 3);
 
-			EGovernenceOperation[] resArray = rest.postForObject(Constants.url + "geteGovernanceOpt", map,
+			EGovernenceOperation[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "geteGovernanceOpt", map,
 					EGovernenceOperation[].class);
 			List<EGovernenceOperation> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -7834,7 +7834,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 4);
 
-			EGovernenceOperation[] resArray = rest.postForObject(Constants.url + "geteGovernanceOpt", map,
+			EGovernenceOperation[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "geteGovernanceOpt", map,
 					EGovernenceOperation[].class);
 			List<EGovernenceOperation> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -8126,7 +8126,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			IniToEngageLocComm[] resArray = rest.postForObject(Constants.url + "getInitiativeOfLocalCommunityProg", map,
+			IniToEngageLocComm[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getInitiativeOfLocalCommunityProg", map,
 					IniToEngageLocComm[].class);
 			List<IniToEngageLocComm> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -8378,7 +8378,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			UniversalValPromot[] resArray = rest.postForObject(Constants.url + "getUniversalValues", map,
+			UniversalValPromot[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getUniversalValues", map,
 					UniversalValPromot[].class);
 			List<UniversalValPromot> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -8671,7 +8671,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			NoOfUniversalvalues[] resArray = rest.postForObject(Constants.url + "getNoUniversalValues", map,
+			NoOfUniversalvalues[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getNoUniversalValues", map,
 					NoOfUniversalvalues[].class);
 			List<NoOfUniversalvalues> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -8923,7 +8923,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			GovtScheme[] resArray = rest.postForObject(Constants.url + "getGovtScheme", map, GovtScheme[].class);
+			GovtScheme[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getGovtScheme", map, GovtScheme[].class);
 			List<GovtScheme> progList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", progList);
@@ -9210,7 +9210,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			OtherThanGovtScheme[] resArray = rest.postForObject(Constants.url + "getOtherThanGovtScheme", map,
+			OtherThanGovtScheme[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getOtherThanGovtScheme", map,
 					OtherThanGovtScheme[].class);
 			List<OtherThanGovtScheme> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -9516,7 +9516,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			OtherThanGovtScheme[] resArray = rest.postForObject(Constants.url + "getOtherThanGovtScheme", map,
+			OtherThanGovtScheme[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getOtherThanGovtScheme", map,
 					OtherThanGovtScheme[].class);
 			List<OtherThanGovtScheme> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -9818,7 +9818,7 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			DistinguishedAlumini[] resArray = rest.postForObject(Constants.url + "getDistinctAlumini", map,
+			DistinguishedAlumini[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getDistinctAlumini", map,
 					DistinguishedAlumini[].class);
 			List<DistinguishedAlumini> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -10092,7 +10092,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			AluminiEngagement[] resArray = rest.postForObject(Constants.url + "getAluminiEngg", map,
+			AluminiEngagement[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getAluminiEngg", map,
 					AluminiEngagement[].class);
 			List<AluminiEngagement> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -10100,7 +10100,7 @@ public class ReportNewController {
 
 			map = new LinkedMultiValueMap<>();
 			map.add("instId", instituteId);
-			GetAluminiEngagementReport editFaculty = rest.postForObject(Constants.url + "/getAluminiEngagementDetails",
+			GetAluminiEngagementReport editFaculty =Constants.getRestTemplate().postForObject(Constants.url + "/getAluminiEngagementDetails",
 					map, GetAluminiEngagementReport.class);
 
 			BufferedOutputStream outStream = null;
@@ -10353,7 +10353,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 0);
 
-			SportsCulturalActivityComp[] resArray = rest.postForObject(Constants.url + "getSportsActivityComp", map,
+			SportsCulturalActivityComp[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getSportsActivityComp", map,
 					SportsCulturalActivityComp[].class);
 			List<SportsCulturalActivityComp> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -10636,7 +10636,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 1);
 
-			SportsCulturalActivityComp[] resArray = rest.postForObject(Constants.url + "getSportsActivityComp", map,
+			SportsCulturalActivityComp[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getSportsActivityComp", map,
 					SportsCulturalActivityComp[].class);
 			List<SportsCulturalActivityComp> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -10919,7 +10919,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 1);
 
-			CapabilityEnhancementDev[] resArray = rest.postForObject(Constants.url + "getCapabilityEnhancementDev", map,
+			CapabilityEnhancementDev[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getCapabilityEnhancementDev", map,
 					CapabilityEnhancementDev[].class);
 			List<CapabilityEnhancementDev> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -11202,7 +11202,7 @@ public class ReportNewController {
 			map.add("acYearList", 0);
 			map.add("typeId", 2);
 
-			CapabilityEnhancementDev[] resArray = rest.postForObject(Constants.url + "getCapabilityEnhancementDev", map,
+			CapabilityEnhancementDev[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getCapabilityEnhancementDev", map,
 					CapabilityEnhancementDev[].class);
 			List<CapabilityEnhancementDev> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -11469,7 +11469,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			StudQualifyingExamReport[] resArray = rest.postForObject(Constants.url + "getStudQualifyingExam", map,
+			StudQualifyingExamReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getStudQualifyingExam", map,
 					StudQualifyingExamReport[].class);
 			List<StudQualifyingExamReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -11768,7 +11768,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			AluminiAssoMeetReport[] resArray = rest.postForObject(Constants.url + "getAluminiAssoMeetDetails", map,
+			AluminiAssoMeetReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getAluminiAssoMeetDetails", map,
 					AluminiAssoMeetReport[].class);
 			List<AluminiAssoMeetReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -12039,7 +12039,7 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("typeId", 5);
 
-			EGovernenceOperation[] resArray = rest.postForObject(Constants.url + "geteGovernanceOpt", map,
+			EGovernenceOperation[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "geteGovernanceOpt", map,
 					EGovernenceOperation[].class);
 			List<EGovernenceOperation> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -12313,7 +12313,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			ExtensionActivityReport[] resArray = rest.postForObject(Constants.url + "getExtesionActivityDetails", map,
+			ExtensionActivityReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getExtesionActivityDetails", map,
 					ExtensionActivityReport[].class);
 			List<ExtensionActivityReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -12621,7 +12621,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			NoOfStudTeachLinkageReport[] resArray = rest.postForObject(Constants.url + "getNoOfStudTeachLinkageDetails",
+			NoOfStudTeachLinkageReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getNoOfStudTeachLinkageDetails",
 					map, NoOfStudTeachLinkageReport[].class);
 			List<NoOfStudTeachLinkageReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -12864,7 +12864,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			AwardRecogDetailReport[] resArray = rest.postForObject(Constants.url + "getAwardRecogDetails", map,
+			AwardRecogDetailReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getAwardRecogDetails", map,
 					AwardRecogDetailReport[].class);
 			List<AwardRecogDetailReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -13134,7 +13134,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			BookPublicationDetReport[] resArray = rest.postForObject(Constants.url + "getBookPublicationDetails", map,
+			BookPublicationDetReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getBookPublicationDetails", map,
 					BookPublicationDetReport[].class);
 			List<BookPublicationDetReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -13429,7 +13429,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			NoOfBookReport[] resArray = rest.postForObject(Constants.url + "getNoOfBookPaperDetails", map,
+			NoOfBookReport[] resArray =Constants.getRestTemplate().postForObject(Constants.url + "getNoOfBookPaperDetails", map,
 					NoOfBookReport[].class);
 			List<NoOfBookReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -13701,7 +13701,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			PhdGuideReport[] resArray = rest.postForObject(Constants.url + "getPddGuideDetails", map,
+			PhdGuideReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getPddGuideDetails", map,
 					PhdGuideReport[].class);
 			List<PhdGuideReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -14027,7 +14027,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			PlagarismCodeEthicsReport[] resArray = rest.postForObject(Constants.url + "getPlagarismCodeEthicsDetails",
+			PlagarismCodeEthicsReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getPlagarismCodeEthicsDetails",
 					map, PlagarismCodeEthicsReport[].class);
 			List<PlagarismCodeEthicsReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -14361,7 +14361,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 			map.add("programId", programType);
-			StudEnrooledForProgramReport[] resArray = rest.postForObject(Constants.url + "getStudEnrooledForProgram",
+			StudEnrooledForProgramReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getStudEnrooledForProgram",
 					map, StudEnrooledForProgramReport[].class);
 			List<StudEnrooledForProgramReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -14683,7 +14683,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			ValueAddedCoursesReport[] resArray = rest.postForObject(Constants.url + "getValueAddedCoursesDetails", map,
+			ValueAddedCoursesReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getValueAddedCoursesDetails", map,
 					ValueAddedCoursesReport[].class);
 			List<ValueAddedCoursesReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -14979,7 +14979,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			StakeHolderFBReport[] resArray = rest.postForObject(Constants.url + "getStakeHolderFBDetails", map,
+			StakeHolderFBReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getStakeHolderFBDetails", map,
 					StakeHolderFBReport[].class);
 			List<StakeHolderFBReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -15306,7 +15306,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			ResearchProjNoPerTeacher[] resArray = rest.postForObject(Constants.url + "getResearchProjectnoDetails", map,
+			ResearchProjNoPerTeacher[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getResearchProjectnoDetails", map,
 					ResearchProjNoPerTeacher[].class);
 			List<ResearchProjNoPerTeacher> progList = new ArrayList<>(Arrays.asList(resArray));
 
@@ -15574,7 +15574,7 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			ReaddressalOfStudGrievennce[] resArray = rest.postForObject(
+			ReaddressalOfStudGrievennce[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getStudReaddressalGrievienceDetails", map, ReaddressalOfStudGrievennce[].class);
 			List<ReaddressalOfStudGrievennce> progList = new ArrayList<>(Arrays.asList(resArray));
 
