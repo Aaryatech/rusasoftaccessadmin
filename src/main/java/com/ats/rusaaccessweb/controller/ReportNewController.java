@@ -9316,8 +9316,11 @@ public class ReportNewController {
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 					table.addCell(cell);
+				try {
 					fin = fin + Double.parseDouble(tempprcnt);
-
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
 				}
 				double x1 = fin / 5;
 				document.open();
