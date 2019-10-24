@@ -198,10 +198,10 @@
 
 								<br>
 
-								<div class="panel-group primary" id="accordion-2" role="tablist"
+							<!-- 	<div class="panel-group primary" id="accordion-2" role="tablist"
 									aria-multiselectable="true">
 
-									<!-- Criteria 1 -->
+									Criteria 1
 
 
 									<div class="panel-body">
@@ -398,13 +398,11 @@
 										</div>
 									</div>
 
-									<input type="hidden" id="p" name="p" value="0"> <input
-										type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
 
 
 								</div>
 
-
+ -->
 
 								<div class="row" style="padding-bottom: 0px;">
 									<div class="col-lg-12">
@@ -1744,6 +1742,8 @@
 											<!-- Criteria 7 Ends-->
 
 										</div>
+										<input type="hidden" id="p" name="p" value="0"> <input
+											type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
 
 										<input type="hidden" id="temp_cat" name="temp_cat" value="0">
 										<input type="hidden" id="temp_prog_name" name="temp_prog_name"
@@ -1811,14 +1811,14 @@
 			var ell = document.getElementById('catId');
 			var text = ell.options[ell.selectedIndex].innerHTML;
 			document.getElementById("temp_cat").value = text;
-			  
+
 			if ($("#prog_name option").length > 0) {
-			  
+
 				var elm = document.getElementById('prog_name');
 				var text = elm.options[elm.selectedIndex].innerHTML;
 				document.getElementById("temp_prog_name").value = text;
-			}  
-		 
+			}
+
 			var form = document.getElementById("reportForm");
 
 			form.setAttribute("target", "_blank");
@@ -1829,7 +1829,6 @@
 			form.submit();
 			document.getElementById("p").value = "0";
 		}
- 
 	</script>
 	<script type="text/javascript">
 		function getProgramTypeByProgram() {
