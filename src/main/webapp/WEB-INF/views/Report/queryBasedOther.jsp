@@ -92,7 +92,7 @@
 										</label>
 										<div class="col-sm-3">
 											<select id="ac_year" name="ac_year"
-												placeholder="Select Institute" class="form-control">
+											 class="form-control">
 
 												<c:forEach items="${acaYearList}" var="acYear">
 													<option value="${acYear.yearId}">${acYear.academicYear}</option>
@@ -180,7 +180,7 @@
 										</div>
 
 
-										<label class="control-label col-sm-1" for="catId">E-Content
+										<label class="control-label col-sm-2" for="catId">E-Content
 											Development Facility <span class="text-danger"></span>
 										</label>
 										<div class="col-sm-3">
