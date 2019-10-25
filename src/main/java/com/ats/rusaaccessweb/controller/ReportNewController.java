@@ -5696,12 +5696,13 @@ public class ReportNewController {
 					temp = temp + Double.parseDouble(prog.getTrainingPcount());
 
 				}
-				String tempprcnt = null;
+				float tempprcnt =0;
 				/// System.err.println("temp bean ::" + progList.get(0).toString());
 				try {
-					tempprcnt = decimalFormat.format((temp / progList.get(0).getTotCount()) * 100);
+					tempprcnt = Float.parseFloat(decimalFormat.format((temp / progList.get(0).getTotCount()) * 100));
 				} catch (Exception e) {
 					// TODO: handle exception
+					tempprcnt = 0;
 					e.printStackTrace();
 				}
 				document.open();
