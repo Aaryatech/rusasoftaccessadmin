@@ -494,11 +494,11 @@
 														<div class="col-lg-10">6] Value Added Courses</div>
 														<div class="col-lg-2">
 															<a href="#"
-																onclick="getProgReport(0,'showValueAddedCourseReport')"><i
+																onclick="getProgReport(0,'showValueAddedCourseReportNew')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 																href="#"
-																onclick="getProgReport(1,'showValueAddedCourseReport')"><i
+																onclick="getProgReport(1,'showValueAddedCourseReportNew')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>

@@ -14464,6 +14464,9 @@ public class ReportNewController {
 					finalPrcnt = finalPrcnt + avg;
 				}
 				String x1 = decimalFormat.format(finalPrcnt / 5);
+				System.out.println("finalPrcnt is"+finalPrcnt);
+
+				System.out.println("x1 is"+x1);
 
 				document.open();
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
@@ -14643,7 +14646,7 @@ public class ReportNewController {
 
 			int instituteId = (int) session.getAttribute("instituteId");
 			map = new LinkedMultiValueMap<>();
-
+			System.out.println("year is" + ac_year);
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
