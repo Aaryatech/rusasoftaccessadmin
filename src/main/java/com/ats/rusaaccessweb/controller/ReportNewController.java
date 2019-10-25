@@ -6518,7 +6518,8 @@ public class ReportNewController {
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
-
+				document.add(new Paragraph("\n"));
+				
 				document.add(table);
 
 				int totalPages = writer.getPageNumber();
