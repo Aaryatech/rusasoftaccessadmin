@@ -106,7 +106,7 @@
 										</label>
 										<div class="col-sm-6">
 											<select id="instituteId" name="instituteId" class="">
-												<option>Select Institute</option>
+												<option value="0">Select Institute</option>
 
 												<c:forEach items="${instList}" var="instList">
 
@@ -494,11 +494,11 @@
 														<div class="col-lg-10">6] Value Added Courses</div>
 														<div class="col-lg-2">
 															<a href="#"
-																onclick="getProgReport(0,'showValueAddedCourseReportNew')"><i
+																onclick="getProgReport(0,'showValueAddedCourseReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
 																href="#"
-																onclick="getProgReport(1,'showValueAddedCourseReportNew')"><i
+																onclick="getProgReport(1,'showValueAddedCourseReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1839,7 +1839,7 @@
 
 			var valid = true;
 
-			if (instituteId == "" && instituteId == 0) {
+			if (instituteId == 0) {
 
 				//isError=true;
 

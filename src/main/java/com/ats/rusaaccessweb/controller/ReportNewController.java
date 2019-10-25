@@ -12954,7 +12954,7 @@ public class ReportNewController {
 				document.add(new Paragraph("\n"));
 				document.add(table);
 				document.add(
-						new Paragraph("% of Students of Full-time Teachers with Award/Rec/Fellowships:" + a2 + ""));
+						new Paragraph("% of Full-time Teachers with Award/Rec/Fellowships:" + a2 + ""));
 
 				int totalPages = writer.getPageNumber();
 
@@ -13040,7 +13040,7 @@ public class ReportNewController {
 
 						}
 
-						String leaveSum2 = "% of Students of Full-time Teachers with Award/Rec/Fellowships :" + a1 + "";
+						String leaveSum2 = "% of Full-time Teachers with Award/Rec/Fellowships :" + a1 + "";
 
 						System.err.println("rep  " + rep);
 						// String excelName = (String) session.getAttribute("excelName");
