@@ -3,6 +3,8 @@
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
+
 <!DOCTYPE html>
 <html class=" ">
 <head>
@@ -39,9 +41,9 @@
 }
 </style>
 
+
 <!-- BEGIN BODY -->
-<body>
-	<!-- onload="getProgramTypeByProgram()" -->
+<body onload="getProgramTypeByProgram()">
 	<!-- START TOPBAR -->
 	<c:url value="/getProgramTypeByProgram" var="getProgramTypeByProgram"></c:url>
 
@@ -82,13 +84,15 @@
 						<div class="content-body">
 
 							<form id="reportForm">
-								<div class="row" style="padding-bottom: 2%;">
+
+
+								<div class="row" style="padding-bottom: 0px;">
 
 									<div class="form-group">
 										<label class="control-label col-sm-1" for="status">Academic
 											Year <span class="text-danger"></span>
 										</label>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<select id="ac_year" name="ac_year" class="form-control">
 
 												<c:forEach items="${acaYearList}" var="acYear">
@@ -98,32 +102,6 @@
 											</select> <span class="error_form text-danger" id="prog_type_field"
 												style="display: none;">Please select program type</span>
 										</div>
-
-
-
-										<label class="control-label col-sm-2" for="instituteId">
-											Institute <span class="text-danger">*</span> :
-										</label>
-										<div class="col-sm-6">
-											<select id="instituteId" name="instituteId" class="" onchange="getProgramTypeByProgram()">
-												<option value="0">Select Institute</option>
-
-												<c:forEach items="${instList}" var="instList">
-
-													<option value="${instList.instituteId}">${instList.instituteName}</option>
-
-												</c:forEach>
-
-											</select> <span class="error_form text-danger" id="error_instituteId"
-												style="display: none;">Please Select Institute</span>
-										</div>
-									</div>
-
-
-								</div>
-<!--  -->
-								<div class="row" style="padding-bottom: 2%;">
-									<div class="form-group">
 
 										<label class="control-label col-sm-1" for="status">Program
 											<span class="text-danger"></span>
@@ -140,8 +118,8 @@
 												style="display: none;">Please select program type</span>
 										</div>
 
-										<label class="control-label col-sm-2" for="page_order">
-											Program Type<span class="text-danger"></span>
+										<label class="control-label col-sm-1" for="page_order">
+											Program Type<span class="text-danger">*</span>
 										</label>
 										<div class="col-sm-3">
 
@@ -156,16 +134,16 @@
 											<span class="error_form text-danger" id="prog_name_field"
 												style="display: none;">Please enter program name</span>
 										</div>
-
 									</div>
-								</div>
 
+
+								</div>
 								<div class="row" style="padding-bottom: 0px;">
 									<div class="form-group">
 										<label class="control-label col-sm-1" for="catId">Category
 											<span class="text-danger"></span>
 										</label>
-										<div class="col-sm-3">
+										<div class="col-sm-2">
 											<select id="catId" name="catId" class="form-control">
 
 												<c:forEach items="${castList}" var="castList">
@@ -177,7 +155,7 @@
 										</div>
 
 
-										<label class="control-label col-sm-2" for="catId">E-Content
+										<label class="control-label col-sm-1" for="catId">E-Content
 											Development Facility <span class="text-danger"></span>
 										</label>
 										<div class="col-sm-3">
@@ -194,216 +172,8 @@
 										</div>
 									</div>
 								</div>
-
-
-								<br>
-
-							<!-- 	<div class="panel-group primary" id="accordion-2" role="tablist"
-									aria-multiselectable="true">
-
-									Criteria 1
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">1] Curricular, Co-Curricular and
-											Extra Curricular Activities</div>
-										<div class="col-lg-2">
-											<a href="#" onclick="getProgReportNew(0,'coExCurricularAct')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#" onclick="getProgReportNew(1,'coExCurricularAct')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">2] Placement of UG & PG Students
-											Reports</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showUgPgStudReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#" onclick="getProgReportNew(1,'showUgPgStudReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">3] Details Regarding Anti-ragging
-											Squad And Sexual Harassment</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showAntiRagHarashmentReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'showAntiRagHarashmentReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">4] Competitive Exam (No. of
-											Student appeared for Competitive Exam at various levels)</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'getCompitetiveExmReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'getCompitetiveExmReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">5] Value Added Course List</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showValueAddedCourseReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'showValueAddedCourseReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">6] Subject Wise Research</div>
-										<div class="col-lg-2">
-											<a href="#" onclick="getProgReport(0,'getSubjctRsrchReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#" onclick="getProgReport(1,'getSubjctRsrchReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">7] Male Female Ratio</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReport(0,'showMaleFemaleRatioReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReport(1,'showMaleFemaleRatioReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">8] District Wise Institute
-											Details</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showDistrictwiseInstReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'showDistrictwiseInstReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">9] Grants Received for Research</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'getGrntRecvResrchReprt')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'getGrntRecvResrchReprt')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">10] Students Participated in
-											Sports (National/International)</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showStudentParticipatedReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'showStudentParticipatedReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">11] Teachers participation in
-											Research</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'getFacultyRsrchReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'getFacultyRsrchReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-									<div class="panel-body">
-										<div class="col-lg-10">12] Students Participated in NSS
-											And NCC</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showStudentParticipatedNssNccReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'showStudentParticipatedNssNccReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-									<div class="panel-body">
-										<div class="col-lg-10">13] Functional MoU
-											(State/National/International)</div>
-										<div class="col-lg-2">
-											<a href="#"
-												onclick="getProgReportNew(0,'showFunctionalMouReport')"><i
-												class="fa fa-file-excel-o" style="color: green;"
-												aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-												href="#"
-												onclick="getProgReportNew(1,'showFunctionalMouReport')"><i
-												class="fa fa-file-pdf-o" style="color: red;"
-												aria-hidden="true"></i>&nbsp;PDF</a>
-										</div>
-									</div>
-
-
-
-								</div>
-
- -->
-
+								
+								<br />
 								<div class="row" style="padding-bottom: 0px;">
 									<div class="col-lg-12">
 
@@ -466,12 +236,10 @@
 														<div class="col-lg-10">4] Percentage(%) of Programs
 															with CBCS/ Elective courses</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showPerProgCbseElecticwCourse')"><i
+															<a href="#" onclick="getProgReport(0,'showPerProgCbseElecticwCourse')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showPerProgCbseElecticwCourse')"><i
+																href="#" onclick="getProgReport(1,'showPerProgCbseElecticwCourse')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -507,12 +275,10 @@
 														<div class="col-lg-10">7] Fields Project/Internships
 														</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showFildeProjectInternReport')"><i
+															<a href="#" onclick="getProgReport(0,'showFildeProjectInternReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showFildeProjectInternReport')"><i
+																href="#" onclick="getProgReport(1,'showFildeProjectInternReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -534,12 +300,10 @@
 														<div class="col-lg-10">9] Feedback Received from
 															Stakeholders</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showFBReceivedFrmStakeHolder')"><i
+															<a href="#" onclick="getProgReport(0,'showFBReceivedFrmStakeHolder')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showFBReceivedFrmStakeHolder')"><i
+																href="#" onclick="getProgReport(1,'showFBReceivedFrmStakeHolder')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -556,8 +320,8 @@
 														<a class="collapsed" data-toggle="collapse"
 															data-parent="#accordion-2" href="#collapseTwo-2"
 															aria-expanded="false" aria-controls="collapseTwo-2">
-															<i class='fa fa-check'></i>Teaching,Learning and
-															Evaluation
+															<i class='fa fa-check'></i>Teaching,Learning
+															and Evaluation
 														</a>
 													</h4>
 												</div>
@@ -781,96 +545,76 @@
 														<div class="col-lg-10">2] Teachers
 															Recognition/Awards and Incentives Information</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showTeacherAwardRecognitn')"><i
+															<a href="#" onclick="getProgReport(0,'showTeacherAwardRecognitn')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showTeacherAwardRecognitn')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showTeacherAwardRecognitn')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">3] Teacher Research
 															Paper/Journal Information</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showTechrResrchPaprJournlInfo')"><i
+															<a href="#" onclick="getProgReport(0,'showTechrResrchPaprJournlInfo')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showTechrResrchPaprJournlInfo')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showTechrResrchPaprJournlInfo')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">4] Teacher Research
 															Paper/Journal Ratio</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showTechrResrchPaprJournlRatio')"><i
+															<a href="#" onclick="getProgReport(0,'showTechrResrchPaprJournlRatio')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showTechrResrchPaprJournlRatio')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showTechrResrchPaprJournlRatio')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">5] Research Project Grants</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showResrchProjectGrants')"><i
+															<a href="#" onclick="getProgReport(0,'showResrchProjectGrants')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showResrchProjectGrants')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showResrchProjectGrants')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">6]No. of Full Time Teachers
 															in the Institute as Research Guide</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showFullTimeTechrInstResrchGuide')"><i
+															<a href="#" onclick="getProgReport(0,'showFullTimeTechrInstResrchGuide')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showFullTimeTechrInstResrchGuide')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showFullTimeTechrInstResrchGuide')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">7] No. of Research Project
-															per Teacher</div>
+														<div class="col-lg-10">7] No. of Research Project per
+															Teacher</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showNoResearchProjPerReport')"><i
+															<a href="#" onclick="getProgReport(0,'showNoResearchProjPerReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showNoResearchProjPerReport')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showNoResearchProjPerReport')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">8] Intellectual Property
 															Rights and Industry Institute Initiatives</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showIntelPropRght')"><i
+															<a href="#" onclick="getProgReport(0,'showIntelPropRght')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#" onclick="getProgReport(1,'showIntelPropRght')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showIntelPropRght')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
@@ -906,7 +650,7 @@
 															Publication by Teachers and Papers in Conference
 															Proceedings</div>
 														<div class="col-lg-2">
-															<a href="#"
+														<a href="#"
 																onclick="getProgReport(0,'showBookPublicationReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
@@ -938,9 +682,8 @@
 															<a href="#" onclick="getProgReport(0,'showAwardRecog')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#" onclick="getProgReport(1,'showAwardRecog')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showAwardRecog')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
@@ -963,22 +706,18 @@
 															<a href="#" onclick="getProgReport(0,'showNoOfLinkages')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#" onclick="getProgReport(1,'showNoOfLinkages')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showNoOfLinkages')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">16] No. of Linkages</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showNoOfStudTeachLinkageReport')"><i
+															<a href="#" onclick="getProgReport(0,'showNoOfStudTeachLinkageReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showNoOfStudTeachLinkageReport')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showNoOfStudTeachLinkageReport')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
@@ -987,9 +726,8 @@
 															<a href="#" onclick="getProgReport(0,'showFunctnlMou')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#" onclick="getProgReport(1,'showFunctnlMou')"><i
-																class="fa fa-file-pdf-o" style="color: red;"
-																aria-hidden="true"></i>&nbsp;PDF</a>
+																href="#" onclick="getProgReport(1,'showFunctnlMou')"><i class="fa fa-file-pdf-o"
+																style="color: red;" aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 												</div>
@@ -1003,7 +741,7 @@
 														<a data-toggle="collapse" data-parent="#accordion-2"
 															href="#collapseOne-4" aria-expanded="true"
 															aria-controls="collapseOne-4"> <i class='fa fa-check'></i>
-															Infrastructure and Learning Resources
+															 Infrastructure and Learning Resources
 														</a>
 													</h4>
 												</div>
@@ -1150,12 +888,10 @@
 														<div class="col-lg-10">11] Expenditure on Physical &
 															Academic Support Facilities</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showExpndPhyAcdSupprtFacilities')"><i
+															<a href="#" onclick="getProgReport(0,'showExpndPhyAcdSupprtFacilities')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showExpndPhyAcdSupprtFacilities')"><i
+																href="#" onclick="getProgReport(1,'showExpndPhyAcdSupprtFacilities')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1171,7 +907,7 @@
 														<a data-toggle="collapse" data-parent="#accordion-2"
 															href="#collapseOne-5" aria-expanded="true"
 															aria-controls="collapseOne-5"> <i class='fa fa-check'></i>
-															Student Support and Progression
+														Student Support and Progression
 														</a>
 													</h4>
 												</div>
@@ -1182,12 +918,10 @@
 													<div class="panel-body">
 														<div class="col-lg-10">1] Govt Scholership Scheme</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showGovtSchemeBenefitReport')"><i
+															<a href="#" onclick="getProgReport(0,'showGovtSchemeBenefitReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showGovtSchemeBenefitReport')"><i
+																href="#" onclick="getProgReport(1,'showGovtSchemeBenefitReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1196,12 +930,10 @@
 														<div class="col-lg-10">2] Institutional Financial
 															Support besides Govt</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showOtherThanGovtSchemeBenefitReport')"><i
+															<a href="#" onclick="getProgReport(0,'showOtherThanGovtSchemeBenefitReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showOtherThanGovtSchemeBenefitReport')"><i
+																href="#" onclick="getProgReport(1,'showOtherThanGovtSchemeBenefitReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1210,12 +942,10 @@
 														<div class="col-lg-10">3] Capability Enhancement &
 															Development Schemes</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showCapabilityEnhancementReport')"><i
+															<a href="#" onclick="getProgReport(0,'showCapabilityEnhancementReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showCapabilityEnhancementReport')"><i
+																href="#" onclick="getProgReport(1,'showCapabilityEnhancementReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1236,12 +966,10 @@
 														<div class="col-lg-10">5] Redressal of Stud
 															Grievances</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showStudGrivienceReport')"><i
+															<a href="#" onclick="getProgReport(0,'showStudGrivienceReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showStudGrivienceReport')"><i
+																href="#" onclick="getProgReport(1,'showStudGrivienceReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1250,31 +978,27 @@
 														<div class="col-lg-10">6] Students Outstanding
 															Performance (Sport and Cultural)</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showAttendedSportsCulturalReport')"><i
+															<a href="#" onclick="getProgReport(0,'showAttendedSportsCulturalReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showAttendedSportsCulturalReport')"><i
+																href="#" onclick="getProgReport(1,'showAttendedSportsCulturalReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
 														<div class="col-lg-10">7] Organization of Sports &
-															Cultural Activities - Competitions</div>
+															Cultural Activities - Competitions </div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showOrganizationSportsCulturalReport')"><i
+															<a href="#" onclick="getProgReport(0,'showOrganizationSportsCulturalReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showOrganizationSportsCulturalReport')"><i
+																href="#" onclick="getProgReport(1,'showOrganizationSportsCulturalReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
-
+													
 													<!-- <div class="panel-body">
 														<div class="col-lg-10">7] II) Organization of Sports &
 															Cultural Activities - Competitions(Attended)</div>
@@ -1291,12 +1015,10 @@
 														<div class="col-lg-10">8] Avg % of Placement: (Last
 															Five Years)</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showAvgPerPlacement')"><i
+															<a href="#" onclick="getProgReport(0,'showAvgPerPlacement')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showAvgPerPlacement')"><i
+																href="#" onclick="getProgReport(1,'showAvgPerPlacement')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1305,12 +1027,10 @@
 														<div class="col-lg-10">9] % of Students Progression
 															( Higher Education ): (Current YearData)</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showStudProgression')"><i
+															<a href="#" onclick="getProgReport(0,'showStudProgression')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showStudProgression')"><i
+																href="#" onclick="getProgReport(1,'showStudProgression')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1319,12 +1039,10 @@
 														<div class="col-lg-10">10] Students qualifying
 															State/National/Internationa Exams per year</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showStudQualifyingExamReport')"><i
+															<a href="#" onclick="getProgReport(0,'showStudQualifyingExamReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showStudQualifyingExamReport')"><i
+																href="#" onclick="getProgReport(1,'showStudQualifyingExamReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1332,12 +1050,10 @@
 													<div class="panel-body">
 														<div class="col-lg-10">11] Alumni Engagement</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showAluminiEngagementReport')"><i
+															<a href="#" onclick="getProgReport(0,'showAluminiEngagementReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showAluminiEngagementReport')"><i
+																href="#" onclick="getProgReport(1,'showAluminiEngagementReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1347,12 +1063,10 @@
 														<div class="col-lg-10">12] List of Distinguished
 															Alumni</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showDistinguishedAluminiReport')"><i
+															<a href="#" onclick="getProgReport(0,'showDistinguishedAluminiReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showDistinguishedAluminiReport')"><i
+																href="#" onclick="getProgReport(1,'showDistinguishedAluminiReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1362,12 +1076,10 @@
 														<div class="col-lg-10">13] Alumni Association
 															Meeting Details</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showAluminiAssoMeetingReport')"><i
+															<a href="#" onclick="getProgReport(0,'showAluminiAssoMeetingReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showAluminiAssoMeetingReport')"><i
+																href="#" onclick="getProgReport(1,'showAluminiAssoMeetingReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1383,7 +1095,7 @@
 														<a data-toggle="collapse" data-parent="#accordion-2"
 															href="#collapseOne-6" aria-expanded="true"
 															aria-controls="collapseOne-6"> <i class='fa fa-check'></i>
-															Governance,Leadership and Management
+														Governance,Leadership and Management
 														</a>
 													</h4>
 												</div>
@@ -1395,12 +1107,10 @@
 														<div class="col-lg-10">1] Institutional Vision &
 															Mission</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showVisionMissionReport')"><i
+															<a href="#" onclick="getProgReport(0,'showVisionMissionReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showVisionMissionReport')"><i
+																href="#" onclick="getProgReport(1,'showVisionMissionReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1409,12 +1119,10 @@
 														<div class="col-lg-10">2] E-Governance & Areas of
 															Operation</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showEGovernanceOptReport')"><i
+																<a href="#" onclick="getProgReport(0,'showEGovernanceOptReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showEGovernanceOptReport')"><i
+																href="#" onclick="getProgReport(1,'showEGovernanceOptReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1423,12 +1131,10 @@
 														<div class="col-lg-10">3] Financial support to
 															Professional membership/Conference/Workshop</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showFinSuppReportForInst')"><i
+															<a href="#" onclick="getProgReport(0,'showFinSuppReportForInst')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showFinSuppReportForInst')"><i
+																href="#" onclick="getProgReport(1,'showFinSuppReportForInst')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1437,12 +1143,10 @@
 														<div class="col-lg-10">4] No. of Faculty Financial
 															support to Professional membership/Conference/Workshop</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showNoFacultyFinSuppReport')"><i
+														<a href="#" onclick="getProgReport(0,'showNoFacultyFinSuppReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showNoFacultyFinSuppReport')"><i
+																href="#" onclick="getProgReport(1,'showNoFacultyFinSuppReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1452,12 +1156,10 @@
 															programmes organized for Teachers and non teaching staff
 															(Professional Development, Administrative))</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showTrainProgForTeachStaffReport')"><i
+															<a href="#" onclick="getProgReport(0,'showTrainProgForTeachStaffReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showTrainProgForTeachStaffReport')"><i
+																href="#" onclick="getProgReport(1,'showTrainProgForTeachStaffReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1466,12 +1168,10 @@
 														<div class="col-lg-10">6] Training programmes
 															organized for Teachers (Professional Development)</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showTrainProgOrgnizedForTeachReport')"><i
+															<a href="#" onclick="getProgReport(0,'showTrainProgOrgnizedForTeachReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showTrainProgOrgnizedForTeachReport')"><i
+																href="#" onclick="getProgReport(1,'showTrainProgOrgnizedForTeachReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1480,17 +1180,15 @@
 														<div class="col-lg-10">7] Training programmes
 															organized for Non Teaching (Administrative)</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showTrainAdministrativeReport')"><i
+															<a href="#" onclick="getProgReport(0,'showTrainAdministrativeReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showTrainAdministrativeReport')"><i
+																href="#" onclick="getProgReport(1,'showTrainAdministrativeReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
-													<!-- <div class="panel-body">
+													<div class="panel-body">
 														<div class="col-lg-10">8] Avg. % of Training Program
 															attended by Teachers</div>
 														<div class="col-lg-2">
@@ -1501,46 +1199,40 @@
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
-													</div> -->
+													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">8] Funds/Grants Received from
+														<div class="col-lg-10">9] Funds/Grants Received from
 															Non-Government Organisation, Individuals, Other Agencies
 															(in Cr.)</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showFinSuppReportForOther')"><i
+															<a href="#" onclick="getProgReport(0,'showFinSuppReportForOther')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showFinSuppReportForOther')"><i
+																href="#" onclick="getProgReport(1,'showFinSuppReportForOther')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">9] Quality Initiative by
+														<div class="col-lg-10">10] Quality Initiative by
 															IQAC</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showQualInitiativeReport')"><i
+															<a href="#" onclick="getProgReport(0,'showQualInitiativeReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showQualInitiativeReport')"><i
+																href="#" onclick="getProgReport(1,'showQualInitiativeReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">10] Quality Assurance
+														<div class="col-lg-10">11] Quality Assurance
 															Initiatives</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showQualInitiativeAssuranceReport')"><i
+															<a href="#" onclick="getProgReport(0,'showQualInitiativeAssuranceReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showQualInitiativeAssuranceReport')"><i
+																href="#" onclick="getProgReport(1,'showQualInitiativeAssuranceReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1559,7 +1251,7 @@
 														<a data-toggle="collapse" data-parent="#accordion-2"
 															href="#collapseOne-7" aria-expanded="true"
 															aria-controls="collapseOne-7"> <i class='fa fa-check'></i>
-															Institutional Values and Best Practices
+															 Institutional Values and Best Practices
 														</a>
 													</h4>
 												</div>
@@ -1571,12 +1263,10 @@
 														<div class="col-lg-10">1] Gender Equality Programmes
 														</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showGenderEquityReport')"><i
+															<a href="#" onclick="getProgReport(0,'showGenderEquityReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showGenderEquityReport')"><i
+																href="#" onclick="getProgReport(1,'showGenderEquityReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1585,12 +1275,10 @@
 														<div class="col-lg-10">2] No of Gender Equality
 															Program</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showNoOfGenderEquityReport')"><i
+															<a href="#" onclick="getProgReport(0,'showNoOfGenderEquityReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showNoOfGenderEquityReport')"><i
+																href="#" onclick="getProgReport(1,'showNoOfGenderEquityReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1599,12 +1287,10 @@
 														<div class="col-lg-10">3] Gender sensitivity in
 															Providing Facility</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showGenderSensitivityFacReport')"><i
+															<a href="#" onclick="getProgReport(0,'showGenderSensitivityFacReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showGenderSensitivityFacReport')"><i
+																href="#" onclick="getProgReport(1,'showGenderSensitivityFacReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1613,26 +1299,22 @@
 														<div class="col-lg-10">4] Alternative Energy
 															Initiative ( Current Data )</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showAlternativeEnergyIniReport')"><i
+																<a href="#" onclick="getProgReport(0,'showAlternativeEnergyIniReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showAlternativeEnergyIniReport')"><i
+																href="#" onclick="getProgReport(1,'showAlternativeEnergyIniReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">5] Power Requirement through
-															LED Bulbs for Lighting</div>
+														<div class="col-lg-10">5] Power Requirement 
+															through LED Bulbs for Lighting</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showPowerReqThroughLEDReport')"><i
+															<a href="#" onclick="getProgReport(0,'showPowerReqThroughLEDReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showPowerReqThroughLEDReport')"><i
+																href="#" onclick="getProgReport(1,'showPowerReqThroughLEDReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1641,12 +1323,10 @@
 														<div class="col-lg-10">6] Expenditure on Green
 															Initiatives & Waste Management</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showExpndGreenInitveWsteMgmt')"><i
+															<a href="#" onclick="getProgReport(0,'showExpndGreenInitveWsteMgmt')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showExpndGreenInitveWsteMgmt')"><i
+																href="#" onclick="getProgReport(1,'showExpndGreenInitveWsteMgmt')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1655,12 +1335,10 @@
 														<div class="col-lg-10">7] Initiative to Address
 															Locational Advantages & Disadvantages</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showInitivAddrsLoctnAdvDisadv')"><i
+															<a href="#" onclick="getProgReport(0,'showInitivAddrsLoctnAdvDisadv')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showInitivAddrsLoctnAdvDisadv')"><i
+																href="#" onclick="getProgReport(1,'showInitivAddrsLoctnAdvDisadv')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1669,12 +1347,10 @@
 														<div class="col-lg-10">8] No of Initiative to
 															Address Locational Advantages & Disadvantages</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showNoInitivAddrsLoctnAdvDisadv')"><i
+															<a href="#" onclick="getProgReport(0,'showNoInitivAddrsLoctnAdvDisadv')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showNoInitivAddrsLoctnAdvDisadv')"><i
+																href="#" onclick="getProgReport(1,'showNoInitivAddrsLoctnAdvDisadv')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1683,12 +1359,10 @@
 														<div class="col-lg-10">9] Initiative to Engage &
 															Contribute Local Community</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showIniLocalCommunityReport')"><i
+														<a href="#" onclick="getProgReport(0,'showIniLocalCommunityReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showIniLocalCommunityReport')"><i
+																href="#" onclick="getProgReport(1,'showIniLocalCommunityReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1697,12 +1371,10 @@
 														<div class="col-lg-10">10] Human Values &
 															Professional Ethics</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showHumanValProfEthicsReport')"><i
+															<a href="#" onclick="getProgReport(0,'showHumanValProfEthicsReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showHumanValProfEthicsReport')"><i
+																href="#" onclick="getProgReport(1,'showHumanValProfEthicsReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1711,12 +1383,10 @@
 														<div class="col-lg-10">11] Promotion of Universal
 															Values</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showUniversalValProReport')"><i
+														<a href="#" onclick="getProgReport(0,'showUniversalValProReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showUniversalValProReport')"><i
+																href="#" onclick="getProgReport(1,'showUniversalValProReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1725,12 +1395,10 @@
 														<div class="col-lg-10">12] No of Promotion of
 															Universal Values</div>
 														<div class="col-lg-2">
-															<a href="#"
-																onclick="getProgReport(0,'showNoOfUniversalReport')"><i
+															<a href="#" onclick="getProgReport(0,'showNoOfUniversalReport')"><i
 																class="fa fa-file-excel-o" style="color: green;"
 																aria-hidden="true"></i>&nbsp;Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-																href="#"
-																onclick="getProgReport(1,'showNoOfUniversalReport')"><i
+																href="#" onclick="getProgReport(1,'showNoOfUniversalReport')"><i
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
@@ -1744,11 +1412,11 @@
 										</div>
 										<input type="hidden" id="p" name="p" value="0"> <input
 											type="hidden" id="temp_ac_year" name="temp_ac_year" value="0">
-
-										<input type="hidden" id="temp_cat" name="temp_cat" value="0">
-										<input type="hidden" id="temp_prog_name" name="temp_prog_name"
-											value="0">
-
+										<input type="hidden" id="temp_cat" name="temp_cat"
+											value="0"> 
+											<input type="hidden" id="temp_prog_name" name="temp_prog_name"
+											value="0"> 
+											
 									</div>
 								</div>
 							</form>
@@ -1764,40 +1432,6 @@
 	<!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
-
-	<script type="text/javascript">
-		$("#instituteId").select2({
-			allowClear : true
-		}).on(
-				'select2-open',
-				function() {
-					// Adding Custom Scrollbar
-					$(this).data('select2').results.addClass('overflow-hidden')
-							.perfectScrollbar();
-				});
-	</script>
-	<script type="text/javascript">
-		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
-		function getProgReportNew(prm, mapping) {
-			if (prm == 1) {
-				document.getElementById("p").value = "1";
-			}
-
-			var el = document.getElementById('ac_year');
-			var text = el.options[el.selectedIndex].innerHTML;
-			document.getElementById("temp_ac_year").value = text;
-
-			var form = document.getElementById("reportForm");
-
-			form.setAttribute("target", "_blank");
-			form.setAttribute("method", "post");
-
-			form.action = ("${pageContext.request.contextPath}/" + mapping + "/");
-
-			form.submit();
-			document.getElementById("p").value = "0";
-		}
-	</script>
 	<script type="text/javascript">
 		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
 		function getProgReport(prm, mapping) {
@@ -1811,14 +1445,14 @@
 			var ell = document.getElementById('catId');
 			var text = ell.options[ell.selectedIndex].innerHTML;
 			document.getElementById("temp_cat").value = text;
-
+			  
 			if ($("#prog_name option").length > 0) {
-
+			  
 				var elm = document.getElementById('prog_name');
 				var text = elm.options[elm.selectedIndex].innerHTML;
 				document.getElementById("temp_prog_name").value = text;
-			}
-
+			}  
+		 
 			var form = document.getElementById("reportForm");
 
 			form.setAttribute("target", "_blank");
@@ -1829,25 +1463,29 @@
 			form.submit();
 			document.getElementById("p").value = "0";
 		}
+
+		/* function getReport2(prm) {
+			if (prm == 1) {
+				document.getElementById("p").value = "1";
+			}
+			var form = document.getElementById("reportForm");
+
+			form.setAttribute("target", "_blank");
+			form.setAttribute("method", "post");
+
+			form.action = ("${pageContext.request.contextPath}/showFacPartiVarBodies/");
+
+			form.submit();
+		} */
 	</script>
+
 	<script type="text/javascript">
 		function getProgramTypeByProgram() {
 
 			var programType = document.getElementById("prog_type").value;
-			var instituteId = document.getElementById("instituteId").value;
-			///alert("instituteId-------" + instituteId);
+			//alert("programType" + programType);
 
 			var valid = true;
-
-			if (instituteId == 0) {
-
-				//isError=true;
-
-				$("#error_instituteId").show()
-
-			} else {
-				$("#error_instituteId").hide()
-			}
 
 			/* if (programType == null || programType == "") {
 				valid = false;
@@ -1856,14 +1494,11 @@
 
 			$.getJSON('${getProgramTypeByProgram}', {
 				programType : programType,
-				instituteId : instituteId,
-
 				ajax : 'true',
 			},
 
 			function(data) {
-
-				//alert(JSON.stringify(data));
+				//alert(data);
 
 				var html;
 				var len = data.length;

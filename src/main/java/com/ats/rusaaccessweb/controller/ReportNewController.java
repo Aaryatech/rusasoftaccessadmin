@@ -490,7 +490,7 @@ public class ReportNewController {
 	}
 
 
-	@RequestMapping(value = "/showFacPartiVarBodies", method = RequestMethod.GET)
+	@RequestMapping(value = "/showFacPartiVarBodies", method = RequestMethod.POST)
 	public void showFacPartiVarBodies(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Curricular Aspects : Percentage(%) of Participation in various University Bodies";
