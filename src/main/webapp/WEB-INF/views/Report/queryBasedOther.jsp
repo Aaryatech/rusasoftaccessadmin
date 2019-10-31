@@ -105,7 +105,7 @@
 											Institute <span class="text-danger">*</span> :
 										</label>
 										<div class="col-sm-6">
-											<select id="instituteId" name="instituteId" class="">
+											<select id="instituteId" name="instituteId" class="" onchange="getProgramTypeByProgram()">
 												<option value="0">Select Institute</option>
 
 												<c:forEach items="${instList}" var="instList">
@@ -121,7 +121,7 @@
 
 
 								</div>
-
+<!--  -->
 								<div class="row" style="padding-bottom: 2%;">
 									<div class="form-group">
 
