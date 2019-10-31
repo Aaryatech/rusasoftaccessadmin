@@ -37,7 +37,7 @@ public class RusaReportController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			model = new ModelAndView("Report/queryBasedOther");
-			model.addObject("title", "Query Based Reports");
+			model.addObject("title", "Reports");
 			GetInstituteList[] instArray = Constants.getRestTemplate().getForObject(Constants.url + "getAllInstitutes",
 					GetInstituteList[].class);
 			instList = new ArrayList<>(Arrays.asList(instArray));

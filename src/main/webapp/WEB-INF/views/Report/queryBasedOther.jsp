@@ -1490,7 +1490,7 @@
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
 													</div>
-													<div class="panel-body">
+													<!-- <div class="panel-body">
 														<div class="col-lg-10">8] Avg. % of Training Program
 															attended by Teachers</div>
 														<div class="col-lg-2">
@@ -1501,9 +1501,9 @@
 																class="fa fa-file-pdf-o" style="color: red;"
 																aria-hidden="true"></i>&nbsp;PDF</a>
 														</div>
-													</div>
+													</div> -->
 													<div class="panel-body">
-														<div class="col-lg-10">9] Funds/Grants Received from
+														<div class="col-lg-10">8] Funds/Grants Received from
 															Non-Government Organisation, Individuals, Other Agencies
 															(in Cr.)</div>
 														<div class="col-lg-2">
@@ -1518,7 +1518,7 @@
 														</div>
 													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">10] Quality Initiative by
+														<div class="col-lg-10">9] Quality Initiative by
 															IQAC</div>
 														<div class="col-lg-2">
 															<a href="#"
@@ -1532,7 +1532,7 @@
 														</div>
 													</div>
 													<div class="panel-body">
-														<div class="col-lg-10">11] Quality Assurance
+														<div class="col-lg-10">10] Quality Assurance
 															Initiatives</div>
 														<div class="col-lg-2">
 															<a href="#"
@@ -1822,7 +1822,7 @@
 			var form = document.getElementById("reportForm");
 
 			form.setAttribute("target", "_blank");
-			form.setAttribute("method", "post");
+			form.setAttribute("method", "get");
 
 			form.action = ("${pageContext.request.contextPath}/" + mapping + "/");
 

@@ -490,7 +490,7 @@ public class ReportNewController {
 	}
 
 
-	@RequestMapping(value = "/showFacPartiVarBodies", method = RequestMethod.POST)
+	@RequestMapping(value = "/showFacPartiVarBodies", method = RequestMethod.GET)
 	public void showFacPartiVarBodies(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Curricular Aspects : Percentage(%) of Participation in various University Bodies";
@@ -7772,7 +7772,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showPowerReqThroughLEDReport", method = RequestMethod.POST)
 	public void showPowerReqThroughLEDReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Governance,Leadership and Management : Power Requirement met through LED Bulbs for Lighting\n"
+		String reportName = "Institutional Values and Best Practices: Power Requirement met through LED Bulbs for Lighting\n"
 				+ "";
 
 		ModelAndView model = null;
@@ -7920,7 +7920,13 @@ public class ReportNewController {
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 				table.addCell(cell);
-				val = String.valueOf(((temp_tot_led) / temp_tot) * 100);
+				
+				if(temp_tot!=0.0) {
+					val = String.valueOf(((temp_tot_led) / temp_tot) * 100);
+				}
+				else {
+					val="0.0";
+				}
 
 				cell = new PdfPCell(new Phrase("" + val, headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
