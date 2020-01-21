@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.tags.HtmlEscapeTag;
+import org.springframework.web.util.JavaScriptUtils;
 
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.model.AdminLoginLog;
@@ -77,6 +79,11 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showLoginForm(HttpServletRequest request, HttpServletResponse response,Model model) {
 
+			String text = "<%@ abcd  %>";
+			System.err.println("text before  " +text);
+	     text = text.replaceAll("\\<.*?\\>", "");
+	     System.err.println("text " +text);
+	      
 		String mav = new String();
 		 
 		try {
@@ -131,7 +138,16 @@ public class HomeController {
 
 				LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "login", map, LoginResponse.class);
 			 
-
+				JavaScriptUtils ju=new JavaScriptUtils();
+				
+				String s= ju.javaScriptEscape("<script>function sayHello(){ var a=10;}</script>");
+				System.err.println("s" +s);
+				
+				System.err.println("s length" +s.length());
+			
+				System.err.println("s\\u003Cscript\\u003Ealert(\\'10\\')\\u003C\\/script\\u003E\n" + 
+						"");
+				
 				if (userObj.getIsError() == false) {
 
 					session.setAttribute("userInfo", userObj);
