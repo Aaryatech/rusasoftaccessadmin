@@ -30,7 +30,7 @@ public class CheckUserInterceptor extends HandlerInterceptorAdapter {
         String path = request.getRequestURI().substring(request.getContextPath().length());
        // System.out.println("path is: "+path);
       
-		if(path.startsWith("/pdf")) {
+		if(path.startsWith("/pdf") || path.startsWith("/captcha")) {
 			return true;
 		}
         try{

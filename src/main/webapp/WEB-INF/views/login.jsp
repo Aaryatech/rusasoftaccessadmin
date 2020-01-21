@@ -89,17 +89,18 @@
 
 	<div class="container-fluid">
 		<div class="login-wrapper row">
-			
+
 			<div class="logn_logo"></div>
-			<div id="login" class="login loginpage col-lg-offset-4 col-md-offset-3 col-sm-offset-3 col-xs-offset-0 col-xs-12 col-sm-6 col-lg-4">
-				
-				
+			<div id="login"
+				class="login loginpage col-lg-offset-4 col-md-offset-3 col-sm-offset-3 col-xs-offset-0 col-xs-12 col-sm-6 col-lg-4">
+
+
 				<h1 class="login_head">
 					<!-- <a href="#" title="Login Page" tabindex="-1">RUSA</a> -->
-					<i class="fa fa-unlock-alt" aria-hidden="true"></i> Institute Login 
+					<i class="fa fa-unlock-alt" aria-hidden="true"></i> Institute Login
 				</h1>
 
-				<form name="loginform" 
+				<form name="loginform"
 					action="${pageContext.request.contextPath}/loginProcess"
 					method="post" id="loginform">
 
@@ -116,22 +117,22 @@
 					</c:choose>
 
 					<p>
-						<label for="user_login">  <!-- Username <span class="text-danger">*</span><br />-->
-							<input type="text" name="username" id="username" class="login-one"
-							value="" size="20" placeholder="Username" /></label> 
-<!-- 	 <span class="error_form text-danger" id="error_name" style="display:none;" >Please Enter Username</span>
- -->							
-							<!-- class="input" -->
+						<label for="user_login"> <!-- Username <span class="text-danger">*</span><br />-->
+							<input type="text" name="username" id="username"
+							class="login-one" value="" size="20" placeholder="Username" /></label>
+						<!-- 	 <span class="error_form text-danger" id="error_name" style="display:none;" >Please Enter Username</span>
+ -->
+						<!-- class="input" -->
 					</p>
 					<p>
-						<label for="user_pass">  <!-- Password <span class="text-danger">*</span><br />-->
+						<label for="user_pass"> <!-- Password <span class="text-danger">*</span><br />-->
 							<input type="password" name="userpassword" id="userpassword"
 							class="input" value="" placeholder="Password" size="20" /></label>
-<!-- 			 <span class="error_form text-danger" id="error_pass" style="display:none;" >Please Enter Password</span>
- -->							
+						<!-- 			 <span class="error_form text-danger" id="error_pass" style="display:none;" >Please Enter Password</span>
+ -->
 					</p>
-			
-					 <%-- <p>
+
+					<%-- <p>
 						<select
 							id="ac_year_login" name="ac_year_login" class="form-control">							
 							<c:forEach items="${acaYearList}" var="acYear">
@@ -144,14 +145,33 @@
 					</p>
 					
 					 --%>
-					
-					
-					
-					 <p class="forgetmenot">
-                    <label class="icheck-label form-label" for="rememberme">
-                    	<input type="checkbox" onclick="viewPassword()"><span style="color: black;">Show Password</span>
-                    </label>
-                </p>
+
+
+					<div class="capcha-img">
+						<img src="${pageContext.request.contextPath }/captcha"
+							id='captchaImage'>
+						<button id="captchaRef" type="button" class="repeat-btn">
+							<div class="repeat">
+								<img
+									src="${pageContext.request.contextPath}/resources/assets/images/repeat.png"
+									alt="Repeat" class="img-responsive" title="Repeat"
+									height="10px" width="10px">
+							</div>
+						</button>
+					</div>
+
+					<br>
+					<p>
+						<input type="text" class="form-control capcha-input"
+							name="captcha" id="captcha" placeholder="Enter Text"
+							autocomplete="off" required>
+					</p>
+					<p class="forgetmenot">
+						<label class="icheck-label form-label" for="rememberme"> <input
+							type="checkbox" onclick="viewPassword()"><span
+							style="color: black;">Show Password</span>
+						</label>
+					</p>
 
 
 
@@ -164,20 +184,23 @@
 
 				<p id="nav">
 					<a class="pull-left login_forgot" href="showforgotPassForm"
-						title="Password Lost and Found">Forgot password?</a>
-					<a class="pull-right login_forgot" href="showInstituteRegistrationForm"
-						title="Sign Up">Institute Registration</a>
+						title="Password Lost and Found">Forgot password?</a> <a
+						class="pull-right login_forgot"
+						href="showInstituteRegistrationForm" title="Sign Up">Institute
+						Registration</a>
 				</p>
-				<br /> <br /> <label class="pull-left" for="page_name" style=" text-align: center;"><b
-					style="color: red; font-family:'Open Sans', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 600; text-transform: capitalize;">Warning :- </b> <b
-					style="font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; color: #333;  text-transform: capitalize;">Unauthorised
+				<br /> <br /> <label class="pull-left" for="page_name"
+					style="text-align: center;"><b
+					style="color: red; font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 600; text-transform: capitalize;">Warning
+						:- </b> <b
+					style="font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; color: #333; text-transform: capitalize;">Unauthorised
 						Access of this System is an Offence</b> </label>
 
 			</div>
-			
-			
-			
-			</div>
+
+
+
+		</div>
 	</div>
 
 
@@ -188,8 +211,8 @@
 
 
 	<!-- CORE JS FRAMEWORK - START -->
-	
-	
+
+
 	<script
 		src="${pageContext.request.contextPath}/resources/assets/js/jquery-1.11.2.min.js"
 		type="text/javascript"></script>
@@ -250,60 +273,69 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-	function viewPassword() {
-		var pass1 = document.getElementById("userpassword");
-	
+		function viewPassword() {
+			var pass1 = document.getElementById("userpassword");
 
-		if (pass1.type == "password") {
-			pass1.type = "text";
-			
-		} else {
-			pass1.type = "password";
-			
+			if (pass1.type == "password") {
+				pass1.type = "text";
+
+			} else {
+				pass1.type = "password";
+
+			}
 		}
-	}
 	</script>
-	
-	
+
+
 	<script>
+		$(document).ready(function($) {
+			//alert("hii....");
+			$("#loginform").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
+				//alert($("#ac_year_login").val());
+				if ($("#ac_year_login").val() == -1) {
 
-            	$(document).ready(function($){
-            	//alert("hii....");
-            		$("#loginform").submit(function(e) {
-            			 var isError=false;
-            			 var errMsg="";
-            				
-            			 
-            			 
-            				//alert($("#ac_year_login").val());
-            				if($("#ac_year_login").val()== -1 ){
-            		            
-                				isError=true;
-                				
-                				$("#error_aca_year").show()
-                					//return fregister_useralse;
-                				} else {
-                					$("#error_aca_year").hide()
-                				}
-            				
+					isError = true;
 
-            				
-							if (!isError) {
-										return  true;
+					$("#error_aca_year").show()
+					//return fregister_useralse;
+				} else {
+					$("#error_aca_year").hide()
+				}
 
-							}
-            
-            			  
-            						 
-            					   return false;
-            				} );
-            	});
-			//
-			
-			    
-          
-        </script>
+				if (!isError) {
+					return true;
+
+				}
+
+				return false;
+			});
+		});
+		//
+	</script>
+	<script>
+		$(document).ready(function() {
+
+			$.ajaxSetup({
+				cache : false
+			});
+
+			var timestamp = (new Date()).getTime();
+
+			$("#captchaRef").click(function() {
+				document.getElementById('captcha').value = "";
+				var timestamp = (new Date()).getTime();
+				var newSrc = $("#captchaImage").attr("src").split("?");
+				//  $('#captchaImage').attr('src', '').attr('src', 'Captcha.jpg');
+				newSrc = newSrc[0] + "?" + timestamp;
+				$("#captchaImage").attr("src", newSrc);
+				$("#captchaImage").slideDown("fast");
+
+			});
+		});
+	</script>
 	<!-- modal end -->
 </body>
 </html>

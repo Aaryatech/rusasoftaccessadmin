@@ -2,7 +2,9 @@ package com.ats.rusaaccessweb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.InetAddress;
+import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -47,52 +49,52 @@ import com.ats.rusaaccessweb.model.LoginResponse;
 import com.ats.rusaaccessweb.model.ModuleJson;
 import com.ats.rusaaccessweb.model.dashb.GetCountsForDash;
 import com.ats.rusaaccessweb.model.dashb.GetInstInfoCount;
-import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse; 
- 
- 
+import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	/*@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
-	}*/
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String showLoginForm(HttpServletRequest request, HttpServletResponse response,Model model) {
+	/*
+	 * @RequestMapping(value = "/", method = RequestMethod.GET) public String
+	 * home(Locale locale, Model model) {
+	 * logger.info("Welcome home! The client locale is {}.", locale);
+	 * 
+	 * Date date = new Date(); DateFormat dateFormat =
+	 * DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+	 * 
+	 * String formattedDate = dateFormat.format(date);
+	 * 
+	 * model.addAttribute("serverTime", formattedDate );
+	 * 
+	 * return "home"; }
+	 */
 
-			String text = "<%@ abcd  %>";
-			System.err.println("text before  " +text);
-	     text = text.replaceAll("\\<.*?\\>", "");
-	     System.err.println("text " +text);
-	      
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String showLoginForm(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String text = "<%@ abcd  %>";
+		System.err.println("text before  " + text);
+		text = text.replaceAll("\\<.*?\\>", "");
+		System.err.println("text " + text);
+
 		String mav = new String();
-		 
+
 		try {
 
-			mav = "login" ;
-			 
+			mav = "login";
+
 		} catch (Exception e) {
 
-			//System.err.println("exception In showCMSForm at home Contr" + e.getMessage());
+			// System.err.println("exception In showCMSForm at home Contr" +
+			// e.getMessage());
 
 			e.printStackTrace();
 
@@ -101,7 +103,7 @@ public class HomeController {
 		return mav;
 
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		// System.out.println("User Logout");
@@ -109,104 +111,116 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping("/loginProcess")
 	public String helloWorld(HttpServletRequest request, HttpServletResponse res, Model model) throws IOException {
-		 
-		String mav =  "login" ;
+
+		String mav = "login";
 		HttpSession session = request.getSession();
 
 		String name = request.getParameter("username");
 		String password = request.getParameter("userpassword");
-		 
+
 		res.setContentType("text/html");
-		 
 
 		try {
-		
 
-			if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
+			String captcha = session.getAttribute("captcha_security").toString();
+			String verifyCaptcha = request.getParameter("captcha");
 
-				mav = "login" ;
-				model.addAttribute("msg", "Enter  Login Credentials");
+			if (captcha.equals(verifyCaptcha)) {
 
-			} else {
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("username", name);
-				map.add("password", password);
-				map.add("isBlock", 1);
+				if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
 
-				LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "login", map, LoginResponse.class);
-			 
-				JavaScriptUtils ju=new JavaScriptUtils();
-				
-				String s= ju.javaScriptEscape("<script>function sayHello(){ var a=10;}</script>");
-				System.err.println("s" +s);
-				
-				System.err.println("s length" +s.length());
-			
-				System.err.println("s\\u003Cscript\\u003Ealert(\\'10\\')\\u003C\\/script\\u003E\n" + 
-						"");
-				
-				if (userObj.getIsError() == false) {
+					mav = "login";
+					model.addAttribute("msg", "Enter  Login Credentials");
 
-					session.setAttribute("userInfo", userObj);
+				} else {
 					
-					map = new LinkedMultiValueMap<String, Object>();
-					map.add("roleId", userObj.getRoleId()); 
-
-					List<ModuleJson> newModuleList = new ArrayList<>();
+					MessageDigest md = MessageDigest.getInstance("MD5");
+					byte[] messageDigest = md.digest(password.getBytes());
+					BigInteger number = new BigInteger(1, messageDigest);
+					String hashtext = number.toString(16);
 					
-					try {
-						ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
-						};
-						ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
-								Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map),
-								typeRef);
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("username", name);
+					map.add("password", hashtext);
+					map.add("isBlock", 1);
 
-						 newModuleList = responseEntity.getBody();
- 
-					} catch (Exception e) {
-						e.printStackTrace();
+					LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "login", map,
+							LoginResponse.class);
+
+					JavaScriptUtils ju = new JavaScriptUtils();
+
+					String s = ju.javaScriptEscape("<script>function sayHello(){ var a=10;}</script>");
+					System.err.println("s" + s);
+
+					System.err.println("s length" + s.length());
+
+					System.err.println("s\\u003Cscript\\u003Ealert(\\'10\\')\\u003C\\/script\\u003E\n" + "");
+
+					if (userObj.getIsError() == false) {
+
+						session.setAttribute("userInfo", userObj);
+
+						map = new LinkedMultiValueMap<String, Object>();
+						map.add("roleId", userObj.getRoleId());
+
+						List<ModuleJson> newModuleList = new ArrayList<>();
+
+						try {
+							ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+							};
+							ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
+									Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map),
+									typeRef);
+
+							newModuleList = responseEntity.getBody();
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						session.setAttribute("newModuleList", newModuleList);
+						mav = "redirect:/dashboard";
+
+						session.setAttribute("sessionModuleId", 0);
+						session.setAttribute("sessionSubModuleId", 0);
+
+						InetAddress addr = InetAddress.getByName(request.getRemoteAddr());
+						String hostName = addr.getHostName();
+						String userAgent = request.getHeader("User-Agent");
+
+						Date date = new Date();
+						SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						AdminLoginLog saveLoginLogs = new AdminLoginLog();
+						saveLoginLogs.setIpAddress(hostName);
+						saveLoginLogs.setUserAgent(userAgent);
+						saveLoginLogs.setLoginDate(sf.format(date));
+						saveLoginLogs.setUserId(userObj.getUserId());
+
+						AdminLoginLog resp = Constants.getRestTemplate().postForObject(Constants.url + "/rusaLoginLog",
+								saveLoginLogs, AdminLoginLog.class);
+
 					}
-					  
-					session.setAttribute("newModuleList", newModuleList);
-					mav = "redirect:/dashboard" ;
-					 
-					session.setAttribute("sessionModuleId", 0);
-					session.setAttribute("sessionSubModuleId", 0);
-					
-					InetAddress addr = InetAddress.getByName(request.getRemoteAddr());
-					String hostName = addr.getHostName();
-					String userAgent = request.getHeader("User-Agent");
 
-					Date date = new Date();
-					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					AdminLoginLog saveLoginLogs = new AdminLoginLog();
-					saveLoginLogs.setIpAddress(hostName);
-					saveLoginLogs.setUserAgent(userAgent);
-					saveLoginLogs.setLoginDate(sf.format(date));
-					saveLoginLogs.setUserId(userObj.getUserId());
-
-					AdminLoginLog resp = Constants.getRestTemplate().postForObject(Constants.url + "/rusaLoginLog",
-							saveLoginLogs, AdminLoginLog.class);
-					
 				}
-
+			} else {
+				mav = "login";
+				model.addAttribute("msg", "Invalid Text");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			mav = "login" ;
+			mav = "login";
 			model.addAttribute("msg", "Enter Valid  Login Credentials");
-			 
+
 		}
 
-		 
 		return mav;
 
 	}
-	
+
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public ModelAndView dashboard(HttpServletRequest request, HttpServletResponse response) {
 
@@ -215,23 +229,28 @@ public class HomeController {
 
 			model = new ModelAndView("welcome");
 			model.addObject("title", "DASHBOARD");
-			 
-			 GetCountsForDash dashBoardCounts = Constants.getRestTemplate().getForObject(Constants.url + "/getInstituteCount", GetCountsForDash.class);
-			//System.out.println("InstCount="+dashBoardCounts.getCount1());
-			 model.addObject("dashBoardCounts", dashBoardCounts); 
-			
 
-			/****************************Mahendra 01/08/2019*********************************/
-			
-			GetCountsForDash dashRegInstCount = Constants.getRestTemplate().getForObject(Constants.url + "/getRegInstituteCount", GetCountsForDash.class);
-			model.addObject("dashRegInstCount", dashRegInstCount); 
-			
-			GetCountsForDash dashAutoInstCount = Constants.getRestTemplate().getForObject(Constants.url + "/getAutoInstituteCount", GetCountsForDash.class);
-			model.addObject("dashAutoInstCount", dashAutoInstCount); 
-			
-			GetInstInfoCount dashInstInfoCount = Constants.getRestTemplate().getForObject(Constants.url + "/getInstituteOtherInfoCount", GetInstInfoCount.class);
-			model.addObject("dashInstInfoCount", dashInstInfoCount); 
-			
+			GetCountsForDash dashBoardCounts = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getInstituteCount", GetCountsForDash.class);
+			// System.out.println("InstCount="+dashBoardCounts.getCount1());
+			model.addObject("dashBoardCounts", dashBoardCounts);
+
+			/****************************
+			 * Mahendra 01/08/2019
+			 *********************************/
+
+			GetCountsForDash dashRegInstCount = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getRegInstituteCount", GetCountsForDash.class);
+			model.addObject("dashRegInstCount", dashRegInstCount);
+
+			GetCountsForDash dashAutoInstCount = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAutoInstituteCount", GetCountsForDash.class);
+			model.addObject("dashAutoInstCount", dashAutoInstCount);
+
+			GetInstInfoCount dashInstInfoCount = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getInstituteOtherInfoCount", GetInstInfoCount.class);
+			model.addObject("dashInstInfoCount", dashInstInfoCount);
+
 		} catch (Exception e) {
 
 			System.err.println("exception In Rusa Access Daashboard at home Contr" + e.getMessage());
@@ -242,40 +261,36 @@ public class HomeController {
 
 		return model;
 	}
-	
-	
+
 	@RequestMapping(value = "/getDashboardGraph", method = RequestMethod.GET)
-	public @ResponseBody QualityIniGraphResponse getDashboardGraph(HttpServletRequest request, HttpServletResponse response) {
-		
-		
+	public @ResponseBody QualityIniGraphResponse getDashboardGraph(HttpServletRequest request,
+			HttpServletResponse response) {
+
 		QualityIniGraphResponse qualityIniGraphResponse = new QualityIniGraphResponse();
-		
-		
+
 		try {
-			 
-			qualityIniGraphResponse = Constants.getRestTemplate().getForObject(Constants.url + "/getAllQualIniGraph1", QualityIniGraphResponse.class);
-				 
-			
-		}catch(Exception e) {
+
+			qualityIniGraphResponse = Constants.getRestTemplate().getForObject(Constants.url + "/getAllQualIniGraph1",
+					QualityIniGraphResponse.class);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return qualityIniGraphResponse;
-	} 
-	
-	
+	}
+
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
 	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
 		int subModId = Integer.parseInt(request.getParameter("subModId"));
 		int modId = Integer.parseInt(request.getParameter("modId"));
-		 
+
 		HttpSession session = request.getSession();
 		session.setAttribute("sessionModuleId", modId);
 		session.setAttribute("sessionSubModuleId", subModId);
 		session.removeAttribute("exportExcelList");
 	}
-	
-	 
+
 	@RequestMapping(value = "/sessionTimeOut", method = RequestMethod.GET)
 	public String sessionTimeOut(HttpSession session) {
 		System.out.println("User Logout");
@@ -283,5 +298,5 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
+
 }
