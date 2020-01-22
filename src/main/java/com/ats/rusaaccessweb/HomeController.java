@@ -137,14 +137,15 @@ public class HomeController {
 
 				} else {
 					
-					MessageDigest md = MessageDigest.getInstance("MD5");
-					byte[] messageDigest = md.digest(password.getBytes());
-					BigInteger number = new BigInteger(1, messageDigest);
-					String hashtext = number.toString(16);
+					/*
+					 * MessageDigest md = MessageDigest.getInstance("MD5"); byte[] messageDigest =
+					 * md.digest(password.getBytes()); BigInteger number = new BigInteger(1,
+					 * messageDigest); String hashtext = number.toString(16);
+					 */
 					
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 					map.add("username", name);
-					map.add("password", hashtext);
+					map.add("password", password);
 					map.add("isBlock", 1);
 
 					LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "login", map,
@@ -153,11 +154,11 @@ public class HomeController {
 					JavaScriptUtils ju = new JavaScriptUtils();
 
 					String s = ju.javaScriptEscape("<script>function sayHello(){ var a=10;}</script>");
-					System.err.println("s" + s);
+					//System.err.println("s" + s);
 
-					System.err.println("s length" + s.length());
+					//System.err.println("s length" + s.length());
 
-					System.err.println("s\\u003Cscript\\u003Ealert(\\'10\\')\\u003C\\/script\\u003E\n" + "");
+					//System.err.println("s\\u003Cscript\\u003Ealert(\\'10\\')\\u003C\\/script\\u003E\n" + "");
 
 					if (userObj.getIsError() == false) {
 
