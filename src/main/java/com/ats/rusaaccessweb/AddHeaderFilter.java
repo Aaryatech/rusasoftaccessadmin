@@ -25,7 +25,7 @@ public class AddHeaderFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
       // if(request.getPathInfo())
        // System.err.println("Req request.getQueryString() "+request.getQueryString());
-        System.err.println("request.getHeader(\"user-agent\"); " +request.getHeader("user-agent"));
+       // System.err.println("request.getHeader(\"user-agent\"); " +request.getHeader("user-agent"));
 	}
 
 }

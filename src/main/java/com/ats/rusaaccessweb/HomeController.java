@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -55,6 +57,7 @@ import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse;
  * Handles requests for the application home page.
  */
 @Controller
+@Scope("session")
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -131,7 +134,9 @@ public class HomeController {
 			if (captcha.equals(verifyCaptcha)) {
 
 				if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
-
+					Random randChars = new Random();
+					String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
+					session.setAttribute("captcha_security", sImageCode); 
 					mav = "login";
 					model.addAttribute("msg", "Enter  Login Credentials");
 
@@ -203,10 +208,18 @@ public class HomeController {
 						AdminLoginLog resp = Constants.getRestTemplate().postForObject(Constants.url + "/rusaLoginLog",
 								saveLoginLogs, AdminLoginLog.class);
 
+					}else {
+						Random randChars = new Random();
+						String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
+						session.setAttribute("captcha_security", sImageCode); 
 					}
 
 				}
-			} else {
+			} else {Random randChars = new Random();
+			String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
+			session.setAttribute("captcha_security", sImageCode); 
+				
+				
 				mav = "login";
 				model.addAttribute("msg", "Invalid Text");
 			}
