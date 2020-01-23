@@ -135,7 +135,7 @@ public class AccessRightController {
 		try {
 
 			int moduleId = Integer.parseInt(request.getParameter("moduleId"));
-			//System.out.println(moduleId);
+			// System.out.println(moduleId);
 			for (int i = 0; i < accessRightModuleList.getAccessRightModuleList().size(); i++) {
 
 				if (accessRightModuleList.getAccessRightModuleList().get(i).getModuleId() == moduleId) {
@@ -187,9 +187,15 @@ public class AccessRightController {
 	}
 
 	@RequestMapping(value = "/deleteRole/{roleId}", method = RequestMethod.GET)
-	public String deleteFlavour(@PathVariable int roleId) {
+	public String deleteFlavour(@PathVariable int roleId,HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("accessRight/roleList");
+		HttpSession session = request.getSession();
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info info1 = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "0", "1", newModuleList);
+
+
+		if (info1.isError() == false) {
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("roleId", roleId);
@@ -203,6 +209,9 @@ public class AccessRightController {
 		} else {
 			return "redirect:/showRoleList";
 
+		}
+		}else {
+			return "redirect:/accessDenied";
 		}
 	}
 
@@ -314,6 +323,8 @@ public class AccessRightController {
 		List<AccessRightModule> accessRightModule = accessRightModuleList.getAccessRightModuleList();
 
 		List<ModuleJson> moduleJsonList = new ArrayList<>();
+		
+		
 
 		try {
 
@@ -444,6 +455,13 @@ public class AccessRightController {
 
 		// Constants.mainAct = 22;
 		// Constants.subAct = 106;
+		//dsad
+		HttpSession session = request.getSession();
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info info1 = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "1", "0", newModuleList);
+
+
+		if (info1.isError() == false) {
 		try {
 			accessRightModuleList = Constants.getRestTemplate().getForObject(Constants.url + "getAllModuleAndSubModule",
 					AccessRightModuleList.class);
@@ -522,6 +540,10 @@ public class AccessRightController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		}else {
+			model = new ModelAndView("accessDenied");
+		}
 		return model;
 	}
 
@@ -538,10 +560,13 @@ public class AccessRightController {
 					newModuleList);
 
 			if (info.isError() == false) {
-				
-				model.addObject("title", "Assign Role"); 
-				/*accessRightModuleList = Constants.getRestTemplate()
-						.getForObject(Constants.url + "getAllModuleAndSubModule", AccessRightModuleList.class);*/
+
+				model.addObject("title", "Assign Role");
+				/*
+				 * accessRightModuleList = Constants.getRestTemplate()
+				 * .getForObject(Constants.url + "getAllModuleAndSubModule",
+				 * AccessRightModuleList.class);
+				 */
 
 				UserList[] user = Constants.getRestTemplate().getForObject(Constants.url + "/getAllUserList",
 						UserList[].class);
@@ -567,7 +592,15 @@ public class AccessRightController {
 
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
+		HttpSession session = request.getSession();
+		userId = (int) session.getAttribute("userId");
+		System.err.println("UserId  " + userId);
+		
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info info1 = AccessControll.checkAccess("showAssignRole", "showAssignRole", "0", "1", "0", "0", newModuleList);
 
+
+		if (info1.isError() == false) {
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -575,10 +608,13 @@ public class AccessRightController {
 			map.add("roleId", roleId);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateRoleOfUser", map, Info.class);
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
+		}else {
+			return "redirect:/accessDenied";
+		}
 		return "redirect:/showAssignRole";
 	}
 
