@@ -120,8 +120,8 @@
 														</label>
 														<div class="col-sm-3">
 															<input type="text" class="form-control" id="userName"
-																name="userName" placeholder="User Name"
-																autocomplete="off" readonly> <input type="hidden"
+																name="userName" placeholder="User Name" required
+																autocomplete="off"> <input type="hidden"
 																id="userId" name="userId">
 														</div>
 													</div>
@@ -133,7 +133,7 @@
 														<div class="col-sm-3">
 															<select name="roleId" class="form-control" id="roleId"
 																required>
-																<option value="">Select Role</option>
+																<option selected disabled value="">Select Role</option>
 
 																<c:forEach items="${createdRoleList}"
 																	var="createdRoleList">
@@ -177,8 +177,8 @@
 																			<td><a title="Edit" rel="tooltip"
 																				data-color-class="detail"
 																				data-animate=" animated fadeIn " href="#"
-																				data-toggle="tooltip" data-original-title="Edit"
-																				onclick="getUserName(/${userList.userName}/,${userList.userId})"><span
+																				data-toggle="tooltip" data-original-title="Select User"
+																				onclick="123456789(/${userList.userName}/,${userList.userId})"><span
 																					class="glyphicon glyphicon-edit"></span></a></td>
 																		</tr>
 
@@ -235,10 +235,16 @@
 		 
 
 		function getUserName(userName,userId) {
-			
+			alert(userId)
+			document.getElementById("userId").value = userId
+			<%
+			int incr = (int) pageContext.getAttribute("userId");
+			session = request.getSession();
+			session.setAttribute("userId",incr);
+		%>
  			//alert(userName);
 			document.getElementById("userName").value = userName;
-			document.getElementById("userId").value = userId
+			
 
 		}
 	</script>
