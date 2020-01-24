@@ -95,8 +95,8 @@
 											<tbody>
 												<c:set value="0" var="sr"></c:set>
 												<c:forEach items="${list}" var="list" varStatus="count">
-													<c:if test="${list.userId!=1}">
-														<tr>
+<%-- 													<c:if test="${list.userId!=1}">
+ --%>														<tr>
  
 															<c:set value="${sr+1}" var="sr"></c:set>
 															<td style="text-align: center;">${sr}</td>
@@ -109,10 +109,16 @@
 															<td>${list.joiningDate}</td>
 
 
-															<td align="center"><a
+															<td align="center">
+															<c:if test="${editAccess==0}"><a
 																href="${pageContext.request.contextPath}/editUser?user=${list.exVar2}"><span
 																	class="glyphicon glyphicon-edit" title="Edit"
 																	data-animate=" animated fadeIn " rel="tooltip"></span></a>
+																	</c:if>
+																	
+																	<c:if test="${delAccess==0}">
+																	
+																	
 																<a
 																href="${pageContext.request.contextPath}/deleteUser?user=${list.exVar2}"
 																rel="tooltip" data-color-class="danger"
@@ -120,11 +126,14 @@
 																title="Delete" data-animate=" animated fadeIn "
 																data-toggle="tooltip"
 																data-original-title="Delete  record"><span
-																	class="glyphicon glyphicon-remove"></span></a></td>
+																	class="glyphicon glyphicon-remove"></span></a>
+																	</c:if>
+																	</td>
+
 
 
 														</tr>
-													</c:if>
+												<%-- 	</c:if> --%>
 												</c:forEach>
 											</tbody>
 

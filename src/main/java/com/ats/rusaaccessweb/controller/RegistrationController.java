@@ -37,9 +37,9 @@ import com.ats.rusaaccessweb.model.dashb.QualityIniGraphResponse;
 @Scope("session")
 public class RegistrationController {
 
-	 
 	@RequestMapping(value = "/showChangePrincipalRequestList", method = RequestMethod.GET)
-	public String showChangePrincipalRequestList(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String showChangePrincipalRequestList(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 
 		String mav = new String();
 
@@ -49,28 +49,24 @@ public class RegistrationController {
 
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 
-			 
-
-			Info viewAccess = AccessControll.checkAccess("showChangePrincipalRequestList", "showChangePrincipalRequestList", "1", "0", "0", "0",
-					newModuleList);
+			Info viewAccess = AccessControll.checkAccess("showChangePrincipalRequestList",
+					"showChangePrincipalRequestList", "1", "0", "0", "0", newModuleList);
 
 			if (viewAccess.isError() == false) {
 				model.addAttribute("title", "Change Principal List");
 				mav = "master/changePrincipalList";
 
-				GetChangePrincipalDetails[] res = Constants.getRestTemplate().getForObject(Constants.url + "/getAllRequestForChangePrincipal",
-						GetChangePrincipalDetails[].class);
+				GetChangePrincipalDetails[] res = Constants.getRestTemplate().getForObject(
+						Constants.url + "/getAllRequestForChangePrincipal", GetChangePrincipalDetails[].class);
 				List<GetChangePrincipalDetails> list = new ArrayList<>(Arrays.asList(res));
 
-				 
 				model.addAttribute("list", list);
-				System.out.println("list is"+list.toString());
+				System.out.println("list is" + list.toString());
 
 			} else {
 
 				mav = "redirect:/accessDenied";
 			}
-
 
 		} catch (Exception e) {
 
@@ -84,33 +80,29 @@ public class RegistrationController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/approveChangePrincipal/{facultyId}/{instituteId}", method = RequestMethod.GET)
 	public String approveChangePrincipal(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable int facultyId,	@PathVariable int instituteId) {
+			@PathVariable int facultyId, @PathVariable int instituteId) {
 
 		String redirect = null;
 		try {
-		  
-			
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				
-				 map.add("facultyId",facultyId);
-				Info errMsg = Constants.getRestTemplate().postForObject(Constants.url + "changePrincipal", map, Info.class);
-				
-				if(errMsg.isError()==false) {
-					 
-					redirect = "redirect:/showChangePrincipalRequestList";
-					map = new LinkedMultiValueMap<String, Object>();
-					
-					 map.add("instituteId",instituteId);
-					Info errMsg1 = Constants.getRestTemplate().postForObject(Constants.url + "blockPrevPrincipal", map, Info.class);
-					
-				}
-				
-				
-				
-		 
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("facultyId", facultyId);
+			Info errMsg = Constants.getRestTemplate().postForObject(Constants.url + "changePrincipal", map, Info.class);
+
+			if (errMsg.isError() == false) {
+
+				redirect = "redirect:/showChangePrincipalRequestList";
+				map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("instituteId", instituteId);
+				Info errMsg1 = Constants.getRestTemplate().postForObject(Constants.url + "blockPrevPrincipal", map,
+						Info.class);
+
+			}
+
 		} catch (Exception e) {
 
 			System.err.println(" Exception In deleteInstitutes at Master Contr " + e.getMessage());
@@ -122,8 +114,7 @@ public class RegistrationController {
 		return redirect;
 
 	}
-	
-	
+
 	UserLogin editUser = new UserLogin();
 
 	@RequestMapping(value = "/registerUser", method = RequestMethod.GET)
@@ -282,6 +273,8 @@ public class RegistrationController {
 
 			Info viewAccess = AccessControll.checkAccess("getRusaUserList", "getRusaUserList", "1", "0", "0", "0",
 					newModuleList);
+			
+			
 
 			if (viewAccess.isError() == false) {
 
@@ -291,14 +284,33 @@ public class RegistrationController {
 				LoginResponse[] res = Constants.getRestTemplate().getForObject(Constants.url + "/getAllUserList",
 						LoginResponse[].class);
 				List<LoginResponse> list = new ArrayList<>(Arrays.asList(res));
+				try {
+					for (int i = 0; i < list.size(); i++) {
 
-				for (int i = 0; i < list.size(); i++) {
+						list.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(list.get(i).getUserId())));
 
-					list.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(list.get(i).getUserId())));
-
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				System.err.println("List size  " + list.size());
 				model.addAttribute("list", list);
+				
+				Info delAcc = AccessControll.checkAccess("deleteUser", "getRusaUserList", "0", "0", "0", "1",
+						newModuleList);
 
+				if (delAcc.isError() == false) {
+					model.addAttribute("delAccess", 0);
+				}
+
+				
+				Info editAcce = AccessControll.checkAccess("deleteUser", "getRusaUserList", "0", "0", "1", "0",
+						newModuleList);
+
+				if (editAcce.isError() == false) {
+					model.addAttribute("editAccess", 0);
+				}
+				
 			} else {
 
 				mav = "redirect:/accessDenied";
