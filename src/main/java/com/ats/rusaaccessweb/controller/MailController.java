@@ -25,6 +25,7 @@ import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.common.EmailUtility;
 import com.ats.rusaaccessweb.common.FormValidation;
+import com.ats.rusaaccessweb.common.XssEscapeUtils;
 import com.ats.rusaaccessweb.model.GetInstituteList;
 import com.ats.rusaaccessweb.model.Info;
 import com.ats.rusaaccessweb.model.ModuleJson;
@@ -70,53 +71,61 @@ public class MailController {
 	static String senderPassword ="@Rusamah";// "atsinfosoft@123";
 
 	@RequestMapping(value = "/submitSendMail", method = RequestMethod.POST)
-	public String submitSendMail(@RequestParam("files") List<MultipartFile> files,HttpServletRequest request, HttpServletResponse response) {
- 
+	public String submitSendMail(@RequestParam("files") List<MultipartFile> files, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		String ret = new String();
-		
+
 		try {
-			
-			
 			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList =(List<ModuleJson>)session.getAttribute("newModuleList"); 
-			Info info = AccessControll.checkAccess("submitSendMail", "sendMail", "0", "1", "0", "0",newModuleList);
-			
-			//System.out.println(info);
-			
-			if(info.isError()==true) {
-				ret = "redirect:/accessDenied";
-			}else {
-				ret = "redirect:/sendMail";
-				
-				String[] instituteId = request.getParameterValues("instituteId");
-				String  subject = request.getParameter("subject");
-				String  message = request.getParameter("message");
-				 
-				String emails = "-";
-				
-				for(int i=0;i<instituteId.length ; i++) {
-					
-					for(int j=0 ; j<instList.size() ; j++) {
-						
-						if(instList.get(j).getInstituteId()==Integer.parseInt(instituteId[i])) {
-							
-							emails=emails+","+instList.get(j).getEmail();
-							break;
+			String token = request.getParameter("token");
+			String key = (String) session.getAttribute("generatedKey");
+
+			if (token.trim().equals(key.trim())) {
+
+				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+				Info info = AccessControll.checkAccess("submitSendMail", "sendMail", "0", "1", "0", "0", newModuleList);
+
+				// System.out.println(info);
+
+				if (info.isError() == true) {
+					ret = "redirect:/accessDenied";
+				} else {
+					ret = "redirect:/sendMail";
+
+					String[] instituteId = request.getParameterValues("instituteId");
+					String subject = request.getParameter("subject");
+					String message = request.getParameter("message");
+
+					String emails = "-";
+
+					for (int i = 0; i < instituteId.length; i++) {
+
+						for (int j = 0; j < instList.size(); j++) {
+
+							if (instList.get(j).getInstituteId() == Integer.parseInt(instituteId[i])) {
+
+								emails = emails + "," + instList.get(j).getEmail();
+								break;
+							}
+
 						}
-						
+
 					}
-					
+					// System.out.println("emails" + emails.substring(2, emails.length()));
+					emails = emails.substring(2, emails.length());
+
+					if (emails.split(",").length > 0 && FormValidation.Validaton(subject, "") == false) {
+
+						Info send = EmailUtility.sendEmail(senderEmail, senderPassword, emails,
+								XssEscapeUtils.jsoupParse(subject), XssEscapeUtils.jsoupParseClean(message), files);
+
+					}
+
 				}
-				//System.out.println("emails" + emails.substring(2, emails.length())); 
-				emails = emails.substring(2, emails.length());
-				
-				if(emails.split(",").length>0 && FormValidation.Validaton(subject, "")==false) {
-					
-					Info send = EmailUtility.sendEmail(senderEmail, senderPassword, emails, subject,message,files);
-					
-				}
-				 
-				
+			} else {
+				System.err.println("in else");
+				ret = "redirect:/accessDenied";
 			}
 
 		} catch (Exception e) {

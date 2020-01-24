@@ -558,78 +558,87 @@ public class RegistrationController {
 		String mav = new String();
 
 		try {
-			Info checkUserNameExist = new Info();
 
 			HttpSession session = request.getSession();
+			String token = request.getParameter("token");
+			String key = (String) session.getAttribute("generatedKey");
 
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			if (token.trim().equals(key.trim())) {
 
-			Info viewAccess = AccessControll.checkAccess("submitChangepass", "changeCredential", "1", "0", "0", "0",
-					newModuleList);
+				Info checkUserNameExist = new Info();
 
-			if (viewAccess.isError() == false) {
+				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-				Date date = new Date();
-				SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Info viewAccess = AccessControll.checkAccess("submitChangepass", "changeCredential", "1", "0", "0", "0",
+						newModuleList);
 
-				Boolean error = false;
+				if (viewAccess.isError() == false) {
 
-				String currentPass = request.getParameter("currentPass");
+					Date date = new Date();
+					SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-				if (currentPass.equals(userObj.getPass())) {
+					Boolean error = false;
 
-					String userName = request.getParameter("userName");
-					String userPass = request.getParameter("userPass");
-					String reuserPass = request.getParameter("reuserPass");
+					String currentPass = request.getParameter("currentPass");
 
-					if (FormValidation.Validaton(userName, "") == true || !userPass.equals(reuserPass)) {
+					if (currentPass.equals(userObj.getPass())) {
 
-						error = true;
-					}
+						String userName = request.getParameter("userName");
+						String userPass = request.getParameter("userPass");
+						String reuserPass = request.getParameter("reuserPass");
 
-					if (userName.equals(userObj.getUserName())) {
+						if (FormValidation.Validaton(userName, "") == true || !userPass.equals(reuserPass)) {
 
-						checkUserNameExist.setError(false);
-
-					} else {
-
-						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-						map.add("username", userName);
-						checkUserNameExist = Constants.getRestTemplate()
-								.postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
-
-					}
-
-					if (error == false && checkUserNameExist.isError() == false) {
-
-						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-						map.add("userId", userObj.getUserId());
-						map.add("userName", userName);
-						map.add("userPass", userPass);
-
-						Info res = Constants.getRestTemplate().postForObject(Constants.url + "/updatePassword", map,
-								Info.class);
-
-						if (res.isError() == true) {
-							session.setAttribute("successMsg", "Failed to update password !");
-							session.setAttribute("errorMsg", "true");
-						} else {
-							session.setAttribute("successMsg", "password changed successfully!");
-							session.setAttribute("errorMsg", "false");
+							error = true;
 						}
 
-					} else {
-						session.setAttribute("successMsg", "Invalid Data");
-						session.setAttribute("errorMsg", "true");
+						if (userName.equals(userObj.getUserName())) {
+
+							checkUserNameExist.setError(false);
+
+						} else {
+
+							MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+							map.add("username", userName);
+							checkUserNameExist = Constants.getRestTemplate()
+									.postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
+
+						}
+
+						if (error == false && checkUserNameExist.isError() == false) {
+
+							MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+							map.add("userId", userObj.getUserId());
+							map.add("userName", XssEscapeUtils.jsoupParse(userName));
+							map.add("userPass", XssEscapeUtils.jsoupParse(userPass));
+
+							Info res = Constants.getRestTemplate().postForObject(Constants.url + "/updatePassword", map,
+									Info.class);
+
+							if (res.isError() == true) {
+								session.setAttribute("successMsg", "Failed to update password !");
+								session.setAttribute("errorMsg", "true");
+							} else {
+								session.setAttribute("successMsg", "password changed successfully!");
+								session.setAttribute("errorMsg", "false");
+							}
+
+						} else {
+							session.setAttribute("successMsg", "Invalid Data");
+							session.setAttribute("errorMsg", "true");
+						}
+
 					}
 
+					mav = "redirect:/changeCredential";
+
+				} else {
+
+					mav = "redirect:/accessDenied";
 				}
-
-				mav = "redirect:/changeCredential";
-
 			} else {
-
+				System.err.println("in else");
 				mav = "redirect:/accessDenied";
 			}
 
