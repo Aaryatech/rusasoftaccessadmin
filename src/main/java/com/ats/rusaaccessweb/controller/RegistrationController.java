@@ -25,6 +25,7 @@ import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.common.DateConvertor;
 import com.ats.rusaaccessweb.common.FormValidation;
+import com.ats.rusaaccessweb.common.XssEscapeUtils;
 import com.ats.rusaaccessweb.model.GetChangePrincipalDetails;
 import com.ats.rusaaccessweb.model.GetInstituteList;
 import com.ats.rusaaccessweb.model.Info;
@@ -160,94 +161,105 @@ public class RegistrationController {
 		String mav = new String();
 
 		try {
-			Info checkUserNameExist = new Info();
-
 			HttpSession session = request.getSession();
+			String token=request.getParameter("token");
+			String key=(String) session.getAttribute("generatedKey");
+			
+			if (token.trim().equals(key.trim())) {
 
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+				Info checkUserNameExist = new Info();
 
-			Info viewAccess = AccessControll.checkAccess("registerUser", "registerUser", "0", "1", "0", "0",
-					newModuleList);
+				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			if (viewAccess.isError() == false) {
+				Info viewAccess = AccessControll.checkAccess("registerUser", "registerUser", "0", "1", "0", "0",
+						newModuleList);
 
-				Date date = new Date();
-				SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				if (viewAccess.isError() == false) {
 
-				String firstname = request.getParameter("firstname");
-				String middlename = request.getParameter("middlename");
-				String lastname = request.getParameter("lastname");
-				String userEmail = request.getParameter("userEmail");
-				String designation = request.getParameter("designation");
-				String joiningDate = request.getParameter("joiningDate");
-				// int isActive = Integer.parseInt(request.getParameter("isActive"));
-				int isEdit = Integer.parseInt(request.getParameter("isEdit"));
+					Date date = new Date();
+					SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-				Boolean error = false;
+					String firstname = request.getParameter("firstname").trim().replaceAll("[ ]{2,}", " ");
+					///System.out.println("firstname----------"+XssEscapeUtils.jsoupParse(firstname));
+					String middlename = request.getParameter("middlename").trim().replaceAll("[ ]{2,}", " ");
+					String lastname = request.getParameter("lastname").trim().replaceAll("[ ]{2,}", " ");
+					String userEmail = request.getParameter("userEmail").trim().replaceAll("[ ]{2,}", " ");
+					String designation = request.getParameter("designation").trim().replaceAll("[ ]{2,}", " ");
+					String joiningDate = request.getParameter("joiningDate").trim().replaceAll("[ ]{2,}", " ");
+					// int isActive = Integer.parseInt(request.getParameter("isActive"));
+					int isEdit = Integer.parseInt(request.getParameter("isEdit"));
 
-				if (FormValidation.Validaton(firstname, "") == true || FormValidation.Validaton(lastname, "") == true
-						|| FormValidation.Validaton(userEmail, "email") == true
-						|| FormValidation.Validaton(designation, "") == true
-						|| FormValidation.Validaton(joiningDate, "date") == true) {
+					Boolean error = false;
 
-					error = true;
-				}
-
-				editUser.setIsBlock(1);
-				editUser.setFirstName(firstname.trim().replaceAll("[ ]{2,}", " "));
-				editUser.setMiddleName(middlename.trim().replaceAll("[ ]{2,}", " "));
-				editUser.setLastName(lastname.trim().replaceAll("[ ]{2,}", " "));
-				editUser.setEmail(userEmail.trim().replaceAll("[ ]{2,}", " "));
-				editUser.setDesignation(designation.trim().replaceAll("[ ]{2,}", " "));
-				editUser.setJoiningDate(DateConvertor.convertToYMD(joiningDate));
-				editUser.setExVar1(dateTimeInGMT.format(date));
-
-				if (isEdit == 0 && error == false) {
-
-					String userName = request.getParameter("userName");
-					String userPass = request.getParameter("userPass");
-					String reuserPass = request.getParameter("reuserPass");
-
-					if (FormValidation.Validaton(userName, "") == true || !userPass.equals(reuserPass)) {
+					if (FormValidation.Validaton(firstname, "") == true
+							|| FormValidation.Validaton(lastname, "") == true
+							|| FormValidation.Validaton(userEmail, "email") == true
+							|| FormValidation.Validaton(designation, "") == true
+							|| FormValidation.Validaton(joiningDate, "date") == true) {
 
 						error = true;
 					}
 
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-					map.add("username", userName);
-					checkUserNameExist = Constants.getRestTemplate()
-							.postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
+					editUser.setIsBlock(1);
+					editUser.setFirstName(XssEscapeUtils.jsoupParse(firstname));
+					editUser.setMiddleName(XssEscapeUtils.jsoupParse(middlename));
+					editUser.setLastName(XssEscapeUtils.jsoupParse(lastname));
+					editUser.setEmail(XssEscapeUtils.jsoupParse(userEmail));
+					editUser.setDesignation(XssEscapeUtils.jsoupParse(designation));
+					editUser.setJoiningDate(XssEscapeUtils.jsoupParse(DateConvertor.convertToYMD(joiningDate)));
+					editUser.setExVar1(dateTimeInGMT.format(date));
 
-					editUser.setUserName(userName.trim().replaceAll("[ ]{2,}", " "));
-					editUser.setPass(userPass);
-				}
+					if (isEdit == 0 && error == false) {
 
-				if (error == false && checkUserNameExist.isError() == false) {
+						String userName = request.getParameter("userName").trim().replaceAll("[ ]{2,}", " ");
+						String userPass = request.getParameter("userPass");
+						String reuserPass = request.getParameter("reuserPass");
 
-					editUser.setExInt1(userObj.getUserId());
-					UserLogin res = Constants.getRestTemplate().postForObject(Constants.url + "/rusaUserRegistration",
-							editUser, UserLogin.class);
+						if (FormValidation.Validaton(userName, "") == true
+								|| !userPass.equals(reuserPass)) {
 
-					if (res == null) {
-						session.setAttribute("successMsg", "Failed To Add User Information !");
-						session.setAttribute("errorMsg", "true");
-					} else {
-						session.setAttribute("successMsg", "User Infomation added successfully!");
-						session.setAttribute("errorMsg", "false");
+							error = true;
+						}
+
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+						map.add("username", userName);
+						checkUserNameExist = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/checkUserNameExist", map, Info.class);
+
+						editUser.setUserName(XssEscapeUtils.jsoupParse(userName));
+						editUser.setPass(XssEscapeUtils.jsoupParse(userPass));
 					}
 
+					if (error == false && checkUserNameExist.isError() == false) {
+
+						editUser.setExInt1(userObj.getUserId());
+						UserLogin res = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/rusaUserRegistration", editUser, UserLogin.class);
+
+						if (res == null) {
+							session.setAttribute("successMsg", "Failed To Add User Information !");
+							session.setAttribute("errorMsg", "true");
+						} else {
+							session.setAttribute("successMsg", "User Infomation added successfully!");
+							session.setAttribute("errorMsg", "false");
+						}
+
+					} else {
+						session.setAttribute("successMsg", "Invalid Data");
+						session.setAttribute("errorMsg", "true");
+					}
+
+					mav = "redirect:/getRusaUserList";
+
 				} else {
-					session.setAttribute("successMsg", "Invalid Data");
-					session.setAttribute("errorMsg", "true");
+
+					mav = "redirect:/accessDenied";
 				}
-
-				mav = "redirect:/getRusaUserList";
-
-			} else {
-
-				mav = "redirect:/accessDenied";
-			}
+			}else {
+			System.err.println("in else");
+			mav = "redirect:/accessDenied";
+		}
 
 		} catch (Exception e) {
 

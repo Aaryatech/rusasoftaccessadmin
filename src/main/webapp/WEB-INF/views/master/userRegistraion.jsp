@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ page import="java.util.UUID"%>
+<%@ page import="java.security.MessageDigest"%>
+<%@ page import="java.math.BigInteger"%>
 
 
 <!DOCTYPE html>
@@ -113,6 +115,18 @@
 						<form class="form-horizontal" id="form_sample_2"
 							action="${pageContext.request.contextPath}/insertUser"
 							method="post">
+							
+							<%
+								UUID uuid = UUID.randomUUID();
+								MessageDigest md = MessageDigest.getInstance("MD5");
+								byte[] messageDigest = md.digest(String.valueOf(uuid).getBytes());
+								BigInteger number = new BigInteger(1, messageDigest);
+								String hashtext = number.toString(16);
+								session = request.getSession();
+								session.setAttribute("generatedKey", hashtext);
+							%>
+							<input type="hidden" value="<%out.println(hashtext);%>"
+									name="token" id="token">
 
 							<div class="content-body">
 								<div class="row">
@@ -229,7 +243,7 @@
 													<div class="col-sm-10">
 														<input id="userName" class="form-control"
 															placeholder="User Name" value="${editUser.userName}"
-															onchange="checkUserNameExist();trim(this);"
+															onchange="checkUserNameExist();trim(this);" 
 															style="text-align: left;" name="userName" type="text">
 														<span class="error_form text-danger" id="error_userName"
 															style="display: none;">Enter User Name.</span>
@@ -241,8 +255,7 @@
 														: <span class="text-danger">*</span>
 													</label>
 													<div class="col-sm-10">
-														<input id="userPass" class="form-control"
-															placeholder="Password" value="${editUser.pass}"
+														<input id="userPass" class="form-control" 															placeholder="Password" value="${editUser.pass}"
 															style="text-align: left;" name="userPass" type="password">
 														<span class="error_form text-danger" id="error_userPass"
 															style="display: none;">Enter Password.</span>
@@ -254,7 +267,7 @@
 														: <span class="text-danger">*</span>
 													</label>
 													<div class="col-sm-10">
-														<input id="reuserPass" class="form-control"
+														<input id="reuserPass" class="form-control" 
 															placeholder="Re-Password" value="${editUser.pass}"
 															style="text-align: left;" name="reuserPass"
 															type="password"> <span
