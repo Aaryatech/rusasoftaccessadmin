@@ -25,6 +25,7 @@ import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
 import com.ats.rusaaccessweb.common.DateConvertor;
 import com.ats.rusaaccessweb.common.FormValidation;
+import com.ats.rusaaccessweb.common.SessionKeyGen;
 import com.ats.rusaaccessweb.common.XssEscapeUtils;
 import com.ats.rusaaccessweb.model.GetChangePrincipalDetails;
 import com.ats.rusaaccessweb.model.GetInstituteList;
@@ -260,9 +261,9 @@ public class RegistrationController {
 			System.err.println("in else");
 			mav = "redirect:/accessDenied";
 		}
-
+			SessionKeyGen.changeSessionKey(request);
 		} catch (Exception e) {
-
+			SessionKeyGen.changeSessionKey(request);
 			e.printStackTrace();
 			HttpSession session = request.getSession();
 			session.setAttribute("successMsg", "Failed To Add User Information !");
@@ -345,40 +346,49 @@ public class RegistrationController {
 
 		String mav = new String();
 
-		try {
+		try {			
 
 			HttpSession session = request.getSession();
+			String token = request.getParameter("hashtext");
+			//System.out.println("hashtext---------" + token);
+			String key = (String) session.getAttribute("generatedKey");
 
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			if (token.trim().equals(key.trim())) {
 
-			Info viewAccess = AccessControll.checkAccess("deleteUser", "getRusaUserList", "0", "0", "0", "1",
-					newModuleList);
+				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 
-			if (viewAccess.isError() == false) {
+				Info viewAccess = AccessControll.checkAccess("deleteUser", "getRusaUserList", "0", "0", "0", "1",
+						newModuleList);
 
-				int userId = Integer.parseInt(FormValidation.DecodeKey(request.getParameter("user")));
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("userId", userId);
-				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteRusaUserRegistration", map,
-						Info.class);
+				if (viewAccess.isError() == false) {
 
-				mav = "redirect:/getRusaUserList";
+					int userId = Integer.parseInt(FormValidation.DecodeKey(request.getParameter("user")));
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteRusaUserRegistration",
+							map, Info.class);
 
-				if (res.isError() == true) {
-					session.setAttribute("successMsg", "Failed To Delete User Information !");
-					session.setAttribute("errorMsg", "true");
+					mav = "redirect:/getRusaUserList";
+
+					if (res.isError() == true) {
+						session.setAttribute("successMsg", "Failed To Delete User Information !");
+						session.setAttribute("errorMsg", "true");
+					} else {
+						session.setAttribute("successMsg", "User Infomation Deleted successfully!");
+						session.setAttribute("errorMsg", "false");
+					}
+
 				} else {
-					session.setAttribute("successMsg", "User Infomation Deleted successfully!");
-					session.setAttribute("errorMsg", "false");
+
+					mav = "redirect:/accessDenied";
 				}
-
 			} else {
-
 				mav = "redirect:/accessDenied";
 			}
+			SessionKeyGen.changeSessionKey(request);
 
 		} catch (Exception e) {
-
+			SessionKeyGen.changeSessionKey(request);
 			// System.err.println("exception In editJournal at Iqac Contr" +
 			// e.getMessage());
 

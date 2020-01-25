@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
+import com.ats.rusaaccessweb.common.SessionKeyGen;
 import com.ats.rusaaccessweb.common.XssEscapeUtils;
 import com.ats.rusaaccessweb.model.AccessRightModule;
 import com.ats.rusaaccessweb.model.AccessRightModuleList;
@@ -448,9 +449,10 @@ public class AccessRightController {
 				System.err.println("in else");
 				redirect = "redirect:/accessDenied";
 			}
-
+			SessionKeyGen.changeSessionKey(request);
 		} catch (Exception e) {
 			e.printStackTrace();
+			SessionKeyGen.changeSessionKey(request);
 		}
 
 		return redirect;

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.rusaaccessweb.common.AccessControll;
 import com.ats.rusaaccessweb.common.Constants;
+import com.ats.rusaaccessweb.common.SessionKeyGen;
 import com.ats.rusaaccessweb.model.GetInstituteList;
 import com.ats.rusaaccessweb.model.Info;
 import com.ats.rusaaccessweb.model.Institute;
@@ -318,12 +319,16 @@ public class AccessMasterController {
 
 	}
 
-	@RequestMapping(value = "/deleteInst/{instId}", method = RequestMethod.GET)
-	public String deleteInstitutes(@PathVariable("instId") int instId, HttpServletRequest request) {
+	@RequestMapping(value = "/deleteInst/{instId}/{token}", method = RequestMethod.GET)
+	public String deleteInstitutes(@PathVariable("instId") int instId, @PathVariable("token") String token, HttpServletRequest request) {
 
 		String a = null;
 		try {
 			HttpSession session = request.getSession();
+			String key=(String) session.getAttribute("generatedKey");
+			
+			if(token.trim().equals(key.trim())) {
+			
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("showPendingInstitute", "showPendingInstitute", "0", "0", "0", "1",
 					newModuleList);
@@ -335,7 +340,7 @@ public class AccessMasterController {
 			} else {
 
 				Info inf = new Info();
-				//// System.out.println("Id:" + instId);
+				// System.out.println("Id:" + instId);
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("instId", instId);
@@ -343,9 +348,13 @@ public class AccessMasterController {
 						Info.class);
 
 				a = "redirect:/showPendingInstitute";
-
 			}
+			}else {				
+				a = "redirect:/accessDenied";
+			}
+			SessionKeyGen.changeSessionKey(request);
 		} catch (Exception e) {
+			SessionKeyGen.changeSessionKey(request);
 			e.printStackTrace();
 		}
 		return a;
