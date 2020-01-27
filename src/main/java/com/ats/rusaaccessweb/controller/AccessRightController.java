@@ -599,33 +599,50 @@ public class AccessRightController {
 
 	@RequestMapping(value = "/submitAssignedRole", method = RequestMethod.POST)
 	public String submitAssignedRole(HttpServletRequest request, HttpServletResponse response) {
+		String redirect = null;
+		try {
+			HttpSession session = request.getSession();
+			String token = request.getParameter("token");
+			String key = (String) session.getAttribute("generatedKey");
 
-		int roleId = Integer.parseInt(request.getParameter("roleId"));
-		int userId = Integer.parseInt(request.getParameter("userId"));
-		HttpSession session = request.getSession();
-		//userId = (int) session.getAttribute("userId");
-		System.err.println("UserId  " + userId);
+			if (token.trim().equals(key.trim())) {
 
-		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		Info info1 = AccessControll.checkAccess("showAssignRole", "showAssignRole", "0", "1", "0", "0", newModuleList);
+				int roleId = Integer.parseInt(request.getParameter("roleId"));
+				int userId = Integer.parseInt(request.getParameter("userId"));
 
-		if (info1.isError() == false) {
-			try {
+				// userId = (int) session.getAttribute("userId");
+				System.err.println("UserId  " + userId);
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("id", userId);
-				map.add("roleId", roleId);
+				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+				Info info1 = AccessControll.checkAccess("showAssignRole", "showAssignRole", "0", "1", "0", "0",
+						newModuleList);
 
-				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateRoleOfUser", map,
-						Info.class);
+				if (info1.isError() == false) {
+					try {
 
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+						map.add("id", userId);
+						map.add("roleId", roleId);
+
+						Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateRoleOfUser", map,
+								Info.class);
+
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					redirect = "redirect:/accessDenied";
+				}
+				redirect = "redirect:/showAssignRole";
+			} else {
+				redirect = "redirect:/accessDenied";
 			}
-		} else {
-			return "redirect:/accessDenied";
+			SessionKeyGen.changeSessionKey(request);
+		} catch (Exception e) {
+			SessionKeyGen.changeSessionKey(request);
+			e.printStackTrace();
 		}
-		return "redirect:/showAssignRole";
+		return redirect;
 	}
 
 	@RequestMapping(value = "/showAssignUserDetail/{userId}/{roleId}/{userName}/{roleName}", method = RequestMethod.GET)
