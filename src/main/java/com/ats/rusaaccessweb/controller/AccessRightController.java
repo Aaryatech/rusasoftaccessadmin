@@ -603,7 +603,7 @@ public class AccessRightController {
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		HttpSession session = request.getSession();
-		userId = (int) session.getAttribute("userId");
+		//userId = (int) session.getAttribute("userId");
 		System.err.println("UserId  " + userId);
 
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
