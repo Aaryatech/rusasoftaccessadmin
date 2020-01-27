@@ -235,13 +235,9 @@
 		 
 
 		function getUserName(userName,userId) {
-			alert(userId)
+			//alert(userId)
 			document.getElementById("userId").value = userId
-			<%
-			int incr = (int) pageContext.getAttribute("userId");
-			session = request.getSession();
-			session.setAttribute("userId",incr);
-		%>
+			
  			//alert(userName);
 			document.getElementById("userName").value = userName;
 			
