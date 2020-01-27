@@ -178,7 +178,7 @@
 																				data-color-class="detail"
 																				data-animate=" animated fadeIn " href="#"
 																				data-toggle="tooltip" data-original-title="Select User"
-																				onclick="123456789(/${userList.userName}/,${userList.userId})"><span
+																				onclick="getUserName(/${userList.userName}/,${userList.userId})"><span
 																					class="glyphicon glyphicon-edit"></span></a></td>
 																		</tr>
 
