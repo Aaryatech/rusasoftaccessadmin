@@ -86,6 +86,4 @@
                 margin-left:2px;
             }
         </style>
-        <script type="text/javascript">
-	var st_url = "http://192.168.10.226:8080/RusaAdmin/";
-	</script>
+      

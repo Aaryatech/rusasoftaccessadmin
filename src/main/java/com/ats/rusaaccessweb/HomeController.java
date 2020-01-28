@@ -46,6 +46,7 @@ import org.springframework.web.servlet.tags.HtmlEscapeTag;
 import org.springframework.web.util.JavaScriptUtils;
 
 import com.ats.rusaaccessweb.common.Constants;
+import com.ats.rusaaccessweb.common.DateConvertor;
 import com.ats.rusaaccessweb.model.AdminLoginLog;
 import com.ats.rusaaccessweb.model.LoginResponse;
 import com.ats.rusaaccessweb.model.ModuleJson;
@@ -115,6 +116,9 @@ public class HomeController {
 		return "redirect:/";
 	}
 
+	LinkedHashMap<String, Integer> tempMap = new LinkedHashMap<>();
+	LinkedHashMap<String, Calendar> userTimeMap = new LinkedHashMap<>();
+
 	@RequestMapping("/loginProcess")
 	public String helloWorld(HttpServletRequest request, HttpServletResponse res, Model model) throws IOException {
 
@@ -136,92 +140,128 @@ public class HomeController {
 				if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
 					Random randChars = new Random();
 					String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
-					session.setAttribute("captcha_security", sImageCode); 
+					session.setAttribute("captcha_security", sImageCode);
 					mav = "login";
 					model.addAttribute("msg", "Enter  Login Credentials");
 
 				} else {
-					
-					/*
-					 * MessageDigest md = MessageDigest.getInstance("MD5"); byte[] messageDigest =
-					 * md.digest(password.getBytes()); BigInteger number = new BigInteger(1,
-					 * messageDigest); String hashtext = number.toString(16);
-					 */
-					
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-					map.add("username", name);
-					map.add("password", password);
-					map.add("isBlock", 1);
+					int validLogin = 0;
+					Calendar time = Calendar.getInstance();
+					time = DateConvertor.getCurTime();
+					try {
+						time = userTimeMap.get(name);
+					} catch (Exception e) {
+						time = DateConvertor.getCurTime();
+						System.err.println("in catch " + e.getMessage());
+						e.printStackTrace();
+					}
+					System.err.println("time " + time + "DateConvertor.getCurTime()  time " + DateConvertor.getCurTime());
 
-					LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "login", map,
-							LoginResponse.class);
+					if (userTimeMap.get(name) == null) {
+						validLogin = 1;
 
-					JavaScriptUtils ju = new JavaScriptUtils();
-
-					String s = ju.javaScriptEscape("<script>function sayHello(){ var a=10;}</script>");
-					//System.err.println("s" + s);
-
-					//System.err.println("s length" + s.length());
-
-					//System.err.println("s\\u003Cscript\\u003Ealert(\\'10\\')\\u003C\\/script\\u003E\n" + "");
-
-					if (userObj.getIsError() == false) {
-
-						session.setAttribute("userInfo", userObj);
-
-						map = new LinkedMultiValueMap<String, Object>();
-						map.add("roleId", userObj.getRoleId());
-
-						List<ModuleJson> newModuleList = new ArrayList<>();
-
-						try {
-							ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
-							};
-							ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
-									Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map),
-									typeRef);
-
-							newModuleList = responseEntity.getBody();
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						session.setAttribute("newModuleList", newModuleList);
-						mav = "redirect:/dashboard";
-
-						session.setAttribute("sessionModuleId", 0);
-						session.setAttribute("sessionSubModuleId", 0);
-
-						InetAddress addr = InetAddress.getByName(request.getRemoteAddr());
-						String hostName = addr.getHostName();
-						String userAgent = request.getHeader("User-Agent");
-
-						Date date = new Date();
-						SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						AdminLoginLog saveLoginLogs = new AdminLoginLog();
-						saveLoginLogs.setIpAddress(hostName);
-						saveLoginLogs.setUserAgent(userAgent);
-						saveLoginLogs.setLoginDate(sf.format(date));
-						saveLoginLogs.setUserId(userObj.getUserId());
-
-						AdminLoginLog resp = Constants.getRestTemplate().postForObject(Constants.url + "/rusaLoginLog",
-								saveLoginLogs, AdminLoginLog.class);
-
+					} else if (DateConvertor.getCurTime().getTime().after(time.getTime())) {
+						System.err.println("time exceed");
+						validLogin = 1;
 					}else {
+						model.addAttribute("msg",
+								"Your have crossed no. of invalid login attempts. Account blocked for some time!!");
+				
+						validLogin =0;
+					}
+
+					if (validLogin == 1) {
+
+						/*
+						 * removed as discussed with Sumit Suma Soft Sir MessageDigest md =
+						 * MessageDigest.getInstance("MD5"); byte[] messageDigest =
+						 * md.digest(password.getBytes()); BigInteger number = new BigInteger(1,
+						 * messageDigest); String hashtext = number.toString(16);
+						 */
+
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+						map.add("username", name);
+						map.add("password", password);
+						map.add("isBlock", 1);
+
+						LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "login", map,
+								LoginResponse.class);
+
+						if (userObj.getIsError() == false) {
+							tempMap.remove(userObj.getEmail());
+							session.setAttribute("userInfo", userObj);
+
+							map = new LinkedMultiValueMap<String, Object>();
+							map.add("roleId", userObj.getRoleId());
+
+							List<ModuleJson> newModuleList = new ArrayList<>();
+
+							try {
+								ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+								};
+								ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
+										Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map),
+										typeRef);
+
+								newModuleList = responseEntity.getBody();
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							session.setAttribute("newModuleList", newModuleList);
+							mav = "redirect:/dashboard";
+
+							session.setAttribute("sessionModuleId", 0);
+							session.setAttribute("sessionSubModuleId", 0);
+
+							InetAddress addr = InetAddress.getByName(request.getRemoteAddr());
+							String hostName = addr.getHostName();
+							String userAgent = request.getHeader("User-Agent");
+
+							Date date = new Date();
+							SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+							AdminLoginLog saveLoginLogs = new AdminLoginLog();
+							saveLoginLogs.setIpAddress(hostName);
+							saveLoginLogs.setUserAgent(userAgent);
+							saveLoginLogs.setLoginDate(sf.format(date));
+							saveLoginLogs.setUserId(userObj.getUserId());
+
+							AdminLoginLog resp = Constants.getRestTemplate()
+									.postForObject(Constants.url + "/rusaLoginLog", saveLoginLogs, AdminLoginLog.class);
+
+						} // end of if time match
+
+					} else {
 						Random randChars = new Random();
 						String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
-						session.setAttribute("captcha_security", sImageCode); 
+						session.setAttribute("captcha_security", sImageCode);
 					}
 
 				}
-			} else {Random randChars = new Random();
-			String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
-			session.setAttribute("captcha_security", sImageCode); 
-				
-				
+			} else {
+				Random randChars = new Random();
+				String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
+				session.setAttribute("captcha_security", sImageCode);
+
 				mav = "login";
 				model.addAttribute("msg", "Invalid Text");
+
+				if (tempMap.containsKey(name)) {
+					tempMap.put(name, tempMap.get(name) + 1);
+				} else {
+					tempMap.put(name, 1);
+				}
+
+				if (tempMap.get(name) > 4) {
+					userTimeMap.put(name, DateConvertor.getTimePlus30Min());
+
+					model.addAttribute("msg",
+							"Your have crossed no. of invalid login attempts. Account blocked for some time!!");
+				}
+
+				System.err.println("map " + tempMap.toString());
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -230,7 +270,6 @@ public class HomeController {
 			model.addAttribute("msg", "Enter Valid  Login Credentials");
 
 		}
-
 		return mav;
 
 	}

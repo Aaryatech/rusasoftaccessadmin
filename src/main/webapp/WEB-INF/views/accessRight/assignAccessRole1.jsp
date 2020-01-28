@@ -249,7 +249,7 @@
 		function getUserName(userName,userId) {
 			//alert(userId)
 			document.getElementById("userId").value = userId
-			
+		
  			//alert(userName);
 			document.getElementById("userName").value = userName;
 			
