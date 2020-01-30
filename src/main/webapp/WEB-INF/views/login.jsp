@@ -6,12 +6,7 @@
 <!DOCTYPE html>
 <html class=" ">
 <head>
-<!-- 
-         * @Package: Complete Admin - Responsive Theme
-         * @Subpackage: Bootstrap
-         * @Version: 2.2
-         * This file is part of Complete Admin Theme.
-        -->
+
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta charset="utf-8" />
 <title>RUSA : Login Page</title>
@@ -97,7 +92,7 @@
 
 				<h1 class="login_head">
 					<!-- <a href="#" title="Login Page" tabindex="-1">RUSA</a> -->
-					<i class="fa fa-unlock-alt" aria-hidden="true"></i> Institute Login
+					<i class="fa fa-unlock-alt" aria-hidden="true"></i>Software Login RUSA
 				</h1>
 
 				<form name="loginform"
@@ -182,18 +177,18 @@
 					</p>
 				</form>
 
-				<p id="nav">
+				<!-- <p id="nav">
 					<a class="pull-left login_forgot" href="showforgotPassForm"
 						title="Password Lost and Found">Forgot password?</a> <a
 						class="pull-right login_forgot"
 						href="showInstituteRegistrationForm" title="Sign Up">Institute
 						Registration</a>
-				</p>
+				</p> -->
 				<br /> <br /> <label class="pull-left" for="page_name"
 					style="text-align: center;"><b
 					style="color: red; font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 600; text-transform: capitalize;">Warning
 						:- </b> <b
-					style="font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 400; color: #333; text-transform: capitalize;">Unauthorised
+					style="font-family: 'Open Sans', Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 400; color: #333; text-transform: capitalize;">Unauthorised
 						Access of this System is an Offence</b> </label>
 
 			</div>

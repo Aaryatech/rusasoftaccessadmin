@@ -604,13 +604,14 @@ public class AccessRightController {
 			HttpSession session = request.getSession();
 			String token = request.getParameter("token");
 			String key = (String) session.getAttribute("generatedKey");
-
-			if (token.trim().equals(key.trim())) {
+			if(key==null||key==""||token==null||token==""||key.length()<1) {
+				redirect = "redirect:/accessDenied";
+			}else if (token.trim().equals(key.trim())) {
 
 				int roleId = Integer.parseInt(request.getParameter("roleId"));
 				int userId = Integer.parseInt(request.getParameter("userId"));
 
-				// userId = (int) session.getAttribute("userId");
+				//userId = (int) session.getAttribute("userId");
 				System.err.println("UserId  " + userId);
 
 				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
@@ -639,8 +640,12 @@ public class AccessRightController {
 			}
 			SessionKeyGen.changeSessionKey(request);
 		} catch (Exception e) {
-			SessionKeyGen.changeSessionKey(request);
-			e.printStackTrace();
+			//throw e;
+			
+			  SessionKeyGen.changeSessionKey(request);
+			  
+			  e.printStackTrace();
+			 
 		}
 		return redirect;
 	}

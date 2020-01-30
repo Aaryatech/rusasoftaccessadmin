@@ -84,10 +84,10 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String showLoginForm(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		String text = "<%@ abcd  %>";
-		System.err.println("text before  " + text);
-		text = text.replaceAll("\\<.*?\\>", "");
-		System.err.println("text " + text);
+		/*
+		 * String text = "<%@ abcd  %>"; System.err.println("text before  " + text);
+		 * text = text.replaceAll("\\<.*?\\>", ""); System.err.println("text " + text);
+		 */
 
 		String mav = new String();
 
@@ -96,7 +96,7 @@ public class HomeController {
 			mav = "login";
 
 		} catch (Exception e) {
-
+			mav = "login";
 			// System.err.println("exception In showCMSForm at home Contr" +
 			// e.getMessage());
 
@@ -236,6 +236,7 @@ public class HomeController {
 						Random randChars = new Random();
 						String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, 6);
 						session.setAttribute("captcha_security", sImageCode);
+						model.addAttribute("msg", "Enter  Login Credentials");
 					}
 
 				}
