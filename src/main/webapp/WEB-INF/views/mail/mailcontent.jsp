@@ -42,11 +42,31 @@
 .image-preview-input-title {
 	margin-left: 2px;
 }
+
+ #message {
+background: var(--ck-sample-color-white);
+box-shadow: 2px 2px 2px rgba(0,0,0,.1);
+border: 1px solid #DFE4E6;	
+border-bottom-color: #cdd0d2;
+border-right-color: #cdd0d2;
+}
+
+ .ck.ck-editor {
+box-shadow: 2px 2px 2px rgba(0,0,0,.1);
+}
+
+ .ck.ck-content {
+font-size: 1em;
+line-height: 1.6em;
+margin-bottom: 0.8em;
+min-height: 200px;
+padding: 1.5em 2em;
+}
 </style>
 
 
 <!-- BEGIN BODY -->
-<body class=" " onload="hideText()">
+<body class=" ">
 	<!-- START TOPBAR -->
 	<jsp:include page="/WEB-INF/views/include/topbar.jsp"></jsp:include>
 	<!-- END TOPBAR -->
@@ -294,5 +314,19 @@
 						});
 		//
 	</script>
+	
+<script>
+ClassicEditor
+.create( document.querySelector( '#message' ), {
+       toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+
+} )
+.then( editor => {
+window.editor = editor;
+} )
+.catch( err => {
+console.error( err.stack );
+} );
+</script>
 </body>
 </html>

@@ -86,4 +86,7 @@
                 margin-left:2px;
             }
         </style>
+        <script type="text/javascript">
+	var st_url = "http://115.124.111.55:8080/rusaaccess/";
+	</script>
       

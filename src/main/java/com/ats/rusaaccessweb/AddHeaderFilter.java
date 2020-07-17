@@ -6,6 +6,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,6 +22,7 @@ public class AddHeaderFilter extends OncePerRequestFilter {
         response.setHeader("Cache-control", "no-store, no-cache"); 
         response.setHeader("X-Frame-Options", "DENY"); 
         response.setHeader("Set-Cookie", "XSRF-TOKEN=NDKDdfdsfkldsfNd3SZAJfwLsTl5WUgOkE; Path=/; Secure;HttpOnly");
+       
        
         filterChain.doFilter(request, response);
       // if(request.getPathInfo())

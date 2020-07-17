@@ -3,6 +3,7 @@ package com.ats.rusaaccessweb.common;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.web.client.RestTemplate;
 
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
@@ -11,13 +12,15 @@ public class Constants {
 
  
 	//Web Api Path url
-	public static final String url = "http://localhost:8094/";
-	//public static final String url = "http://132.148.143.124:8080/rusasoftwebapi/";
-	//public static final String url="http://exhibition.aaryatechindia.in:3209/rusasoftwebapi/";
+	//public static final String url = "http://localhost:8091/";//10.9.63.3 115.124.111.55
+	public static final String url = "http://10.9.63.3:8080/rusaaccessapi/";
 	
+
+	//public static final String url = "http://10.9.63.3:8080/rusaaccessapitest/";
+
 	//Report Save Url
-	//public static final String REPORT_SAVE = "/home/tomcataaryatechi/exhibition.aaryatechindia.in/tomcat-8.0.18/webapps/tempadmin/rusa_report2019.pdf";
-	public static final String REPORT_SAVE = "/home/maddy/ats-11/rusa_report2019.pdf";
+	//public static final String REPORT_SAVE = "/home/ubuntu/rusa_report2019.pdf";
+	public static final String REPORT_SAVE = "/opt/tomcat/webapps/report/rusa_report.pdf";
 
 
 	public static RestTemplate rest = new RestTemplate();
@@ -57,5 +60,8 @@ public class Constants {
 		public static Object sucess_msg;
 		public static Object fail_msg;
 		public static Object updt_msg;
+		
+		
+	
 	
 } 

@@ -80,7 +80,8 @@ public class MailController {
 			HttpSession session = request.getSession();
 			String token = request.getParameter("token");
 			String key = (String) session.getAttribute("generatedKey");
-
+System.err.println("token " +token);
+System.err.println("key " +key);
 			if (token.trim().equals(key.trim())) {
 
 				List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
