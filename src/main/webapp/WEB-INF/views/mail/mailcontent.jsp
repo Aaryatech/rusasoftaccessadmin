@@ -144,10 +144,11 @@ padding: 1.5em 2em;
 											</label>
 											<div class="col-sm-10">
 												<select id="instituteId" name="instituteId" class=""
-													multiple placeholder="Select Institute">
+													multiple placeholder="Select Institute" >
 													<c:forEach items="${instList}" var="instList">
+													
 
-														<option value="${instList.instituteId}">${instList.instituteName}</option>
+														<option value="${instList.instituteId}">${instList.instituteName}--${instList.email}</option>
 
 													</c:forEach>
 
@@ -155,6 +156,23 @@ padding: 1.5em 2em;
 													style="display: none;">Please Select Institute</span>
 											</div>
 										</div>
+										
+										
+										<div class="form-group">
+											<label class="control-label col-sm-2" for="subject">CC To
+												<span class="text-danger">*</span> :
+											</label>
+											<div class="col-sm-10">
+
+												<input class="form-control" name="ccto"  maxlength="70"
+													placeholder="CC to Email Ids (Comma seperated)" type="text" onchange="trim(this)">
+												<span class="error_form text-danger" id="ccto"
+													style="display: none;">CC To</span>
+
+											</div>
+
+										</div>
+										
 
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="subject">Subject
@@ -208,7 +226,7 @@ padding: 1.5em 2em;
 
 											</div>
 										</div>
-
+<input type="hidden" id="getAllInst" value="${instList}">
 
 										<div class="clearfix"></div>
 
@@ -234,7 +252,35 @@ padding: 1.5em 2em;
 	<!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
 
 	<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+<script>
+function selAll(val1){
+	//alert("KK" +val)
+	var dataList= document.getElementById("getAllInst").value;
+	if(parseInt(val1)==-1){
+	alert(JSON.stringify(dataList))
+	//var c=JSON.stringify(dataList)
+	var x=JSON.stringify(dataList);
+	alert("x" +x)
+	   var html;
+       var len = x.length;
+       alert(len)
+       for (var i = 0; i < len; i++) {
+    	   alert(x[i]);
+       		 html += '<option selected value="' + x[i].instituteId + '">'
+                + x[i].instituteName + '</option>';
+       }
+       $('#instituteId').html(html);
+       $("#instituteId").trigger("chosen:updated");
+	}
+	
+     //$('#instituteId').trigger('change');
+     
+	//getAllInst 
+	/* var x =${instList};
+	alert(JSON.stringify(x)); */
+}
 
+</script>
 
 	<script type="text/javascript">
 		$("#instituteId").select2({

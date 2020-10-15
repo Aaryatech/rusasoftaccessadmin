@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -456,8 +458,14 @@ public class ReportNewController {
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
 								"Academic Year:" + temp_ac_year + " ", " ", 'F');
 						ExceUtil.autoSizeColumns(wb, 3);
+						System.err.println("response before " +response.getContentType());
 						response.setContentType("application/vnd.ms-excel");
+						System.err.println("response after " +response.getContentType());
+
+						
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Curricular Aspects:No of Certificate-Diploma Programs";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -488,7 +496,6 @@ public class ReportNewController {
 		}
 
 	}
-
 
 	@RequestMapping(value = "/showFacPartiVarBodies", method = RequestMethod.POST)
 	public void showFacPartiVarBodies(HttpServletRequest request, HttpServletResponse response) {
@@ -760,6 +767,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Curricular Aspects:Percentage of Participation in various University Bodies";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -938,8 +947,15 @@ public class ReportNewController {
 
 					table.addCell(cell);
 
-					String tempprcnt = decimalFormat
-							.format(prog.getNoCurrentAdmitedStnt() / prog.getTotalSanctIntake() * 100);
+					String tempprcnt = "0";
+					try {
+						if ((prog.getNoCurrentAdmitedStnt() > 0 && prog.getTotalSanctIntake() > 0)) {
+							tempprcnt = decimalFormat
+									.format(prog.getNoCurrentAdmitedStnt() / prog.getTotalSanctIntake() * 100);
+						}
+					} catch (Exception e) {
+						tempprcnt = "0";
+					}
 
 					// System.out.println("prog.getNoCurrentAdmitedStnt()" +
 					// prog.getNoCurrentAdmitedStnt()
@@ -1035,8 +1051,16 @@ public class ReportNewController {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
 						cnt = cnt + i;
-						String tempprcnt = decimalFormat.format(progList.get(i).getNoCurrentAdmitedStnt()
-								/ progList.get(i).getTotalSanctIntake() * 100);
+						String tempprcnt = "0";
+						try {
+							if (progList.get(i).getNoCurrentAdmitedStnt() > 0
+									&& progList.get(i).getTotalSanctIntake() > 0) {
+								tempprcnt = decimalFormat.format(progList.get(i).getNoCurrentAdmitedStnt()
+										/ progList.get(i).getTotalSanctIntake() * 100);
+							}
+						} catch (Exception e) {
+							tempprcnt = "0";
+						}
 						rowData.add("" + (i + 1));
 
 						rowData.add("" + progList.get(i).getAcademicYear());
@@ -1503,6 +1527,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Teaching-Learing and Evaluation : Average Students from other States-Countries";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -1958,7 +1984,7 @@ public class ReportNewController {
 					if (prog.getTotalFacMentor() == 0.0) {
 						tempprcnt = "0";
 					} else {
-						tempprcnt = decimalFormat.format(prog.getTotalStudMentoring() / prog.getTotalFacMentor() * 100);
+						tempprcnt = decimalFormat.format(prog.getTotalStudMentoring() / prog.getTotalFacMentor());
 					}
 					cell = new PdfPCell(new Phrase("" + tempprcnt, headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -1983,7 +2009,7 @@ public class ReportNewController {
 				 */
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-				document.add(new Paragraph("For Academic Year :" + temp_ac_year + ""));
+				document.add(new Paragraph("Current Academic Year "));
 				document.add(new Paragraph("\n"));
 				document.add(table);
 
@@ -2053,7 +2079,7 @@ public class ReportNewController {
 							tempprcnt = "0";
 						} else {
 							tempprcnt = decimalFormat.format(progList.get(i).getTotalStudMentoring()
-									/ progList.get(i).getTotalFacMentor() * 100);
+									/ progList.get(i).getTotalFacMentor() );
 						}
 
 						rowData.add("" + tempprcnt);
@@ -2070,10 +2096,12 @@ public class ReportNewController {
 
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, headingName, reportName,
-								"Academic Year:" + temp_ac_year + " ", "", 'D');
+								"Current Academic Year" + " ", "", 'D');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Teaching-Learing and Evaluation : Total No of Mentors No of Students Assigned";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -2232,11 +2260,13 @@ public class ReportNewController {
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 					table.addCell(cell);
-
+try {
 					ProgramName = prog.getProgramName();
+}catch (Exception e) {
+	ProgramName="-";
+}
 
 				}
-				System.out.println("pro************" + ProgramName);
 				document.open();
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
@@ -2320,7 +2350,13 @@ public class ReportNewController {
 
 						// System.out.println("Excel List :" + exportToExcelList.toString());
 
-						String leaveSum = "Program: " + progList.get(0).getProgramName() + "";
+						String leaveSum = "";//"Program: " + progList.get(0).getProgramName() + "";
+						try {
+						leaveSum = "Program: " + progList.get(0).getProgramName() + "";
+						}catch (Exception e) {
+							leaveSum ="-";
+						}
+						
 						String leaveSum1 = ",Program Type: " + temp_prog_name + "";
 
 						String reportSummary = leaveSum + "" + leaveSum1;
@@ -2331,6 +2367,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Teaching-Learing and Evaluation : Students Performance-Learning Outcomes";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -2509,8 +2547,14 @@ public class ReportNewController {
 
 					table.addCell(cell);
 
-					String tempprcnt = decimalFormat.format(prog.getCatTotStudent() / prog.getSeatsAvaailable() * 100);
-
+					String tempprcnt = "0";
+					try {
+						if (prog.getCatTotStudent() > 0 && prog.getSeatsAvaailable() > 0) {
+							tempprcnt = decimalFormat.format(prog.getCatTotStudent() / prog.getSeatsAvaailable() * 100);
+						}
+					} catch (Exception e) {
+						tempprcnt = "0";
+					}
 					cell = new PdfPCell(new Phrase("" + tempprcnt, headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -2532,7 +2576,7 @@ public class ReportNewController {
 				document.add(name);
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-				document.add(new Paragraph("  Academic Year :" + temp_ac_year + ""));
+				document.add(new Paragraph("  Academic Year :" + temp_ac_year + " -"+progList.get(0).getCastName()));
 				document.add(new Paragraph("\n"));
 				document.add(table);
 				document.add(new Paragraph("\n"));
@@ -2598,8 +2642,16 @@ public class ReportNewController {
 						rowData.add("" + progList.get(i).getCatTotStudent());
 						rowData.add("" + progList.get(i).getSeatsAvaailable());
 
-						String tempprcnt = decimalFormat.format(
-								progList.get(i).getCatTotStudent() / progList.get(i).getSeatsAvaailable() * 100);
+						String tempprcnt = "0";
+
+						try {
+							if (progList.get(i).getCatTotStudent() > 0 && progList.get(i).getSeatsAvaailable() > 0) {
+								tempprcnt = decimalFormat.format(progList.get(i).getCatTotStudent()
+										/ progList.get(i).getSeatsAvaailable() * 100);
+							}
+						} catch (Exception e) {
+							tempprcnt = "0";
+						}
 						rowData.add("" + tempprcnt);
 
 						expoExcel.setRowData(rowData);
@@ -2615,8 +2667,8 @@ public class ReportNewController {
 						String leaveSum1 = ",Category: " + temp_cat + "";
 
 						String reportSummary = leaveSum + "" + leaveSum1;
-						double reportSummary1 = rslt / 5;
-
+						float reportSummary1 = (float) (rslt / 5);
+						reportSummary1=roundUp(reportSummary1);
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, headingName, reportName, reportSummary,
 								"Average%:" + String.valueOf(reportSummary1), 'E');
@@ -3641,8 +3693,14 @@ public class ReportNewController {
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 					table.addCell(cell);
+					try {
+						if(prog.getNoOfFullTimeFaculty()>0) {
 					n1 = ((prog.getAvgStudent() + prog.getAvgTeacher())
 							/ (prog.getNoOfFullTimeFaculty() + prog.getNoOfCurrentAdmitedStnt())) * 100;
+						}
+					}catch (Exception e) {
+						n1=0;
+					}
 
 					cell = new PdfPCell(new Phrase("" + decimalFormat.format(n1), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -3804,6 +3862,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Infrastructure and Learning Resources:No of Students and Teachers using Library Per Day";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -4088,6 +4148,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance-Leadership and Management:Average No of Training Programmes Organized for Teachers and Non Teaching staff (Professional Development- Administrative)";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -4348,13 +4410,13 @@ public class ReportNewController {
 							rep = "-";
 
 						}
-						System.err.println("rep  " + rep);
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
 								"Academic Year:" + temp_ac_year + " ", " ", 'D');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance Leadership and Management:E-Governance Areas of Operation";
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -4651,6 +4713,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance-Leadership and Management : Financial Support to Professional Membership-Conference-Workshop";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -4949,6 +5013,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Funds-Grants Received from Non-Gov Organisation-Individuals-Other Agencies (in Cr)";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -5108,7 +5174,15 @@ public class ReportNewController {
 
 					table.addCell(cell);
 
-					String tempprcnt = decimalFormat.format(prog.getNofFacSupport() / prog.getTotalFaculty() * 100);
+					String tempprcnt ="0";// decimalFormat.format(prog.getNofFacSupport() / prog.getTotalFaculty() * 100);
+					try {
+						if( prog.getTotalFaculty()>0 && prog.getNofFacSupport()>0) {
+					tempprcnt = decimalFormat.format(prog.getNofFacSupport() / prog.getTotalFaculty() * 100);
+					}
+				}catch (Exception e) {
+					tempprcnt ="0";
+				}
+					
 					cell = new PdfPCell(new Phrase("" + tempprcnt, headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -5188,13 +5262,19 @@ public class ReportNewController {
 					for (int i = 0; i < progList.size(); i++) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
-						String tempprcnt = decimalFormat
+						String tempprcnt ="0";
+						try {
+							if(progList.get(i).getNofFacSupport()>0 && progList.get(i).getTotalFaculty()>0)
+						 tempprcnt = decimalFormat
 								.format(progList.get(i).getNofFacSupport() / progList.get(i).getTotalFaculty() * 100);
+						}catch (Exception e) {
+							tempprcnt ="0";
+						}
 						cnt = cnt + i;
 						rowData.add("" + (i + 1));
 						rowData.add("" + progList.get(i).getAcademicYear());
 						rowData.add("" + progList.get(i).getNofFacSupport());
-						rowData.add("" + tempprcnt);
+						rowData.add("" + decimalFormat.format(tempprcnt));
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
@@ -5220,6 +5300,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "No of Faculty Financial support to Professional Membership-Conference-Workshop ";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -5515,6 +5597,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance-Leadership and Management:Training programmes organized for Teachers (Professional Development) ";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -5696,7 +5780,7 @@ public class ReportNewController {
 					temp = temp + Double.parseDouble(prog.getTrainingPcount());
 
 				}
-				float tempprcnt =0;
+				float tempprcnt = 0;
 				/// System.err.println("temp bean ::" + progList.get(0).toString());
 				try {
 					tempprcnt = Float.parseFloat(decimalFormat.format((temp / progList.get(0).getTotCount()) * 100));
@@ -5811,6 +5895,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance-Leadership and Management:Training programmes organized for Teachers (Administrative Development) ";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -6083,6 +6169,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance-Leadership and Management : Institutional Vision-Mission";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -6330,6 +6418,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Governance-Leadership and Management : Quality Asssurance Initiative";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -6519,7 +6609,7 @@ public class ReportNewController {
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Academic Year :" + temp_ac_year + ""));
 				document.add(new Paragraph("\n"));
-				
+
 				document.add(table);
 
 				int totalPages = writer.getPageNumber();
@@ -6611,6 +6701,9 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						
+						reportName = "Governance-Leadership and Management: Quality Initiative by IQAC";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -7177,7 +7270,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showGenderSensitivityFacReport", method = RequestMethod.POST)
 	public void showGenderSensitivityFacReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Institutional Values and Best Practices : Gender sensitivity in Providing Facility\n" + "";
+		String reportName = "Institutional Values and Best Practices : Gender sensitivity in Providing Facility ";
 
 		ModelAndView model = null;
 		try {
@@ -7454,7 +7547,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showAlternativeEnergyIniReport", method = RequestMethod.POST)
 	public void showAlternativeEnergyIniReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Institutional Values and Best Practices : Alternative Energy Initiative\n" + "";
+		String reportName = "Institutional Values and Best Practices : Alternative Energy Initiative";
 
 		ModelAndView model = null;
 		try {
@@ -7568,8 +7661,8 @@ public class ReportNewController {
 				for (int i = 0; i < progList.size(); i++) {
 
 					EGovernenceOperation prog = progList.get(i);
-					System.err.println("data  " + progList.toString());
-					System.err.println("I*** " + prog.getInstYesnoResponse());
+					//System.err.println("data  " + progList.toString());
+					//System.err.println("I*** " + prog.getInstYesnoResponse());
 
 					if (prog.getYesnoTitle().equalsIgnoreCase("Total Power requirement")) {
 						if (prog.getInstYesnoResponse() != null || prog.getInstYesnoResponse() != " "
@@ -7698,7 +7791,11 @@ public class ReportNewController {
 						rowData = new ArrayList<String>();
 						cnt = cnt + i;
 						if (progList.get(i).getYesnoTitle().equalsIgnoreCase("Total Power requirement")) {
+							
+							if(!progList.get(i).getInstYesnoResponse().equalsIgnoreCase("na")) 
 							temp_tot1 = Double.parseDouble(progList.get(i).getInstYesnoResponse());
+							else
+								temp_tot1=0;
 						}
 						rowData.add("" + (i + 1));
 						rowData.add("" + progList.get(i).getAcademicYear());
@@ -7707,7 +7804,11 @@ public class ReportNewController {
 
 						if (progList.get(i).getInstYesnoResponse().equals("-")) {
 							val1 = "-";
+							
 						} else {
+							if(progList.get(i).getInstYesnoResponse().equalsIgnoreCase("na")) {
+								val1="0";
+							}else
 							val1 = String.valueOf(
 									(Double.parseDouble(progList.get(i).getInstYesnoResponse()) / temp_tot1) * 100);
 						}
@@ -7772,7 +7873,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showPowerReqThroughLEDReport", method = RequestMethod.POST)
 	public void showPowerReqThroughLEDReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Institutional Values and Best Practices: Power Requirement met through LED Bulbs for Lighting\n"
+		String reportName = "Institutional Values and Best Practices: Power Requirement met through LED Bulbs for Lighting "
 				+ "";
 
 		ModelAndView model = null;
@@ -7920,12 +8021,11 @@ public class ReportNewController {
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 				table.addCell(cell);
-				
-				if(temp_tot!=0.0) {
+
+				if (temp_tot != 0.0) {
 					val = String.valueOf(((temp_tot_led) / temp_tot) * 100);
-				}
-				else {
-					val="0.0";
+				} else {
+					val = "0.0";
 				}
 
 				cell = new PdfPCell(new Phrase("" + val, headFontData));
@@ -9162,7 +9262,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showOtherThanGovtSchemeBenefitReport", method = RequestMethod.POST)
 	public void showOtherThanGovtSchemeBenefitReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Student Support and Progression : Institutional Financial Support besides Govt.";
+		String reportName = "Student Support and Progression : Institutional Financial Support besides Govt";
 
 		ModelAndView model = null;
 		try {
@@ -9324,11 +9424,11 @@ public class ReportNewController {
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 					table.addCell(cell);
-				try {
-					fin = fin + Double.parseDouble(tempprcnt);
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
+					try {
+						fin = fin + Double.parseDouble(tempprcnt);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				double x1 = fin / 5;
 				document.open();
@@ -11576,7 +11676,7 @@ public class ReportNewController {
 
 					table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase("" + prog.getPrcnt(), headFontData));
+					cell = new PdfPCell(new Phrase("" + decimalFormat.format(prog.getPrcnt()), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
@@ -11653,6 +11753,7 @@ public class ReportNewController {
 					exportToExcelList.add(expoExcel);
 
 					int cnt = 1;
+					result=0;
 					double result1 = 0.0;
 					for (int i = 0; i < progList.size(); i++) {
 						expoExcel = new ExportToExcel();
@@ -11665,13 +11766,13 @@ public class ReportNewController {
 						rowData.add("" + progList.get(i).getNameQualifExam());
 						rowData.add("" + progList.get(i).getNoStudAppeared());
 						rowData.add("" + progList.get(i).getNoStudQualified());
-						rowData.add("" + progList.get(i).getPrcnt());
+						rowData.add("" + decimalFormat.format(progList.get(i).getPrcnt()));
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
 						result = result + progList.get(i).getPrcnt();
 					}
-					double x2 = result1 / 5;
+					double x2 = result / 5;
 					XSSFWorkbook wb = null;
 					try {
 
@@ -11687,7 +11788,7 @@ public class ReportNewController {
 						System.err.println("rep  " + rep);
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
-								"Academic Year:" + temp_ac_year + " ", "Avg%" + x2 + " ", 'F');
+								"Academic Year:" + temp_ac_year + " ", "Avg%" + decimalFormat.format(x2) + " ", 'F');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -12438,7 +12539,7 @@ public class ReportNewController {
 						new Paragraph("Total No of Students Participating in Extension Activity in Last Five Years :"
 								+ totStud + ""));
 				document.add(new Paragraph("Total No of Students in Institute  in Last Five Years :" + totTeach + ""));
-				document.add(new Paragraph("% of Students Participating in Extra-Curricular Activities :" + x1 + ""));
+				document.add(new Paragraph("% of Students Participating in Extra-Curricular Activities :" + decimalFormat.format(x1) + ""));
 
 				int totalPages = writer.getPageNumber();
 
@@ -12530,7 +12631,7 @@ public class ReportNewController {
 						String leaveSum = "Total No of Students Participating in Extension Activity in Last Five Years : "
 								+ totStud1 + "";
 						String leaveSum1 = "Total No of Students in Institute  in Last Five Years : " + totTeach1 + "";
-						String leaveSum2 = "% of Students Participating in Extra-Curricular Activities :" + x2 + "";
+						String leaveSum2 = "% of Students Participating in Extra-Curricular Activities :" + decimalFormat.format(x2) + "";
 
 						String reportSummary = leaveSum + "" + leaveSum1 + "" + leaveSum2;
 
@@ -12541,6 +12642,9 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						
+						reportName = "Research-Innovation and Extension : No of Student-Teachers Participation in Extension Activity";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -12788,6 +12892,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research-Innovation and Extension : No of Linkages";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -12961,8 +13067,7 @@ public class ReportNewController {
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 				document.add(new Paragraph("\n"));
 				document.add(table);
-				document.add(
-						new Paragraph("% of Full-time Teachers with Award/Rec/Fellowships:" + a2 + ""));
+				document.add(new Paragraph("% of Full-time Teachers with Award/Rec/Fellowships:" + a2 + ""));
 
 				int totalPages = writer.getPageNumber();
 
@@ -13057,6 +13162,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research-Innovation and Extension : No of Recognition-Awards";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -13353,6 +13460,9 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						
+						reportName = "Research-Innovation and Extension : Book and Chapter Publication by Teachers and Papers in Conference Proceedings";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -13625,6 +13735,9 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						
+						reportName = "Research-Innovation and Extension : No Book and Chapter Publication by Teachers and Papers in Conference Proceedings";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -13951,6 +14064,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research-Innovation and Extension : Ph D Awarded Information";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -14271,6 +14386,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research-Innovation and Extension : Plagarism and Code of Ethics";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -14332,7 +14449,7 @@ public class ReportNewController {
 
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
-			map.add("programId", programType);
+			map.add("programId", 0/* programType */);
 			StudEnrooledForProgramReport[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getStudEnrooledForProgram", map, StudEnrooledForProgramReport[].class);
 			List<StudEnrooledForProgramReport> progList = new ArrayList<>(Arrays.asList(resArray));
@@ -14461,7 +14578,7 @@ public class ReportNewController {
 					if (prog.getTotalStud() == 0) {
 						avg = 0;
 					} else {
-						avg = prog.getProgStudEnrolled() / prog.getTotalStud();
+						avg = prog.getProgStudEnrolled() / prog.getTotalStud() * 100;
 					}
 
 					cell = new PdfPCell(new Phrase("" + decimalFormat.format(avg), headFontData));
@@ -14472,9 +14589,9 @@ public class ReportNewController {
 					finalPrcnt = finalPrcnt + avg;
 				}
 				String x1 = decimalFormat.format(finalPrcnt / 5);
-				System.out.println("finalPrcnt is"+finalPrcnt);
+				System.out.println("finalPrcnt is" + finalPrcnt);
 
-				System.out.println("x1 is"+x1);
+				System.out.println("x1 is" + x1);
 
 				document.open();
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
@@ -14485,8 +14602,9 @@ public class ReportNewController {
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 				document.add(new Paragraph("Academic Year:" + temp_ac_year + ""));
-				document.add(new Paragraph("Program Name :" + progList.get(0).getProgramName() + ""));
-				document.add(new Paragraph("Program Type :" + temp_prog_name + ""));
+				// document.add(new Paragraph("Program Name :" +
+				// progList.get(0).getProgramName() + ""));
+				// document.add(new Paragraph("Program Type :" + temp_prog_name + ""));
 				document.add(new Paragraph("\n"));
 				document.add(table);
 				document.add(new Paragraph("Average% :" + x1 + ""));
@@ -14578,13 +14696,14 @@ public class ReportNewController {
 						rowData.add("" + progList.get(i).getProgStudEnrolled());
 						rowData.add("" + progList.get(i).getTotalStud());
 
-						double avg = 0.0;
+						float avg = 0.0f;
 						if (progList.get(i).getTotalStud() == 0) {
 							avg = 0;
 						} else {
 							avg = progList.get(i).getProgStudEnrolled() / progList.get(i).getTotalStud();
 						}
-						rowData.add("" + avg);
+						//avg=roundUp(avg);
+						rowData.add("" +  decimalFormat.format(avg));
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
@@ -14596,8 +14715,8 @@ public class ReportNewController {
 
 						// System.out.println("Excel List :" + exportToExcelList.toString());
 
-						String leaveSum = "Program: " + progList.get(0).getProgramName() + "";
-						String leaveSum1 = ",Program Type: " + temp_prog_name + "";
+						String leaveSum = "";// "Program: " + progList.get(0).getProgramName() + "";
+						String leaveSum1 = "";// ",Program Type: " + temp_prog_name + "";
 						String leaveSum2 = ",Academic Year: " + temp_ac_year + "";
 
 						String reportSummary = leaveSum + "" + leaveSum1 + "" + leaveSum2;
@@ -14606,10 +14725,18 @@ public class ReportNewController {
 						wb = ExceUtil.createWorkbook(exportToExcelList, headingName, reportName, reportSummary,
 								"Average%:" + x2 + "", 'E');
 						ExceUtil.autoSizeColumns(wb, 3);
+						System.err.println("response before " +response.getContentType());
 						response.setContentType("application/vnd.ms-excel");
+						System.err.println("response after " +response.getContentType());
+
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						System.err.println("date " +date + "report name  " +reportName);
+						reportName="Stud Enrolled in Add On-";
+						
+						reportName = "Curriculam Aspects : Students Enrolled in Certi Diploma or Add-On Programs";
+
 						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
+								"attachment; filename="+reportName+"_" + date + ".xlsx");
 						wb.write(response.getOutputStream());
 
 					} catch (IOException ioe) {
@@ -14905,7 +15032,7 @@ public class ReportNewController {
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
+								"attachment; filename=" + reportName + "_" + date + ".xlsx");
 						wb.write(response.getOutputStream());
 
 					} catch (IOException ioe) {
@@ -15825,8 +15952,8 @@ public class ReportNewController {
 			map.add("acYear", ac_year);
 			map.add("instId", instituteId);
 
-			StudTeachrRatio[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getStudTeachrRatioList", map,
-					StudTeachrRatio[].class);
+			StudTeachrRatio[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStudTeachrRatioList", map, StudTeachrRatio[].class);
 			List<StudTeachrRatio> ratioList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", ratioList);
@@ -16120,8 +16247,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			FacAgnstSanctnPost[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getFacAgnstSanctnPostList", map,
-					FacAgnstSanctnPost[].class);
+			FacAgnstSanctnPost[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getFacAgnstSanctnPostList", map, FacAgnstSanctnPost[].class);
 			List<FacAgnstSanctnPost> postList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", postList);
@@ -16217,13 +16344,15 @@ public class ReportNewController {
 				table.addCell(hcell);
 
 				int index = 0;
-				int postPer = 0;
+				float postPer = 0.0f;
 
 				for (int i = 0; i < postList.size(); i++) {
 					// System.err.println("I " + i);
 					FacAgnstSanctnPost post = postList.get(i);
 					try {
-						postPer = post.getNoOfFulltimeFaculty() / post.getSanctionedPost() * 100;
+						postPer = ((float)post.getNoOfFulltimeFaculty() / (float)post.getSanctionedPost()) * 100;
+						
+
 					} catch (Exception e) {
 						System.err.println("Invalid Values---" + e.getMessage());
 					}
@@ -16261,6 +16390,7 @@ public class ReportNewController {
 					 * 
 					 * table.addCell(cell);
 					 */
+					postPer=roundUp(postPer);
 
 					cell = new PdfPCell(new Phrase("" + postPer, headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -16345,12 +16475,13 @@ public class ReportNewController {
 					exportToExcelList.add(expoExcel);
 
 					int cnt = 1;
-					int str = 0;
+					float str = 0.0f;
 					String acYear = null;
 					for (int i = 0; i < postList.size(); i++) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
-						str = postList.get(i).getNoOfFulltimeFaculty() / postList.get(i).getSanctionedPost() * 100;
+						str = ((float)postList.get(i).getNoOfFulltimeFaculty() / (float)postList.get(i).getSanctionedPost()) * 100;
+						str=roundUp(str);
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
@@ -16435,8 +16566,8 @@ public class ReportNewController {
 			map.add("acYear", ac_year);
 			map.add("instId", instituteId);
 
-			DifferentlyAbldStudReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getDifferntlyAbldStudList", map,
-					DifferentlyAbldStudReport[].class);
+			DifferentlyAbldStudReport[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getDifferntlyAbldStudList", map, DifferentlyAbldStudReport[].class);
 			List<DifferentlyAbldStudReport> studList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", studList);
@@ -16532,14 +16663,17 @@ public class ReportNewController {
 				table.addCell(hcell);
 
 				int index = 0;
-				int studPer = 0;
-
+				float studPer = 0;
 				for (int i = 0; i < studList.size(); i++) {
 					// System.err.println("I " + i);
 					DifferentlyAbldStudReport stud = studList.get(i);
+					studPer = 0;
 					try {
-						studPer = stud.getNoOfPwdStud() * 100 / stud.getTotalStudEnrolled();
+						if(stud.getNoOfPwdStud()>0 && stud.getTotalStudEnrolled()>0)
+						studPer = ((float)stud.getNoOfPwdStud() * 100 )/ (float)stud.getTotalStudEnrolled();
+						studPer=roundUp(studPer);
 					} catch (Exception e) {
+						studPer = 0;
 						System.err.println("Invalid Values---" + e.getMessage());
 					}
 					index++;
@@ -16660,11 +16794,18 @@ public class ReportNewController {
 					exportToExcelList.add(expoExcel);
 
 					int cnt = 1;
-					int str = 0;
+					float str = 0;
 					for (int i = 0; i < studList.size(); i++) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
-						str = studList.get(i).getNoOfPwdStud() * 100 / studList.get(i).getTotalStudEnrolled();
+						 str = 0;
+							try {
+								if(studList.get(i).getNoOfPwdStud()>0 &&studList.get(i).getTotalStudEnrolled()>0 )
+							str = ((float)studList.get(i).getNoOfPwdStud() * 100) /  (float)studList.get(i).getTotalStudEnrolled();
+							str=roundUp(str);
+							}catch (Exception e) {
+								str = 0;
+							}
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
@@ -16846,16 +16987,18 @@ public class ReportNewController {
 				table.addCell(hcell);
 
 				int index = 0;
-				int facPer = 0;
+				float facPer = 0;
 
 				for (int i = 0; i < facList.size(); i++) {
 					// System.err.println("I " + i);
 					FacAgnstSanctnPostOthrState fac = facList.get(i);
 					try {
-						facPer = (fac.getNoOfOtherStateFac() / fac.getSanctionedPost()) * 100;
-						// System.out.println("Cal"+facPer);
-					} catch (Exception e) {
-
+						facPer=0;
+						if(fac.getNoOfOtherStateFac()>0 &&fac.getSanctionedPost()>0)
+						facPer = ((float)fac.getNoOfOtherStateFac() / (float)fac.getSanctionedPost()) * 100;
+						facPer=roundUp(facPer);
+						} catch (Exception e) {
+							facPer=0;
 						System.err.println("Invalid Values---" + e.getMessage());
 					}
 					index++;
@@ -16976,13 +17119,17 @@ public class ReportNewController {
 					exportToExcelList.add(expoExcel);
 
 					int cnt = 1;
-					int str = 0;
+					float str = 0;
 					for (int i = 0; i < facList.size(); i++) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
 						try {
-							str = facList.get(i).getNoOfOtherStateFac() / facList.get(i).getSanctionedPost() * 100;
+							str=0;
+							if(facList.get(i).getNoOfOtherStateFac()>0 &&facList.get(i).getSanctionedPost()>0)
+							str = ((float)facList.get(i).getNoOfOtherStateFac() / (float)facList.get(i).getSanctionedPost()) * 100;
+							str=roundUp(str);
 						} catch (Exception e) {
+							str=0;
 							System.err.println("Invalid Values---" + e.getMessage());
 						}
 						cnt = cnt + i;
@@ -17069,8 +17216,8 @@ public class ReportNewController {
 			// map.add("acYear", ac_year);
 			map.add("instId", instituteId);
 
-			TeacExpFullTimFac[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getTeachingExpOfFillTimFac", map,
-					TeacExpFullTimFac[].class);
+			TeacExpFullTimFac[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getTeachingExpOfFillTimFac", map, TeacExpFullTimFac[].class);
 			List<TeacExpFullTimFac> facList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", facList);
@@ -17412,8 +17559,8 @@ public class ReportNewController {
 			// map.add("acYear", ac_year);
 			map.add("instId", instituteId);
 
-			FulTimFacultyWithPhd[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getFulTimFacAvalblePhd", map,
-					FulTimFacultyWithPhd[].class);
+			FulTimFacultyWithPhd[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getFulTimFacAvalblePhd", map, FulTimFacultyWithPhd[].class);
 			List<FulTimFacultyWithPhd> facList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", facList);
@@ -17643,6 +17790,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Teaching Learning and Evaluation : Full Time Faculty Available With PhDs";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -17989,8 +18138,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			StudPrfrmInFinlYr[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getStudPerformInFinalYear", map,
-					StudPrfrmInFinlYr[].class);
+			StudPrfrmInFinlYr[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStudPerformInFinalYear", map, StudPrfrmInFinlYr[].class);
 			List<StudPrfrmInFinlYr> studList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", studList);
@@ -18313,8 +18462,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			ICtEnbldFaclitiesReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getICTEnbldFaclties", map,
-					ICtEnbldFaclitiesReport[].class);
+			ICtEnbldFaclitiesReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getICTEnbldFaclties", map, ICtEnbldFaclitiesReport[].class);
 			List<ICtEnbldFaclitiesReport> ictFacList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", ictFacList);
@@ -18948,8 +19097,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			BudgetInfraAugmntn[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getBudgetInfraAugmentn", map,
-					BudgetInfraAugmntn[].class);
+			BudgetInfraAugmntn[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getBudgetInfraAugmentn", map, BudgetInfraAugmntn[].class);
 			List<BudgetInfraAugmntn> budgetList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", budgetList);
@@ -19053,8 +19202,8 @@ public class ReportNewController {
 					// System.err.println("I " + i);
 					BudgetInfraAugmntn budget = budgetList.get(i);
 					try {
-						bgt = Float.parseFloat(budget.getBudgetUtilized()) * 100 / budget.getExInt1();
-
+						//bgt = Float.parseFloat(budget.getBudgetAllocated()) * 100 / budget.getExInt1();
+						bgt = (Float.parseFloat(budget.getBudgetUtilized())/Float.parseFloat(budget.getBudgetAllocated()))*100;
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}
@@ -19072,7 +19221,7 @@ public class ReportNewController {
 
 					table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase("" + budget.getBudgetUtilized(), headFontData));
+					cell = new PdfPCell(new Phrase("" + budget.getBudgetAllocated(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
@@ -19092,7 +19241,7 @@ public class ReportNewController {
 					 * table.addCell(cell);
 					 */
 
-					cell = new PdfPCell(new Phrase("" + bgt, headFontData));
+					cell = new PdfPCell(new Phrase("" + decimalFormat.format(bgt), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
@@ -19131,7 +19280,7 @@ public class ReportNewController {
 				document.add(new Paragraph("\n"));
 				// System.out.println("Ttl Bugt %-----" + ttlBugtPer);
 				// System.out.println("Avg Bugt %-----" + avgPerOnBugt);
-				document.add(new Paragraph("Average % of Budget on Infrastructure Augmentation : " + avgPerOnBugt));
+				document.add(new Paragraph("Average % of Budget on Infrastructure Augmentation : " + decimalFormat.format(avgPerOnBugt)));
 				int totalPages = writer.getPageNumber();
 
 				// System.out.println("Page no " + totalPages);
@@ -19195,9 +19344,10 @@ public class ReportNewController {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
 						try {
-							bgtPer = Float.parseFloat(budgetList.get(i).getBudgetUtilized()) * 100
-									/ budgetList.get(i).getExInt1();
+							bgtPer = (Float.parseFloat(budgetList.get(i).getBudgetUtilized())/Float.parseFloat(budgetList.get(i).getBudgetAllocated())) * 100;
+							
 						} catch (Exception e) {
+							bgtPer=0;
 							System.err.println(e.getMessage());
 						}
 
@@ -19205,10 +19355,10 @@ public class ReportNewController {
 
 						rowData.add("" + (i + 1));
 						rowData.add("" + budgetList.get(i).getFinYear());
-						rowData.add("" + budgetList.get(i).getBudgetUtilized());
+						rowData.add("" + budgetList.get(i).getBudgetAllocated());
 						rowData.add("" + budgetList.get(i).getExInt1());
 						// rowData.add("" + budgetList.get(i).getInstituteName());
-						rowData.add("" + bgtPer);
+						rowData.add("" + decimalFormat.format(bgtPer));
 
 						try {
 							ttlBgtper = bgtPer + ttlBgtper;
@@ -19238,7 +19388,7 @@ public class ReportNewController {
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
 								"Academic Year : " + temp_ac_year,
-								"Average % of Budget on Infrastructure Augmentation : " + avg, 'D');
+								"Average % of Budget on Infrastructure Augmentation : " + decimalFormat.format(avg), 'D');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -19292,8 +19442,8 @@ public class ReportNewController {
 			// map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			StudCompRatioReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getStudentCompterRatio", map,
-					StudCompRatioReport[].class);
+			StudCompRatioReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStudentCompterRatio", map, StudCompRatioReport[].class);
 			List<StudCompRatioReport> studCompList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", studCompList);
@@ -19380,14 +19530,14 @@ public class ReportNewController {
 
 				table.addCell(hcell);
 
-				hcell = new PdfPCell(new Phrase("% of Budget on Infrastructure Augmentation", tableHeaderFont));
+				hcell = new PdfPCell(new Phrase("Usage %", tableHeaderFont));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(Constants.baseColorTableHeader);
 
 				table.addCell(hcell);
 
 				int index = 0;
-				double studcompratio = 0;
+				float studcompratio = 0;
 
 				for (int i = 0; i < studCompList.size(); i++) {
 					// System.err.println("I " + i);
@@ -19396,7 +19546,9 @@ public class ReportNewController {
 						System.err.println("I------- " + stdCmpRatioList.getNoOfComputers() + "---------"
 								+ stdCmpRatioList.getNoOfStudUtilizing());
 
-						studcompratio = stdCmpRatioList.getNoOfComputers() / stdCmpRatioList.getNoOfStudUtilizing();
+						studcompratio = (float)stdCmpRatioList.getNoOfComputers() / (float)stdCmpRatioList.getNoOfStudUtilizing();
+						studcompratio=roundUp(studcompratio);
+						
 						System.err.println("Rtio------- " + studcompratio);
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
@@ -19520,19 +19672,20 @@ public class ReportNewController {
 					rowData.add("Purchase Date");
 					rowData.add("Purchase Amount");
 					rowData.add("No. of Student Utilising");
-					rowData.add("% of Budget on Infrastructure Augmentation");
+					rowData.add("Usage %");
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
 
 					int cnt = 1;
 
-					double ratio = 0;
+					float ratio = 0;
 					for (int i = 0; i < studCompList.size(); i++) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
 						try {
-							ratio = studCompList.get(i).getNoOfComputers() / studCompList.get(i).getNoOfStudUtilizing();
+							ratio = (float)studCompList.get(i).getNoOfComputers() / (float)studCompList.get(i).getNoOfStudUtilizing();
+							ratio=roundUp(ratio);
 						} catch (Exception e) {
 							System.err.println(e.getMessage());
 						}
@@ -19620,8 +19773,8 @@ public class ReportNewController {
 			map.add("eContFacility", eContFacility);
 			map.add("instId", instituteId);
 
-			EContntDevFacReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getEContntDevFac", map,
-					EContntDevFacReport[].class);
+			EContntDevFacReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEContntDevFac", map, EContntDevFacReport[].class);
 			List<EContntDevFacReport> eContList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", eContList);
@@ -19941,8 +20094,8 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("ac_year", ac_year);
 
-			IntrnetConnInfo[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getInternetConnInfo", map,
-					IntrnetConnInfo[].class);
+			IntrnetConnInfo[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getInternetConnInfo", map, IntrnetConnInfo[].class);
 			List<IntrnetConnInfo> intrntInfoList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", intrntInfoList);
@@ -20307,7 +20460,8 @@ public class ReportNewController {
 					// System.err.println("I " + i);
 					ExpndturOnPhysclAcademicSupprt expd = expndList.get(i);
 					try {
-						expdPer = expd.getExpdOnPhyAcad() * 100 / expd.getTtlExpd();
+						expdPer = ((float)expd.getExpdOnPhyAcad()/(float)expd.getBudgetAllocated()) * 100 ;
+						expdPer=roundUp(expdPer);
 					} catch (Exception e) {
 						System.err.println("Dividr By Zero : " + e.getMessage());
 					}
@@ -20428,7 +20582,13 @@ public class ReportNewController {
 					for (int i = 0; i < expndList.size(); i++) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
-						expndPer = expndList.get(i).getExpdOnPhyAcad() * 100 / expndList.get(i).getTtlExpd();
+						expndPer = 0;
+						try {
+						expndPer = ((float)expndList.get(i).getExpdOnPhyAcad() / (float)expndList.get(i).getBudgetAllocated())*100;
+						expndPer=roundUp(expndPer);
+						}catch (Exception e) {
+							expndPer=0;// TODO: handle exception
+						}
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
@@ -20510,8 +20670,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			ExpndGreenInitveWsteMgmt[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getExpndGreenInitveWsteMgmt",
-					map, ExpndGreenInitveWsteMgmt[].class);
+			ExpndGreenInitveWsteMgmt[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getExpndGreenInitveWsteMgmt", map, ExpndGreenInitveWsteMgmt[].class);
 			List<ExpndGreenInitveWsteMgmt> expndGrnList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", expndGrnList);
@@ -20857,8 +21017,8 @@ public class ReportNewController {
 			map.add("acYearId", ac_year);
 			map.add("instId", instituteId);
 
-			InitivAddrsLoctnAdvDisadv[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getInitivAddrsLoctnAdvDisadv",
-					map, InitivAddrsLoctnAdvDisadv[].class);
+			InitivAddrsLoctnAdvDisadv[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getInitivAddrsLoctnAdvDisadv", map, InitivAddrsLoctnAdvDisadv[].class);
 			List<InitivAddrsLoctnAdvDisadv> initivAdrsLocAdvDisadvList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", initivAdrsLocAdvDisadvList);
@@ -21039,7 +21199,7 @@ public class ReportNewController {
 					rowData.add("Sr. No");
 					rowData.add("Academic Year");
 					rowData.add("Name of Initiative");
-					rowData.add("Beneficiary if initiative");
+					rowData.add("Beneficiary of initiative");
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
@@ -21335,6 +21495,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Institutional Values and Best Practices : No of Initiative to Address Locational Advantages & Disadvantages";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -21607,7 +21769,8 @@ public class ReportNewController {
 			map = new LinkedMultiValueMap<>();
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
-			NoOfLinkages[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getNoOfLinkages", map, NoOfLinkages[].class);
+			NoOfLinkages[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getNoOfLinkages", map,
+					NoOfLinkages[].class);
 			List<NoOfLinkages> linkgList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", linkgList);
@@ -21839,6 +22002,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research Innovation and Extension : No of Linkages";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -21891,9 +22056,10 @@ public class ReportNewController {
 	 * map = new LinkedMultiValueMap<>(); map.add("acYearList", ac_year);
 	 * map.add("instId", instituteId);
 	 * 
-	 * FunctionalMou[] resArray = Constants.getRestTemplate().postForObject(Constants.url +
-	 * "/getFunctnlMou", map, FunctionalMou[].class); List<FunctionalMou> mouList =
-	 * new ArrayList<>(Arrays.asList(resArray));
+	 * FunctionalMou[] resArray =
+	 * Constants.getRestTemplate().postForObject(Constants.url + "/getFunctnlMou",
+	 * map, FunctionalMou[].class); List<FunctionalMou> mouList = new
+	 * ArrayList<>(Arrays.asList(resArray));
 	 * 
 	 * model.addObject("list", mouList);
 	 * 
@@ -22154,7 +22320,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			FunctionalMou[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getFunctnlMou", map, FunctionalMou[].class);
+			FunctionalMou[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getFunctnlMou", map,
+					FunctionalMou[].class);
 			List<FunctionalMou> mouList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", mouList);
@@ -22404,6 +22571,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research-Innovation and Extension : Functional MoUs R&D";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -22455,8 +22624,8 @@ public class ReportNewController {
 			map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			AwrdRecgAgnstExtActivityReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getAwardRecog", map,
-					AwrdRecgAgnstExtActivityReport[].class);
+			AwrdRecgAgnstExtActivityReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAwardRecog", map, AwrdRecgAgnstExtActivityReport[].class);
 			List<AwrdRecgAgnstExtActivityReport> awrdList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", awrdList);
@@ -22674,6 +22843,9 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						
+						reportName = "Research Innovation and Extension : Award-Recognition for Extension Activity";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -22726,8 +22898,8 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			NoAwardRecogExtAct[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getNoAwardRecogExtAct", map,
-					NoAwardRecogExtAct[].class);
+			NoAwardRecogExtAct[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getNoAwardRecogExtAct", map, NoAwardRecogExtAct[].class);
 			List<NoAwardRecogExtAct> noAwrdList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", noAwrdList);
@@ -22932,6 +23104,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research Innovation and Extension : No Award-Recognition for Extension Activity";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -22984,8 +23158,8 @@ public class ReportNewController {
 
 			map.add("acYearList", ac_year);
 
-			IntelectulPropRightReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getIntelPropRght", map,
-					IntelectulPropRightReport[].class);
+			IntelectulPropRightReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getIntelPropRght", map, IntelectulPropRightReport[].class);
 			List<IntelectulPropRightReport> intelPropList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", intelPropList);
@@ -23232,6 +23406,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research Innovation and Extension : Intellectual Property Rights and Industry Institute Initiatives";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -23278,7 +23454,13 @@ public class ReportNewController {
 			map = new LinkedMultiValueMap<>();
 
 			map.add("programId", prg_name);
-			Program progrm = Constants.getRestTemplate().postForObject(Constants.url + "/getProgramByProgramId", map, Program.class);
+			Program progrm = new Program();
+			try {
+				progrm = Constants.getRestTemplate().postForObject(Constants.url + "/getProgramByProgramId", map,
+						Program.class);
+			} catch (Exception e) {
+				progrm = new Program();
+			}
 
 			String ac_year = request.getParameter("ac_year");
 			String temp_ac_year = request.getParameter("temp_ac_year");
@@ -23292,8 +23474,8 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			AvgPerPlacement[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getAvgPerPlacement", map,
-					AvgPerPlacement[].class);
+			AvgPerPlacement[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getAvgPerPlacement",
+					map, AvgPerPlacement[].class);
 			List<AvgPerPlacement> studPlaceList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", studPlaceList);
@@ -23515,10 +23697,10 @@ public class ReportNewController {
 
 				if (temp_ac_year.equals("Last Five Years")) {
 					document.add(new Paragraph("\n"));
-					document.add(new Paragraph("Avg. % of Placement for Last Five Year :" + AvgPlcmntFiveYr + ""));
+					document.add(new Paragraph("Avg. % of Placement for Last Five Year :" + decimalFormat.format(AvgPlcmntFiveYr) + ""));
 				} else {
 					document.add(new Paragraph("\n"));
-					document.add(new Paragraph("% of Placement Pre Year :" + perPlacmntPreYr + ""));
+					document.add(new Paragraph("% of Placement Per Year :" + decimalFormat.format(perPlacmntPreYr) + ""));
 				}
 
 				int totalPages = writer.getPageNumber();
@@ -23625,6 +23807,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Student Support and Progression : Avg Placement: (Last Five Years)";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -23641,7 +23825,7 @@ public class ReportNewController {
 
 			} catch (DocumentException ex) {
 
-				// System.out.println("Pdf Generation Error: " + ex.getMessage())																		
+				// System.out.println("Pdf Generation Error: " + ex.getMessage())
 				ex.printStackTrace();
 
 			}
@@ -23674,8 +23858,8 @@ public class ReportNewController {
 			map.add("acYear", ac_year);
 			map.add("instId", instituteId);
 
-			StudProgression[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getStudProgression", map,
-					StudProgression[].class);
+			StudProgression[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStudProgression", map, StudProgression[].class);
 			List<StudProgression> studProgList = new ArrayList<>(Arrays.asList(resArray));
 			// System.out.println("List : "+studProgList);
 			model.addObject("list", studProgList);
@@ -23783,7 +23967,6 @@ public class ReportNewController {
 					try {
 						studPass = stud.getNoStudPass();
 						noStud = stud.getNoStudent();
-
 						studProg = (noStud / studPass) * 100;
 
 						// studProg = (stud.getNoStudent()/stud.getNoStudPass())*100;
@@ -23846,7 +24029,7 @@ public class ReportNewController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Academic Year : " + temp_ac_year));
+				document.add(new Paragraph("Academic Year : " + studProgList.get(0).getAcademicYear()));
 				// document.add(new Paragraph("Institute " +
 				// ratioList.get(0).getInstituteName()));
 				/*
@@ -23951,10 +24134,12 @@ public class ReportNewController {
 						// String excelName = (String) session.getAttribute("excelName");
 						String summry = "Students Progression % Per Year" + String.valueOf(studProg);
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
-								"Academic Year : " + temp_ac_year, summry, 'E');
+								"Academic Year : " + studProgList.get(0).getAcademicYear(), summry, 'E');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Student Support and Progression:Per of Students Progression (Higher Education)-(Current YearData)";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -24007,8 +24192,8 @@ public class ReportNewController {
 
 			map.add("acYear", ac_year);
 
-			TeacherAwardRecognitn[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getTeacherAwardRecognitn", map,
-					TeacherAwardRecognitn[].class);
+			TeacherAwardRecognitn[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getTeacherAwardRecognitn", map, TeacherAwardRecognitn[].class);
 			List<TeacherAwardRecognitn> techrAwrdList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", techrAwrdList);
@@ -24269,6 +24454,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Student Support and Progression: Teachers Recognition-Awards and Incentives Information";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -24320,8 +24507,8 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYear", ac_year);
 
-			TechrResrchPaprJournlInfo[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getTechrResrchPaprJournlInfo",
-					map, TechrResrchPaprJournlInfo[].class);
+			TechrResrchPaprJournlInfo[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "getTechrResrchPaprJournlInfo", map, TechrResrchPaprJournlInfo[].class);
 			List<TechrResrchPaprJournlInfo> resrchInfoList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", resrchInfoList);
@@ -24591,6 +24778,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Student Support and Progression:Teacher Research Paper-Journal Information";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -24642,8 +24831,8 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYearList", ac_year);
 
-			TechrResrchPaprJournlRatio[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getTechrResrchPaprJournlRatio",
-					map, TechrResrchPaprJournlRatio[].class);
+			TechrResrchPaprJournlRatio[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "getTechrResrchPaprJournlRatio", map, TechrResrchPaprJournlRatio[].class);
 			List<TechrResrchPaprJournlRatio> resrchRatioList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", resrchRatioList);
@@ -24775,7 +24964,7 @@ public class ReportNewController {
 				// System.out.println("TTlNo Publication-----"+ttlPublcatn);
 				resrchPprPerTechr = ttlPublcatn / avgTech;
 				// System.out.println("Research Paper Per Teacher-------"+resrchPprPerTechr);
-
+				;
 				document.open();
 				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
@@ -24797,7 +24986,7 @@ public class ReportNewController {
 
 				document.add(new Paragraph("\n"));
 				if (temp_ac_year.equals("Last Five Years")) {
-					document.add(new Paragraph("No. of Research Papers per Teacher :" + resrchPprPerTechr + ""));
+					document.add(new Paragraph("No. of Research Papers per Teacher :" + decimalFormat.format(resrchPprPerTechr) + ""));
 					document.add(new Paragraph("\n"));
 				}
 
@@ -24879,18 +25068,20 @@ public class ReportNewController {
 
 						if (temp_ac_year.equals("Last Five Years")) {
 							String resrchPaper = "No. of Research Papers per Teacher :"
-									+ String.valueOf(resrchPprPerTechr);
+									+ String.valueOf(decimalFormat.format(resrchPprPerTechr));
 
 							wb = ExceUtil.createWorkbook(exportToExcelList, headingName, reportName,
 									"Academic Year:" + temp_ac_year + " ", resrchPaper, 'F');
 						} else {
-							String resrchPaper = String.valueOf(resrchPprPerTechr);
+							String resrchPaper = String.valueOf(decimalFormat.format(resrchPprPerTechr));
 							wb = ExceUtil.createWorkbook(exportToExcelList, headingName, reportName,
 									"Academic Year:" + temp_ac_year + " ", "", 'F');
 						}
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Student Support and Progression:Teacher Research Paper-Journal Information";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -24942,8 +25133,8 @@ public class ReportNewController {
 			map.add("instId", instituteId);
 			map.add("acYear", ac_year);
 
-			ResrchProjectGrants[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getResrchProjectGrants", map,
-					ResrchProjectGrants[].class);
+			ResrchProjectGrants[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getResrchProjectGrants", map, ResrchProjectGrants[].class);
 			List<ResrchProjectGrants> resrchGrantList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", resrchGrantList);
@@ -25488,6 +25679,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Research-Innovation and Extension : No of Full Time Teachers as Research Guide";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -25530,15 +25723,16 @@ public class ReportNewController {
 			model = new ModelAndView("report/ratio_report1");
 
 			HttpSession session = request.getSession();
-			String temp_ac_year = request.getParameter("temp_ac_year");
+			String temp_ac_year = "Last Five Years";// request.getParameter("temp_ac_year");
 			String ac_year = request.getParameter("ac_year");
 			int instituteId = (int) session.getAttribute("instituteId");
 
 			map = new LinkedMultiValueMap<>();
-			map.add("acYearList", ac_year);
+			map.add("acYearList", "-5");
 			map.add("instId", instituteId);
 
-			PerNewCource[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getPerNewCource", map, PerNewCource[].class);
+			PerNewCource[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getPerNewCource", map,
+					PerNewCource[].class);
 			List<PerNewCource> lastFiveYrList = new ArrayList<>(Arrays.asList(resArray));
 			// System.out.println("List : "+lastFiveYrList);
 			model.addObject("list", lastFiveYrList);
@@ -25594,9 +25788,9 @@ public class ReportNewController {
 						noCourse = lastFiveYrList.get(0).getNoCoursesInLast5(); // ---------------Courses of Last 5
 																				// Years
 						ttlNoCourse = lastFiveYrList.get(1).getNoCoursesInLast5(); // ---------------Total No. of
-																					// Courses until now
-						perCourseIntro = (noCourse * 100) / ttlNoCourse;
 
+						perCourseIntro = (noCourse * 100) / ttlNoCourse;
+						perCourseIntro = roundUp(perCourseIntro);
 					} catch (Exception e) {
 						System.err.println("Invalid Values---" + e.getMessage());
 					}
@@ -25700,6 +25894,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Curricular Aspects:Percentage of New	Courses Introduced";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -25750,8 +25946,8 @@ public class ReportNewController {
 			// map.add("acYearList", ac_year);
 			map.add("instId", instituteId);
 
-			PerProgCbseElectiveCourse[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "/getPerProgCbseElectiveCourse",
-					map, PerProgCbseElectiveCourse[].class);
+			PerProgCbseElectiveCourse[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getPerProgCbseElectiveCourse", map, PerProgCbseElectiveCourse[].class);
 			List<PerProgCbseElectiveCourse> courseList = new ArrayList<>(Arrays.asList(resArray));
 			// System.out.println("List : "+courseList);
 			model.addObject("list", courseList);
@@ -25916,6 +26112,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Curricular Aspects:Percentage of Programs with CBCS-Elective courses";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -25962,7 +26160,8 @@ public class ReportNewController {
 
 			map = new LinkedMultiValueMap<>();
 			map.add("programId", prog_name);
-			Program progrm = Constants.getRestTemplate().postForObject(Constants.url + "/getProgramByProgramId", map, Program.class);
+			Program progrm = Constants.getRestTemplate().postForObject(Constants.url + "/getProgramByProgramId", map,
+					Program.class);
 
 			HttpSession session = request.getSession();
 
@@ -25973,8 +26172,8 @@ public class ReportNewController {
 			map.add("prog_name", prog_name);
 			map.add("acYear", ac_year);
 
-			FildeProjectInternReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getFildeProjectInternReport", map,
-					FildeProjectInternReport[].class);
+			FildeProjectInternReport[] resArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "getFildeProjectInternReport", map, FildeProjectInternReport[].class);
 			List<FildeProjectInternReport> internList = new ArrayList<>(Arrays.asList(resArray));
 
 			model.addObject("list", internList);
@@ -26220,6 +26419,8 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						reportName = "Curricular Aspects:Fields Project-Internships";
+
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
 						wb.write(response.getOutputStream());
@@ -26574,4 +26775,10 @@ public class ReportNewController {
 		}
 
 	}
+
+	private float roundUp(float inputValue) {
+		BigDecimal bd = new BigDecimal(inputValue).setScale(2, RoundingMode.HALF_UP);
+		return inputValue = bd.floatValue();
+	}
+
 }

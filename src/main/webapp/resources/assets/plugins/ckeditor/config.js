@@ -26,8 +26,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors', groups: [ 'colors' ] },
 		{ name: 'about' }
 	];
-config.extraPlugins = 'justify,imagebrowser';
-config.imageBrowser_listUrl = st_url+"sitebrowse";
+config.extraPlugins = 'justify';
+//config.imageBrowser_listUrl = st_url+"sitebrowse";
 config.allowedContent = true; 
 //var temp_sturl = st_url.replace("webadmin/index.php/", "") ;
 //config.contentsCss =  temp_sturl+ '/assetswti/css/style.css';

@@ -8,6 +8,8 @@ public class ExpndturOnPhysclAcademicSupprt {
 	private String finYear;
 	private String instituteName;
 	
+	private int budgetAllocated;
+	
 	
 	public String getUnqId() {
 		return unqId;
@@ -39,10 +41,20 @@ public class ExpndturOnPhysclAcademicSupprt {
 	public void setInstituteName(String instituteName) {
 		this.instituteName = instituteName;
 	}
+
+
+	public int getBudgetAllocated() {
+		return budgetAllocated;
+	}
+	public void setBudgetAllocated(int budgetAllocated) {
+		this.budgetAllocated = budgetAllocated;
+	}
+	
 	@Override
 	public String toString() {
 		return "ExpndturOnPhysclAcademicSupprt [unqId=" + unqId + ", expdOnPhyAcad=" + expdOnPhyAcad + ", ttlExpd="
-				+ ttlExpd + ", finYear=" + finYear + ", instituteName=" + instituteName + "]";
+				+ ttlExpd + ", finYear=" + finYear + ", instituteName=" + instituteName + ", budgetAllocated="
+				+ budgetAllocated + "]";
 	}
 	
 }

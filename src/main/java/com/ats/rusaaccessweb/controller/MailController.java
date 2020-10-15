@@ -97,7 +97,7 @@ System.err.println("key " +key);
 					String[] instituteId = request.getParameterValues("instituteId");
 					String subject = request.getParameter("subject");
 					String message = request.getParameter("message");
-
+					String ccToAddress = request.getParameter("ccto");
 					String emails = "-";
 
 					for (int i = 0; i < instituteId.length; i++) {
@@ -118,7 +118,7 @@ System.err.println("key " +key);
 
 					if (emails.split(",").length > 0 && FormValidation.Validaton(subject, "") == false) {
 
-						Info send = EmailUtility.sendEmail(senderEmail, senderPassword, emails,
+						Info send = EmailUtility.sendEmail(senderEmail,ccToAddress, senderPassword, emails,
 								XssEscapeUtils.jsoupParse(subject), XssEscapeUtils.jsoupParseClean(message), files);
 
 					}

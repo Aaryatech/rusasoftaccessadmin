@@ -29,7 +29,7 @@ import com.ats.rusaaccessweb.model.Info;
 
 public class EmailUtility {
 
-	public static Info sendEmail(String senderEmail,String senderPassword,String recipientEmail,String mailsubject,
+	public static Info sendEmail(String senderEmail,String ccToAddress,String senderPassword,String recipientEmail,String mailsubject,
 		String text, List<MultipartFile> files ) {
 		
 		Info info=new Info();
@@ -73,6 +73,9 @@ public class EmailUtility {
 			Message mimeMessage = new MimeMessage(session);
 			mimeMessage.setFrom(new InternetAddress(username));
 			mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
+			mimeMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(ccToAddress));
+
+			
 			mimeMessage.setSubject(subject);
 			 
 			Multipart multipart = new MimeMultipart(); //1
