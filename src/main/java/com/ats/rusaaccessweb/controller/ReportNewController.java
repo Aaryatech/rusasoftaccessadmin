@@ -805,7 +805,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showAvgEnrollPrcntReport", method = RequestMethod.POST)
 	public void showAvgEnrollPrcntReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teaching-Learing and Evaluation : Average Enrollment Percentage";
+		String reportName = "Teaching-Learning and Evaluation : Average Enrollment Percentage";
 		ModelAndView model = null;
 		try {
 
@@ -1121,7 +1121,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showAvgStudYearwiseReport", method = RequestMethod.POST)
 	public void showAvgStudYearwiseReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teaching-Learing and Evaluation : Average % of Students from other States/Countries – Yearwise";
+		String reportName = "Teaching-Learning and Evaluation : Average % of Students from other States/Countries – Yearwise";
 
 		ModelAndView model = null;
 		try {
@@ -1527,7 +1527,7 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						reportName = "Teaching-Learing and Evaluation : Average Students from other States-Countries";
+						reportName = "Teaching-Learning and Evaluation : Average Students from other States-Countries";
 
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
@@ -1563,7 +1563,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showTeachersUsingIctReport", method = RequestMethod.POST)
 	public void showTeachersUsingIctReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teaching-Learing and Evaluation : Teachers Using ICT";
+		String reportName = "Teaching-Learning and Evaluation : Teachers Using ICT";
 
 		ModelAndView model = null;
 		try {
@@ -1796,8 +1796,14 @@ public class ReportNewController {
 						rowData.add("" + progList.get(i).getTechersUsingIct());
 						rowData.add("" + progList.get(i).getTotalFaculty());
 
-						String tempprcnt = decimalFormat
+						String tempprcnt = "0";
+						
+						try{
+							tempprcnt=decimalFormat
 								.format(progList.get(i).getTechersUsingIct() / progList.get(i).getTotalFaculty() * 100);
+						}catch (Exception e) {
+							tempprcnt = "0";
+						}
 						rowData.add("" + tempprcnt);
 
 						expoExcel.setRowData(rowData);
@@ -1850,7 +1856,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showNoOfMentorsAssignedStudentReport", method = RequestMethod.POST)
 	public void showNoOfMentorsAssignedStudentReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teaching-Learing and Evaluation : Total No. of Mentors, No. of Students Assigned";
+		String reportName = "Teaching-Learning and Evaluation : Total No. of Mentors, No. of Students Assigned";
 
 		ModelAndView model = null;
 		try {
@@ -1980,13 +1986,17 @@ public class ReportNewController {
 
 					table.addCell(cell);
 
-					String tempprcnt = null;
+					String tempprcnt = "0";
 					if (prog.getTotalFacMentor() == 0.0) {
 						tempprcnt = "0";
 					} else {
+						try {
 						tempprcnt = decimalFormat.format(prog.getTotalStudMentoring() / prog.getTotalFacMentor());
+						}catch (Exception e) {
+							tempprcnt = "0";// TODO: handle exception
+						}
 					}
-					cell = new PdfPCell(new Phrase("" + tempprcnt, headFontData));
+					cell = new PdfPCell(new Phrase("" + decimalFormat.format(tempprcnt), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
@@ -2078,8 +2088,12 @@ public class ReportNewController {
 						if (progList.get(i).getTotalFacMentor() == 0.0) {
 							tempprcnt = "0";
 						} else {
+							try {
 							tempprcnt = decimalFormat.format(progList.get(i).getTotalStudMentoring()
 									/ progList.get(i).getTotalFacMentor() );
+							}catch (Exception e) {
+								tempprcnt = "0";// TODO: handle exception
+							}
 						}
 
 						rowData.add("" + tempprcnt);
@@ -2100,7 +2114,7 @@ public class ReportNewController {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						reportName = "Teaching-Learing and Evaluation : Total No of Mentors No of Students Assigned";
+						reportName = "Teaching-Learning and Evaluation : Total No of Mentors No of Students Assigned";
 
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
@@ -2136,7 +2150,7 @@ public class ReportNewController {
 	@RequestMapping(value = "/showStudPerformanceOutconmeReport", method = RequestMethod.POST)
 	public void showStudPerformanceOutconmeReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teaching-Learing and Evaluation : Students Performance & Learning Outcomes";
+		String reportName = "Teaching-Learning and Evaluation : Students Performance & Learning Outcomes";
 
 		ModelAndView model = null;
 		try {
@@ -2367,7 +2381,7 @@ try {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						reportName = "Teaching-Learing and Evaluation : Students Performance-Learning Outcomes";
+						reportName = "Teaching-Learning and Evaluation : Students Performance-Learning Outcomes";
 
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
@@ -2403,7 +2417,7 @@ try {
 	@RequestMapping(value = "/showAdmissionsAgainstCatReport", method = RequestMethod.POST)
 	public void showAdmissionsAgainstCatReport(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Teaching-Learing and Evaluation : Admissions feeds against reservation category";
+		String reportName = "Teaching-Learning and Evaluation : Admissions feeds against reservation category";
 
 		ModelAndView model = null;
 		try {
@@ -2563,7 +2577,7 @@ try {
 					try {
 						rslt = rslt + Double.parseDouble(tempprcnt);
 					} catch (Exception e) {
-						// TODO: handle exception
+						rslt=0;// TODO: handle exception
 						e.printStackTrace();
 					}
 				}
@@ -4148,7 +4162,7 @@ try {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						reportName = "Governance-Leadership and Management:Average No of Training Programmes Organized for Teachers and Non Teaching staff (Professional Development- Administrative)";
+						reportName = "Average No of Training Programmes Organized for Teachers and Non Teaching staff (Professional Development- Administrative)";
 
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
@@ -4713,7 +4727,7 @@ try {
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						reportName = "Governance-Leadership and Management : Financial Support to Professional Membership-Conference-Workshop";
+						reportName = "Financial Support to Professional Membership-Conference-Workshop";
 
 						response.setHeader("Content-disposition",
 								"attachment; filename=" + reportName + "-" + date + ".xlsx");
@@ -5575,8 +5589,13 @@ try {
 						temp1 = temp1 + Double.parseDouble(progList.get(i).getTrainingPcount());
 
 					}
-					String tempprcnt1 = decimalFormat.format((temp1 / progList.get(0).getTotCount()) * 100);
-
+					String tempprcnt1 ="0";
+					// decimalFormat.format((temp1 / progList.get(0).getTotCount()) * 100);
+					try {
+						tempprcnt1 = decimalFormat.format((temp1 / progList.get(0).getTotCount()) * 100);
+					}catch (Exception e) {
+						tempprcnt1 ="0";
+					}
 					XSSFWorkbook wb = null;
 					try {
 
@@ -5873,7 +5892,12 @@ try {
 						temp = temp + Double.parseDouble(progList.get(i).getTrainingPcount());
 
 					}
-					String tempprcnt1 = decimalFormat.format((temp / progList.get(0).getTotCount()) * 100);
+					String tempprcnt1 = "0";//decimalFormat.format((temp / progList.get(0).getTotCount()) * 100);
+					try {
+						tempprcnt1 = decimalFormat.format((temp / progList.get(0).getTotCount()) * 100);
+					}catch (Exception e) {
+						tempprcnt1 = "0";
+					}
 
 					XSSFWorkbook wb = null;
 					try {
@@ -7832,7 +7856,6 @@ try {
 							rep = "-";
 
 						}
-						System.err.println("rep  " + rep);
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
 								"Academic Year:" + temp_ac_year + " ", " ", 'E');
@@ -19203,7 +19226,7 @@ try {
 					BudgetInfraAugmntn budget = budgetList.get(i);
 					try {
 						//bgt = Float.parseFloat(budget.getBudgetAllocated()) * 100 / budget.getExInt1();
-						bgt = (Float.parseFloat(budget.getBudgetUtilized())/Float.parseFloat(budget.getBudgetAllocated()))*100;
+						bgt = (Float.parseFloat(budget.getBudgetAllocated())/(float)budget.getExInt1())*100;
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}
@@ -19336,7 +19359,7 @@ try {
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
 
-					int cnt = 1;
+					int cnt = 0;
 					float bgtPer = 0;
 					float ttlBgtper = 0;
 					float avgBgtPer = 0;
@@ -19344,14 +19367,14 @@ try {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
 						try {
-							bgtPer = (Float.parseFloat(budgetList.get(i).getBudgetUtilized())/Float.parseFloat(budgetList.get(i).getBudgetAllocated())) * 100;
+							bgtPer = (Float.parseFloat(budgetList.get(i).getBudgetAllocated())/(float)(budgetList.get(i).getExInt1())) * 100;
 							
 						} catch (Exception e) {
 							bgtPer=0;
 							System.err.println(e.getMessage());
 						}
 
-						cnt = cnt + i;
+						cnt = cnt + 1;
 
 						rowData.add("" + (i + 1));
 						rowData.add("" + budgetList.get(i).getFinYear());
@@ -19362,7 +19385,7 @@ try {
 
 						try {
 							ttlBgtper = bgtPer + ttlBgtper;
-							avgBgtPer = ttlBgtper / cnt;
+							
 						} catch (Exception e) {
 							System.err.println(e.getMessage());
 						}
@@ -19370,7 +19393,7 @@ try {
 						exportToExcelList.add(expoExcel);
 
 					}
-					// System.out.println("AVG Budget = " + avgBgtPer);
+					avgBgtPer = ttlBgtper / cnt;
 					XSSFWorkbook wb = null;
 					try {
 
@@ -19383,12 +19406,11 @@ try {
 							rep = "-";
 
 						}
-						String avg = String.valueOf(avgBgtPer);
 						System.err.println("headingName  " + headingName);
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
 								"Academic Year : " + temp_ac_year,
-								"Average % of Budget on Infrastructure Augmentation : " + decimalFormat.format(avg), 'D');
+								"Average % of Budget on Infrastructure Augmentation : " + decimalFormat.format(avgBgtPer), 'D');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -20460,7 +20482,7 @@ try {
 					// System.err.println("I " + i);
 					ExpndturOnPhysclAcademicSupprt expd = expndList.get(i);
 					try {
-						expdPer = ((float)expd.getExpdOnPhyAcad()/(float)expd.getBudgetAllocated()) * 100 ;
+						expdPer = ((float)expd.getBudgetAllocated()/(float)expd.getTtlExpd()) * 100 ;
 						expdPer=roundUp(expdPer);
 					} catch (Exception e) {
 						System.err.println("Dividr By Zero : " + e.getMessage());
@@ -20479,7 +20501,7 @@ try {
 
 					table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase("" + expd.getExpdOnPhyAcad(), headFontData));
+					cell = new PdfPCell(new Phrase("" + expd.getBudgetAllocated(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
@@ -20584,7 +20606,7 @@ try {
 						rowData = new ArrayList<String>();
 						expndPer = 0;
 						try {
-						expndPer = ((float)expndList.get(i).getExpdOnPhyAcad() / (float)expndList.get(i).getBudgetAllocated())*100;
+						expndPer = ((float)expndList.get(i).getBudgetAllocated() / (float)expndList.get(i).getTtlExpd())*100;
 						expndPer=roundUp(expndPer);
 						}catch (Exception e) {
 							expndPer=0;// TODO: handle exception
@@ -20593,7 +20615,7 @@ try {
 
 						rowData.add("" + (i + 1));
 						rowData.add("" + expndList.get(i).getFinYear());
-						rowData.add("" + expndList.get(i).getExpdOnPhyAcad());
+						rowData.add("" + expndList.get(i).getBudgetAllocated());
 						rowData.add("" + expndList.get(i).getTtlExpd());
 						rowData.add("" + expndPer);
 
@@ -20770,7 +20792,7 @@ try {
 
 				table.addCell(hcell);
 
-				int index = 0;
+				int index = 1;
 				float bgt = 0;
 				float ttlBugtPer = 0;
 				float avgPerOnBugt = 0;
@@ -20779,13 +20801,13 @@ try {
 					// System.err.println("I " + i);
 					ExpndGreenInitveWsteMgmt budget = expndGrnList.get(i);
 					try {
-						bgt = budget.getBudgetUtilized() * 100 / budget.getTtlExpnd();
+						bgt = ((float)budget.getBudgetAllocated() / (float)budget.getTtlExpnd())* 100 ;
 
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}
 
-					index++;
+					
 					PdfPCell cell;
 					cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -20798,7 +20820,7 @@ try {
 
 					table.addCell(cell);
 
-					cell = new PdfPCell(new Phrase("" + budget.getBudgetUtilized(), headFontData));
+					cell = new PdfPCell(new Phrase("" + budget.getBudgetAllocated(), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
@@ -20818,7 +20840,7 @@ try {
 					 * table.addCell(cell);
 					 */
 
-					cell = new PdfPCell(new Phrase("" + bgt, headFontData));
+					cell = new PdfPCell(new Phrase("" + decimalFormat.format(bgt), headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
@@ -20826,12 +20848,13 @@ try {
 
 					try {
 						ttlBugtPer = bgt + ttlBugtPer;
-						avgPerOnBugt = ttlBugtPer / index;
+						
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}
+					index++;
 				}
-
+				avgPerOnBugt = ttlBugtPer / index;
 				document.open();
 				Font reportNameFont = Constants.reportNameFont;// new Font(FontFamily.TIMES_ROMAN, 14.0f,
 																// Font.UNDERLINE, BaseColor.BLACK);
@@ -20857,7 +20880,7 @@ try {
 				document.add(new Paragraph("\n"));
 				// System.out.println("Ttl Bugt %-----" + ttlBugtPer);
 				// System.out.println("Avg Bugt %-----" + avgPerOnBugt);
-				document.add(new Paragraph("Average % of Green Initiatives & Waste Management : " + avgPerOnBugt));
+				document.add(new Paragraph("Average % of Green Initiatives & Waste Management : " + decimalFormat.format(avgPerOnBugt)));
 				int totalPages = writer.getPageNumber();
 
 				// System.out.println("Page no " + totalPages);
@@ -20921,7 +20944,7 @@ try {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
 						try {
-							bgtPer = expndGrnList.get(i).getBudgetUtilized() * 100 / expndGrnList.get(i).getTtlExpnd();
+							bgtPer = ((float)expndGrnList.get(i).getBudgetAllocated() / (float)expndGrnList.get(i).getTtlExpnd())*100;
 						} catch (Exception e) {
 							System.err.println(e.getMessage());
 						}
@@ -20930,14 +20953,14 @@ try {
 
 						rowData.add("" + (i + 1));
 						rowData.add("" + expndGrnList.get(i).getFinYear());
-						rowData.add("" + expndGrnList.get(i).getBudgetUtilized());
+						rowData.add("" + expndGrnList.get(i).getBudgetAllocated());
 						rowData.add("" + expndGrnList.get(i).getTtlExpnd());
 						// rowData.add("" + budgetList.get(i).getInstituteName());
-						rowData.add("" + bgtPer);
+						rowData.add("" + decimalFormat.format(bgtPer));
 
 						try {
 							ttlBgtper = bgtPer + ttlBgtper;
-							avgBgtPer = ttlBgtper / cnt;
+							
 						} catch (Exception e) {
 							System.err.println(e.getMessage());
 						}
@@ -20945,6 +20968,7 @@ try {
 						exportToExcelList.add(expoExcel);
 
 					}
+					avgBgtPer = ttlBgtper / cnt;
 					// System.out.println("AVG Budget = " + avgBgtPer);
 					XSSFWorkbook wb = null;
 					try {
@@ -20958,12 +20982,10 @@ try {
 							rep = "-";
 
 						}
-						String avg = String.valueOf(avgBgtPer);
-						System.err.println("headingName  " + headingName);
 						// String excelName = (String) session.getAttribute("excelName");
 						wb = ExceUtil.createWorkbook(exportToExcelList, rep, reportName,
 								"Academic Year : " + temp_ac_year,
-								"Average % of of Green Initiatives & Waste Management : " + avg, 'D');
+								"Average % of of Green Initiatives & Waste Management : " + decimalFormat.format(avgBgtPer), 'D');
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
 						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
