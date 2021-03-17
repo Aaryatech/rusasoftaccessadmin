@@ -13,7 +13,7 @@ public class Constants {
  
 	//Web Api Path url
 	//public static final String url = "http://localhost:8091/";//10.9.63.3 115.124.111.55
-	public static final String url = "http://10.9.63.3:8080/rusaaccessapi/";
+	public static final String url = "http://10.9.63.3:8080/rusaaccessapitest/";
 	
 
 	//public static final String url = "http://10.9.63.3:8080/rusaaccessapitest/";
